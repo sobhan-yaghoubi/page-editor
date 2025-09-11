@@ -1,0 +1,61 @@
+{
+  "name": "@sobhan/page-editor",
+  "version": "0.1.0",
+  "description": "A powerful, schema-driven page-editor for React and Next.js",
+  "private": "true",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./editor": {
+      "import": {
+        "types": "./dist/editor.d.ts",
+        "default": "./dist/editor.mjs"
+      },
+      "require": {
+        "types": "./dist/editor.d.ts",
+        "default": "./dist/editor.cjs"
+      }
+    },
+    "./storefront": {
+      "import": {
+        "types": "./dist/storefront.d.ts",
+        "default": "./dist/storefront.mjs"
+      },
+      "require": {
+        "types": "./dist/storefront.d.ts",
+        "default": "./dist/storefront.cjs"
+      }
+    }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsup"
+  },
+  "keywords": [],
+  "author": "sobhan yaghoubi",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/react": "^19.1.12",
+    "lucide-react": "^0.544.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.2",
+    "zustand": "^5.0.8"
+  }
+}

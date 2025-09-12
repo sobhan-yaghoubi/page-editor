@@ -16,7 +16,6 @@ export enum Sections {
   PRODUCT_FEATURES = "PRODUCT_FEATURES",
   RICH_TEXT = "RICH_TEXT",
   SUBSCRIPTION_FORM = "SUBSCRIPTION_FORM",
-  PRODUCT_LANDING = "PRODUCT_LANDING",
 }
 
 /**Defines the types for low-level "Block" components */

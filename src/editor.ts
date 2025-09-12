@@ -6,6 +6,8 @@ export * from "./stores/theme.store"
 export * from "./contexts/ComponentTreeItemContext"
 
 export * from "./configs/componentMap.editor"
+export * from "./configs/editor"
+export * from "./configs/theme"
 
 export * from "./components/view/banners/hero/hero.editor"
 export * from "./components/view/basic/button/button.editor"

@@ -1,4 +1,5 @@
 export * from "./configs/componentMap.view"
+export * from "./components/ComponentViewRenderer"
 
 export * from "./components/view/banners/hero/hero.view"
 export * from "./components/view/basic/button/button.view"

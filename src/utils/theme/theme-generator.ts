@@ -207,6 +207,31 @@ export class ThemeCSSGenerator {
   }
 
   /**
+   * Generate full css scope for all theme and components
+   * @param themeConfig
+   * @param scopeName
+   * @returns an string scopedCss
+   */
+  static generateCssScope(themeConfig: ThemeConfig, scopeName: string) {
+    const fontImportUrl = this.generateFontImports(themeConfig.typography)
+
+    const cssVariables = this.generateCssVariables(themeConfig)
+    const cssClasses = this.generateCSS(themeConfig)
+
+    const scopedCSS = `
+        ${fontImportUrl}
+    
+        ${cssVariables}
+        
+        .${scopeName} {
+          ${cssClasses}
+        }
+      `
+
+    return scopedCSS
+  }
+
+  /**
    * Build a Google Fonts `@import` statement for all unique fonts referenced
    * by the theme’s typography (body, heading, accent, subheading)
    */

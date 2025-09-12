@@ -6,6 +6,7 @@ export * from "./schema/blocks"
 export * from "./schema/pages"
 export * from "./schema/global"
 export * from "./schema/groups"
+export * from "./mock-data/page"
 
 export * from "./utils/component-tree/tree-queries"
 export * from "./utils/component-tree/tree-modifiers"

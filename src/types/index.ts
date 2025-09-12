@@ -39,6 +39,31 @@ export interface PageData {
   isFooterVisible?: boolean
 }
 
+/**
+ * The canonical data structure for any document the editor can handle
+ * (a page, the global header, or the global footer)
+ *
+ * This is the public "API Contract" of the package. Any consuming
+ * application must map its data to this shape before passing it to the editor.
+ */
+export interface DocumentData {
+  id: string | number
+  name: string
+  segment: string
+  components: ComponentData[]
+  isHeaderVisible?: boolean
+  isFooterVisible?: boolean
+}
+
+/**
+ * Represents the in-memory, editable version of a document within the editor
+ *
+ * This object could be a page, the global header, or the global footer
+ *
+ * It is the canonical data structure that the editor's state and utility
+ */
+export type EditorDocument = DocumentData | null
+
 /** Defines the structure of a component rendered in a parent's slot */
 export interface SlotDefinition {
   component: ComponentType

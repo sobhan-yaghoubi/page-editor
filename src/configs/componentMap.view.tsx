@@ -1,21 +1,24 @@
 import { BasicBlocks, Sections, ProductBlocks } from "@/schema/enums"
 
-import { HeroSection } from "@/components/view/banners/hero"
-import { Button } from "@/components/view/basic/button"
-import { Heading } from "@/components/view/basic/heading"
-import { Image } from "@/components/view/basic/image"
-import { Text } from "@/components/view/basic/text"
-import { SubscriptionForm } from "@/components/view/forms/subscription"
-import { FeatureItem, ProductFeatures } from "@/components/view/products/simple"
-import { RichText } from "@/components/view/storyTelling/richText"
-import { Header } from "@/components/view/layout/header"
-import { Footer } from "@/components/view/layout/footer"
-import ProductGallery from "@/components/view/products/productGallery"
-import ProductDetailsSection from "@/components/view/products/productDetailsSection"
-import ProductTitle from "@/components/view/products/productTitle"
-import ProductPrice from "@/components/view/products/productPrice"
-import ProductDescription from "@/components/view/products/productDescription"
-import ProductAddToCartButton from "@/components/view/products/productAddToCartButton"
+import { HeroSection } from "@/components/view/banners/hero/hero.view"
+import { Button } from "@/components/view/basic/button/button.view"
+import { Heading } from "@/components/view/basic/heading/heading.view"
+import { Image } from "@/components/view/basic/image/image.view"
+import { Text } from "@/components/view/basic/text/text.view"
+import { SubscriptionForm } from "@/components/view/forms/subscription/subscription.view"
+import {
+  FeatureItem,
+  ProductFeatures,
+} from "@/components/view/products/simple/simple.view"
+import { RichText } from "@/components/view/storyTelling/richText/richText.view"
+import { Header } from "@/components/view/layout/header/header.view"
+import { Footer } from "@/components/view/layout/footer/footer.view"
+import ProductGallery from "@/components/view/products/productGallery/productGallery.view"
+import ProductDetailsSection from "@/components/view/products/productDetailsSection/productDetailsSection.view"
+import ProductTitle from "@/components/view/products/productTitle/productTitle.view"
+import ProductPrice from "@/components/view/products/productPrice/productPrice.view"
+import ProductDescription from "@/components/view/products/productDescription/productDescription.view"
+import ProductAddToCartButton from "@/components/view/products/productAddToCartButton/productAddToCartButton.view"
 
 export const COMPONENT_MAP = {
   [Sections.HERO_SECTION]: HeroSection,

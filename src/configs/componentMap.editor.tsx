@@ -1,24 +1,24 @@
 import { BasicBlocks, Sections, ProductBlocks } from "@/schema/enums"
 
-import { HeroSection } from "@/components/editor/banners/hero"
-import { Button } from "@/components/editor/basic/button"
-import { Heading } from "@/components/editor/basic/heading"
-import { Image } from "@/components/editor/basic/image"
-import { Text } from "@/components/editor/basic/text"
-import { SubscriptionForm } from "@/components/editor/forms/subscription"
+import { HeroSection } from "@/components/view/banners/hero/hero.editor"
+import { Button } from "@/components/view/basic/button/button.editor"
+import { Heading } from "@/components/view/basic/heading/heading.editor"
+import { Image } from "@/components/view/basic/image/image.editor"
+import { Text } from "@/components/view/basic/text/text.editor"
+import { SubscriptionForm } from "@/components/view/forms/subscription/subscription.editor"
 import {
   FeatureItem,
   ProductFeatures,
-} from "@/components/editor/products/simple"
-import { RichText } from "@/components/editor/storyTelling/richText"
-import { Header } from "@/components/editor/layout/header"
-import { Footer } from "@/components/editor/layout/footer"
-import ProductGallery from "@/components/editor/products/productGallery"
-import ProductDetailsSection from "@/components/editor/products/productDetailsSection"
-import ProductTitle from "@/components/editor/products/productTitle"
-import ProductPrice from "@/components/editor/products/productPrice"
-import ProductDescription from "@/components/editor/products/productDescription"
-import ProductAddToCartButton from "@/components/editor/products/productAddToCartButton"
+} from "@/components/view/products/simple/simple.editor"
+import { RichText } from "@/components/view/storyTelling/richText/richText.editor"
+import { Header } from "@/components/view/layout/header/header.editor"
+import { Footer } from "@/components/view/layout/footer/footer.editor"
+import ProductGallery from "@/components/view/products/productGallery/productGallery.editor"
+import ProductDetailsSection from "@/components/view/products/productDetailsSection/productDetailsSection.editor"
+import ProductTitle from "@/components/view/products/productTitle/productTitle.editor"
+import ProductPrice from "@/components/view/products/productPrice/productPrice.editor"
+import ProductDescription from "@/components/view/products/productDescription/productDescription.editor"
+import ProductAddToCartButton from "@/components/view/products/productAddToCartButton/productAddToCartButton.editor"
 
 export const COMPONENT_MAP = {
   [Sections.HERO_SECTION]: HeroSection,

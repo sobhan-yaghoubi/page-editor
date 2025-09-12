@@ -3,6 +3,7 @@
 export * from "./stores/editor"
 export * from "./stores/componentTreeItem.store"
 export * from "./stores/theme.store"
+export * from "./contexts/ComponentTreeItemContext"
 
 export * from "./configs/componentMap.editor"
 

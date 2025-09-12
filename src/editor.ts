@@ -9,6 +9,11 @@ export * from "./configs/componentMap.editor"
 export * from "./configs/editor"
 export * from "./configs/theme"
 
+export * from "./utils/editor/state-helpers"
+export * from "./utils/component-tree/tree-modifiers"
+export * from "./utils/component-tree/tree-queries"
+export * from "./utils/editor/state-helpers"
+
 export * from "./components/view/banners/hero/hero.editor"
 export * from "./components/view/basic/button/button.editor"
 export * from "./components/view/basic/heading/heading.editor"

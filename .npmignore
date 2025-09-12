@@ -1,0 +1,12 @@
+# Source code
+src/
+
+# Node modules and local configs
+node_modules/
+tsup.config.ts
+tsconfig.json
+
+# Git and OS files
+.git/
+.gitignore
+.DS_Store

@@ -21,10 +21,10 @@
 // export default index
 
 import React from "react"
-import { Input } from "@/components/ui/input"
-import { MoveRightIcon } from "lucide-react"
-import { Button as UIButton } from "@/components/ui/button"
 import { ComponentProps } from "@/types"
+import { Button } from "@/view"
+import uuid from "@/lib/uuid"
+import { MoveRightIcon } from "lucide-react"
 
 export const SubscriptionForm = ({ settings, children }: ComponentProps) => {
   const style = {
@@ -38,10 +38,13 @@ export const SubscriptionForm = ({ settings, children }: ComponentProps) => {
     >
       {children}
       <div className="flex items-center gap-1">
-        <Input placeholder={settings.placeholder || "Enter your email"} />
+        {/* <Input placeholder={settings.placeholder || "Enter your email"} />
         <UIButton size="default">
           <MoveRightIcon />
-        </UIButton>
+        </UIButton> */}
+        <Button id={uuid()} settings={{}}>
+          <MoveRightIcon />
+        </Button>
       </div>
     </div>
   )

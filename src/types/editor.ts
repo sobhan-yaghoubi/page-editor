@@ -1,14 +1,6 @@
 import { LucideProps } from "lucide-react"
 import { ForwardRefExoticComponent, RefAttributes } from "react"
 
-export type ScreenWidthEditor = {
-  label: string
-  value: string
-  icon: ForwardRefExoticComponent<
-    Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
-  >
-}
-
 export type SettingsDefinition = {
   key: string
   label: string
@@ -33,3 +25,12 @@ export type SettingsDefinition = {
   | { type: "range"; max: number[]; min: number[]; step: number }
   | { type: "group"; options: Array<{ label: string; value: string | number }> }
 )
+
+/** Defines the shape of the screen width options in the editor's top navbar */
+export interface ScreenWidthOption {
+  label: string
+  value: string
+  icon: ForwardRefExoticComponent<
+    Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
+  >
+}

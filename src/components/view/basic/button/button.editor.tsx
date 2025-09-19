@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react"
 import { ComponentProps } from "@/types"
 import clsx from "clsx"
@@ -10,7 +12,6 @@ interface ButtonSettings {
 }
 
 export const Button = ({ settings: genericSettings }: ComponentProps) => {
-  "use client"
   const settings = genericSettings as ButtonSettings
 
   const handleClick = (e: React.MouseEvent) => {

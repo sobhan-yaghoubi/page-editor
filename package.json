@@ -6,25 +6,27 @@
   "license": "ISC",
   "private": false,
   "type": "module",
-  "main": "./dis/index.js",
-  "module": "./dis/index.js",
-  "types": "./dis/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
   "exports": {
     ".": {
-      "types": "./dis/index.d.ts",
-      "import": "./dis/index.js",
-      "require": "./dis/index.js"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
     },
     "./editor": {
-      "import": "./dis/editor.js",
-      "types": "./dis/editor.d.ts"
+      "types": "./dist/editor.d.ts",
+      "import": "./dist/editor.js",
+      "require": "./dist/editor.js"
     },
     "./view": {
-      "import": "./dis/view.js",
-      "types": "./dis/view.d.ts"
+      "types": "./dist/view.d.ts",
+      "import": "./dist/view.js",
+      "require": "./dist/view.js"
     }
   },
   "scripts": {

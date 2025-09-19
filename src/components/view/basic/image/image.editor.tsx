@@ -1,5 +1,3 @@
-"use client"
-
 import React from "react"
 import { ComponentProps } from "@/types"
 
@@ -15,6 +13,7 @@ export interface ImageComponentProps extends ComponentProps {
 }
 
 export const Image = ({ settings, render }: ImageComponentProps) => {
+  "use client"
   const { src, alt, width, height, borderRadius } = settings
 
   if (!src) {

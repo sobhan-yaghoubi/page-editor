@@ -1,128 +1,50 @@
-// import { resolve } from "path"
-// import { defineConfig } from "vite"
-// import dts from "vite-plugin-dts"
-// import tsconfigPaths from "vite-tsconfig-paths"
-
-// export default defineConfig({
-//   plugins: [
-//     tsconfigPaths(),
-//     dts({
-//       insertTypesEntry: true,
-//     }),
-//   ],
-//   build: {
-//     outDir: "dist",
-//     lib: {
-//       entry: {
-//         index: resolve(__dirname, "src/index.ts"),
-//         editor: resolve(__dirname, "src/editor.ts"),
-//         view: resolve(__dirname, "src/view.ts"),
-//       },
-//       name: "@sobhan-yaghoubi/page-editor",
-//       formats: ["es"],
-//       fileName: (format, entryName) => `${entryName}.js`,
-//     },
-//     rollupOptions: {
-//       external: [
-//         "react",
-//         "react-dom",
-//         "lucide-react",
-//         "zustand",
-//         "clsx",
-//         "tailwind-merge",
-//         "next/image",
-//         "next/link",
-//         "lodash",
-//         "uuid",
-//         "react/jsx-runtime",
-//       ],
-//     },
-//     sourcemap: true,
-//     emptyOutDir: true,
-//   },
-// })
-// //! -----------------------------------------------------------
-// import { resolve } from "path"
-// import { defineConfig } from "vite"
-// import dts from "vite-plugin-dts"
-// import tsconfigPaths from "vite-tsconfig-paths"
-
-// export default defineConfig({
-//   plugins: [
-//     tsconfigPaths(),
-//     dts({
-//       insertTypesEntry: true,
-//     }),
-//   ],
-//   build: {
-//     outDir: "dist",
-//     sourcemap: true,
-//     lib: {
-//       // Your entry points are correct. No 'enums' entry needed.
-//       entry: {
-//         index: resolve(__dirname, "src/index.ts"),
-//         editor: resolve(__dirname, "src/editor.ts"),
-//         view: resolve(__dirname, "src/view.ts"),
-//       },
-//       name: "@sobhan-yaghoubi/page-editor",
-//       formats: ["es"],
-//     },
-//     rollupOptions: {
-//       output: {
-//         // This ensures each entry point gets its own file, which is good.
-//         entryFileNames: "[name].js",
-
-//         // --> THIS IS THE KEY TO FIXING THE WARNINGS <--
-//         // We are taking manual control of how shared chunks are created.
-//         manualChunks(id) {
-//           // If a module's path includes '/src/schema/',
-//           // group it into a single chunk named 'schema'.
-//           if (id.includes("/src/schema/")) {
-//             return "schema"
-//           }
-//           // If a module's path includes '/src/types/',
-//           // group it into a single chunk named 'types'.
-//           if (id.includes("/src/types/")) {
-//             return "types"
-//           }
-//           // All other shared code will be handled automatically by Rollup.
-//         },
-//       },
-//       external: [
-//         "react",
-//         "react-dom",
-//         "lucide-react",
-//         "zustand",
-//         "clsx",
-//         "tailwind-merge",
-//         "next/image",
-//         "next/link",
-//         "lodash",
-//         "uuid",
-//         "react/jsx-runtime",
-//       ],
-//     },
-//   },
-// })
-// !----------------------------------------------------------
-
-import { resolve } from "path"
 import { defineConfig } from "vite"
-import dts from "vite-plugin-dts"
 import tsconfigPaths from "vite-tsconfig-paths"
+import dts from "vite-plugin-dts"
+import { Plugin } from "vite"
+import { resolve } from "path"
+import fs from "fs"
+
+function preserveUseClientPlugin(): Plugin {
+  return {
+    name: "preserve-use-client",
+    generateBundle(options, bundle) {
+      Object.keys(bundle).forEach((fileName) => {
+        const chunk = bundle[fileName]
+        if (chunk.type === "chunk" && chunk.facadeModuleId) {
+          try {
+            const originalContent = fs.readFileSync(
+              chunk.facadeModuleId,
+              "utf8"
+            )
+            if (
+              originalContent.includes('"use client"') ||
+              originalContent.includes("'use client'")
+            ) {
+              // Prepend "use client" to the generated code
+              chunk.code = '"use client";\n' + chunk.code
+            }
+          } catch (e) {
+            // Ignore file read errors
+          }
+        }
+      })
+    },
+  }
+}
 
 export default defineConfig({
   plugins: [
     tsconfigPaths(),
     dts({
-      insertTypesEntry: false, // Don't auto-inject types, since you export them manually
+      insertTypesEntry: true,
+      compilerOptions: {
+        skipLibCheck: true,
+      },
     }),
+    preserveUseClientPlugin(), // Add the plugin to preserve "use client"
   ],
   build: {
-    sourcemap: false, // Disable sourcemap if not needed to avoid warnings
-    manifest: true,
-    minify: true,
-    reportCompressedSize: true,
     lib: {
       entry: {
         index: resolve(__dirname, "src/index.ts"),
@@ -131,6 +53,7 @@ export default defineConfig({
       },
       formats: ["es"],
     },
+    sourcemap: false, // Disable to avoid sourcemap warnings
     rollupOptions: {
       external: [
         "react",
@@ -138,18 +61,37 @@ export default defineConfig({
         "lucide-react",
         "zustand",
         "clsx",
-        "tailwind-merge",
-        "next/image",
-        "next/link",
         "lodash",
         "uuid",
         "react/jsx-runtime",
       ],
       output: {
         preserveModules: true,
+        preserveModulesRoot: "src",
         dir: "dist",
         format: "es",
         entryFileNames: "[name].js",
+      },
+      // Suppress warnings
+      onwarn(warning, warn) {
+        const suppressedCodes = [
+          "MODULE_LEVEL_DIRECTIVE",
+          "SOURCEMAP_ERROR",
+          "SOURCEMAP_BROKEN_MAPPING",
+        ]
+
+        if (warning.code && suppressedCodes.includes(warning.code)) {
+          return
+        }
+
+        if (
+          warning.message?.includes("sourcemap") ||
+          warning.message?.includes("original location")
+        ) {
+          return
+        }
+
+        warn(warning)
       },
     },
   },

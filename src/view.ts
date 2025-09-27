@@ -4,6 +4,9 @@ export * from "./components/ComponentViewRenderer"
 export * from "./components/view/banners/hero/hero.view"
 export * from "./components/view/basic/button/button.view"
 
+export * from "./contexts/ProductContext"
+export * from "./contexts/RenderContext"
+
 export * from "./components/view/banners/hero/hero.view"
 export * from "./components/view/basic/button/button.view"
 export * from "./components/view/basic/heading/heading.view"

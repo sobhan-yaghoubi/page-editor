@@ -34,6 +34,9 @@ export const PAGE_SCHEMAS: Record<string, PageSchema> = {
     allowedSections: [
       { type: ProductBlocks.PRODUCT_GALLERY, max: 1 },
       { type: ProductBlocks.PRODUCT_DETAILS_SECTION, max: 1 },
+      { type: Sections.RICH_TEXT },
+      { type: Sections.SUBSCRIPTION_FORM },
+      { type: Sections.PRODUCT_FEATURES },
     ],
   },
 }

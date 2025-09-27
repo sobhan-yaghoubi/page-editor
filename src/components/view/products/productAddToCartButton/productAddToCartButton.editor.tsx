@@ -1,8 +1,24 @@
+"use client"
 import { ComponentProps } from "@/types"
-import React from "react"
+import clsx from "clsx"
 
-const index = ({}: ComponentProps) => {
-  return <div>Product Add To Cart Button</div>
+const ProductAddToCartButtonEditor = ({ settings }: ComponentProps) => {
+  const buttonText = settings.inStockText || "Add to Cart"
+
+  const buttonClassName = clsx("btn", {
+    "btn-primary": settings.style === "primary" || !settings.style,
+    "btn-secondary": settings.style === "secondary",
+    "btn-outline": settings.style === "outline",
+    "btn-sm": settings.size === "sm",
+    "btn-md": settings.size === "md" || !settings.size,
+    "btn-lg": settings.size === "lg",
+  })
+
+  return (
+    <button disabled className={buttonClassName}>
+      {buttonText}
+    </button>
+  )
 }
 
-export default index
+export default ProductAddToCartButtonEditor

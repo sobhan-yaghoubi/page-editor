@@ -25,6 +25,7 @@ export interface ComponentData {
   children?: ComponentData[]
   isHidden?: boolean
   slotName?: string
+  action?: ActionDefinition
 }
 
 /**
@@ -87,18 +88,21 @@ export interface ComponentSchema {
   isDeletable?: boolean
   isHidable?: boolean
   allowedParents: ParentType[] | "*"
-  allowedChildren: (string | { type: ComponentType; max?: number })[] | "*"
+  allowedChildren:
+    | (ComponentType | { type: ComponentType; max?: number })[]
+    | "*"
   disallowedChildren?: ComponentType[]
   defaultSettings: SettingsDefinition[]
   slots?: Record<string, SlotDefinition>
   metadata?: Record<string, any>
+  action?: ActionDefinition
 }
 
 /** The schema for a page or global document. Defines its top-level rules */
 export interface PageSchema {
   type: ParentType | "flexible" | "fixed"
   name: string
-  allowedSections?: ({ type: ComponentType; max?: number } | string)[]
+  allowedSections?: (ComponentType | { type: ComponentType; max?: number })[]
   canHaveHeader?: boolean
   canHaveFooter?: boolean
 }
@@ -110,8 +114,8 @@ export interface ComponentProps {
   id: string
   settings: ComponentData["settings"]
   children?: React.ReactNode
-  isSelected?: boolean // For editor UI
-  actionSchema?: ActionDefinition // For storefront functionality
+  isSelected?: boolean
+  action?: ActionDefinition
 }
 
 /** The type definition for a single setting in the editor's panel */

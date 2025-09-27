@@ -1,6 +1,11 @@
 import uuid from "@/lib/uuid"
 import { COMPONENTS_SCHEMAS } from "@/schema/blocks"
-import { ComponentData, ComponentType } from "@/types"
+import {
+  ActionDefinition,
+  ComponentData,
+  ComponentType,
+  PageSchema,
+} from "@/types"
 
 /**
  * Recursively removes a component from the tree by its ID
@@ -137,10 +142,58 @@ export const createNewComponent = (componentType: ComponentType) => {
     return acc
   }, {} as Record<string, any>)
 
-  return {
+  const action: ActionDefinition | undefined = schema.action
+
+  const newComponent: ComponentData = {
     id: uuid(),
     type: componentType,
     settings,
     children: [],
+    action,
   }
+
+  return newComponent
+}
+
+/**
+ * Generates the initial ComponentData[] tree for a page that uses a "fixed" schema.
+ * It automatically creates the pre-defined sections and their slotted children.
+ *
+ * @param pageSchema The schema for the fixed page (e.g., PAGE_SCHEMAS[Layouts.PRODUCT]).
+ * @returns An array of ComponentData representing the initial page structure.
+ */
+export function createDataFromFixedSchema(
+  pageSchema: PageSchema
+): ComponentData[] {
+  if (pageSchema.type !== "fixed" || !pageSchema.allowedSections) {
+    console.warn(
+      "Attempted to create data from a non-fixed or undefined schema."
+    )
+    return []
+  }
+
+  return pageSchema.allowedSections
+    .map((sectionRule) => {
+      const sectionType: ComponentType =
+        typeof sectionRule === "object" ? sectionRule.type : sectionRule
+
+      const sectionSchema = COMPONENTS_SCHEMAS[sectionType]
+
+      const sectionData = createNewComponent(sectionType)
+      if (!sectionData) return null
+
+      if (sectionSchema?.slots) {
+        sectionData.children = Object.entries(sectionSchema.slots)
+          .map(([slotName, slotDef]) => {
+            const childData = createNewComponent(slotDef.component)
+            if (!childData) return null
+            childData.slotName = slotName
+            return childData
+          })
+          .filter((child): child is ComponentData => Boolean(child))
+      }
+
+      return sectionData
+    })
+    .filter((child): child is ComponentData => Boolean(child))
 }

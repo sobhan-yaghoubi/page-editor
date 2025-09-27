@@ -1,4 +1,4 @@
-import { BasicBlocks, Sections } from "@/schema/enums"
+import { BasicBlocks, ProductBlocks, Sections } from "@/schema/enums"
 import { PageData } from "@/types"
 
 export const EXAMPLE_HOME_PAGE_COMPONENTS: PageData["components"] = [
@@ -183,5 +183,78 @@ export const EXAMPLE_FOOTER_COMPONENTS: PageData["components"] = [
       fontSize: "large",
       color: "#666666",
     },
+  },
+]
+
+export const EXAMPLE_PRODUCT_PAGE_COMPONENTS: PageData["components"] = [
+  {
+    id: "prod-gallery-xyz",
+    type: ProductBlocks.PRODUCT_GALLERY,
+    settings: {
+      thumbnailPosition: "bottom",
+      zoomEffect: "hover",
+    },
+
+    children: [],
+  },
+
+  {
+    id: "prod-details-xyz",
+    type: ProductBlocks.PRODUCT_DETAILS_SECTION,
+    settings: {
+      padding: "medium",
+    },
+
+    children: [
+      {
+        id: "prod-title-abc",
+        type: ProductBlocks.PRODUCT_TITLE,
+
+        slotName: "title",
+        settings: {
+          tag: "h1",
+        },
+      },
+      {
+        id: "prod-price-abc",
+        type: ProductBlocks.PRODUCT_PRICE,
+        slotName: "price",
+        settings: {},
+      },
+      {
+        id: "prod-desc-abc",
+        type: ProductBlocks.PRODUCT_DESCRIPTION,
+        slotName: "description",
+        settings: {
+          showFullDescription: false,
+        },
+      },
+      {
+        id: "prod-add-to-cart-abc",
+        type: ProductBlocks.ADD_TO_CART_BUTTON,
+        slotName: "addToCart",
+        settings: {
+          inStockText: "Add to Bag",
+          style: "primary",
+          outOfStockText: "Currently Unavailable",
+        },
+      },
+    ],
+  },
+
+  {
+    id: "sub-form-prod-page",
+    type: Sections.SUBSCRIPTION_FORM,
+    settings: {
+      title: "Get notified for similar products!",
+      backgroundColor: "#ffffff",
+    },
+    children: [
+      {
+        id: "sub-heading-prod",
+        type: BasicBlocks.HEADING,
+        settings: { text: "Stay Updated" },
+      },
+    ],
   },
 ]

@@ -34,10 +34,20 @@ export const COMPONENT_MAP = {
   [BasicBlocks.IMAGE]: Image,
   [BasicBlocks.FEATURE_ITEM]: FeatureItem,
 
-  [ProductBlocks.PRODUCT_GALLERY]: ProductGallery,
-  [ProductBlocks.PRODUCT_DETAILS_SECTION]: ProductDetailsSection,
   [ProductBlocks.PRODUCT_TITLE]: ProductTitle,
   [ProductBlocks.PRODUCT_PRICE]: ProductPrice,
+  [ProductBlocks.PRODUCT_GALLERY]: ProductGallery,
+  [ProductBlocks.PRODUCT_DETAILS_SECTION]: ProductDetailsSection,
   [ProductBlocks.PRODUCT_DESCRIPTION]: ProductDescription,
   [ProductBlocks.ADD_TO_CART_BUTTON]: ProductAddToCartButton,
 }
+
+export const CLIENT_ONLY_COMPONENTS = new Set<string>([
+  BasicBlocks.BUTTON,
+  Sections.SUBSCRIPTION_FORM,
+  ProductBlocks.PRODUCT_TITLE,
+  ProductBlocks.PRODUCT_PRICE,
+  ProductBlocks.PRODUCT_DESCRIPTION,
+  ProductBlocks.PRODUCT_GALLERY,
+  ProductBlocks.ADD_TO_CART_BUTTON,
+])

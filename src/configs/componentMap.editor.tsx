@@ -34,10 +34,10 @@ export const COMPONENT_MAP = {
   [BasicBlocks.IMAGE]: Image,
   [BasicBlocks.FEATURE_ITEM]: FeatureItem,
 
-  [ProductBlocks.PRODUCT_GALLERY]: ProductGallery,
-  [ProductBlocks.PRODUCT_DETAILS_SECTION]: ProductDetailsSection,
   [ProductBlocks.PRODUCT_TITLE]: ProductTitle,
   [ProductBlocks.PRODUCT_PRICE]: ProductPrice,
+  [ProductBlocks.PRODUCT_GALLERY]: ProductGallery,
+  [ProductBlocks.PRODUCT_DETAILS_SECTION]: ProductDetailsSection,
   [ProductBlocks.PRODUCT_DESCRIPTION]: ProductDescription,
   [ProductBlocks.ADD_TO_CART_BUTTON]: ProductAddToCartButton,
 }

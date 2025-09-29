@@ -1,4 +1,4 @@
-import { ThemeSettingsSchema } from "../types/themeConfig"
+import { ThemeSetting, ThemeSettingsSchema } from "../types/themeConfig"
 
 // Available font families
 export const FONT_OPTIONS = [
@@ -62,260 +62,79 @@ export const HEADING_FONT_OPTIONS = [
   { label: "Accent", value: "accent" },
 ]
 
+const PALETTE_FIELDS: ThemeSetting[] = [
+  {
+    label: "Background",
+    type: "color",
+    defaultValue: "#ffffff",
+    key: "background",
+  },
+  {
+    label: "Headings",
+    type: "color",
+    defaultValue: "#1a1a1a",
+    key: "headings",
+  },
+  { label: "Text", type: "color", defaultValue: "#4a5568", key: "text" },
+  { label: "Links", type: "color", defaultValue: "#3182ce", key: "links" },
+  {
+    label: "Hover Links",
+    type: "color",
+    defaultValue: "#2c5aa0",
+    key: "hoverLinks",
+  },
+  { label: "Borders", type: "color", defaultValue: "#e2e8f0", key: "borders" },
+  { label: "Shadow", type: "color", defaultValue: "#00000020", key: "shadow" },
+
+  {
+    label: "Primary Button",
+    type: "group",
+    key: "primaryButton",
+    children: [
+      {
+        label: "Background",
+        type: "color",
+        defaultValue: "#3182ce",
+        key: "background",
+      },
+      { label: "Text", type: "color", defaultValue: "#ffffff", key: "text" },
+      {
+        label: "Borders",
+        type: "color",
+        defaultValue: "#3182ce",
+        key: "borders",
+      },
+      {
+        label: "Hover Background",
+        type: "color",
+        defaultValue: "#2c5aa0",
+        key: "hoverBackground",
+      },
+      {
+        label: "Hover Text",
+        type: "color",
+        defaultValue: "#ffffff",
+        key: "hoverText",
+      },
+      {
+        label: "Hover Borders",
+        type: "color",
+        defaultValue: "#2c5aa0",
+        key: "hoverBorders",
+      },
+    ],
+  },
+
+  // ... (Add your other color groups here: secondaryButton, inputs, etc.)
+]
+
 export const THEME_SETTINGS_SCHEMA: ThemeSettingsSchema = {
   sections: [
     {
-      key: "colors",
-      label: "Colors",
+      key: "palettes",
+      label: "Colors Palettes",
       icon: "Palette",
-      settings: [
-        {
-          key: "background",
-          label: "Background",
-          type: "color",
-          defaultValue: "#ffffff",
-        },
-        {
-          key: "headings",
-          label: "Headings",
-          type: "color",
-          defaultValue: "#1a1a1a",
-        },
-        { key: "text", label: "Text", type: "color", defaultValue: "#4a5568" },
-        {
-          key: "links",
-          label: "Links",
-          type: "color",
-          defaultValue: "#3182ce",
-        },
-        {
-          key: "hoverLinks",
-          label: "Hover Links",
-          type: "color",
-          defaultValue: "#2c5aa0",
-        },
-        {
-          key: "borders",
-          label: "Borders",
-          type: "color",
-          defaultValue: "#e2e8f0",
-        },
-        {
-          key: "shadow",
-          label: "Shadow",
-          type: "color",
-          defaultValue: "#00000020",
-        },
-        {
-          key: "primaryButton",
-          label: "Primary Button",
-          type: "group",
-          children: [
-            {
-              key: "background",
-              label: "Background",
-              type: "color",
-              defaultValue: "#3182ce",
-            },
-            {
-              key: "text",
-              label: "Text",
-              type: "color",
-              defaultValue: "#ffffff",
-            },
-            {
-              key: "borders",
-              label: "Borders",
-              type: "color",
-              defaultValue: "#3182ce",
-            },
-            {
-              key: "hoverBackground",
-              label: "Hover Background",
-              type: "color",
-              defaultValue: "#2c5aa0",
-            },
-            {
-              key: "hoverText",
-              label: "Hover Text",
-              type: "color",
-              defaultValue: "#ffffff",
-            },
-            {
-              key: "hoverBorders",
-              label: "Hover Borders",
-              type: "color",
-              defaultValue: "#2c5aa0",
-            },
-          ],
-        },
-        {
-          key: "secondaryButton",
-          label: "Secondary Button",
-          type: "group",
-          children: [
-            {
-              key: "background",
-              label: "Background",
-              type: "color",
-              defaultValue: "#f7fafc",
-            },
-            {
-              key: "text",
-              label: "Text",
-              type: "color",
-              defaultValue: "#4a5568",
-            },
-            {
-              key: "borders",
-              label: "Borders",
-              type: "color",
-              defaultValue: "#e2e8f0",
-            },
-            {
-              key: "hoverBackground",
-              label: "Hover Background",
-              type: "color",
-              defaultValue: "#edf2f7",
-            },
-            {
-              key: "hoverText",
-              label: "Hover Text",
-              type: "color",
-              defaultValue: "#2d3748",
-            },
-            {
-              key: "hoverBorders",
-              label: "Hover Borders",
-              type: "color",
-              defaultValue: "#cbd5e0",
-            },
-          ],
-        },
-        {
-          key: "inputs",
-          label: "Inputs",
-          type: "group",
-          children: [
-            {
-              key: "background",
-              label: "Background",
-              type: "color",
-              defaultValue: "#ffffff",
-            },
-            {
-              key: "transparent",
-              label: "Transparent",
-              type: "color",
-              defaultValue: "#00000000",
-            },
-            {
-              key: "text",
-              label: "Text",
-              type: "color",
-              defaultValue: "#4a5568",
-            },
-            {
-              key: "borders",
-              label: "Borders",
-              type: "color",
-              defaultValue: "#e2e8f0",
-            },
-            {
-              key: "hoverBackground",
-              label: "Hover Background",
-              type: "color",
-              defaultValue: "#f7fafc",
-            },
-          ],
-        },
-        {
-          key: "variants",
-          label: "Variants",
-          type: "group",
-          children: [
-            {
-              key: "background",
-              label: "Background",
-              type: "color",
-              defaultValue: "#f7fafc",
-            },
-            {
-              key: "text",
-              label: "Text",
-              type: "color",
-              defaultValue: "#4a5568",
-            },
-            {
-              key: "borders",
-              label: "Borders",
-              type: "color",
-              defaultValue: "#e2e8f0",
-            },
-            {
-              key: "hoverBackground",
-              label: "Hover Background",
-              type: "color",
-              defaultValue: "#edf2f7",
-            },
-            {
-              key: "hoverText",
-              label: "Hover Text",
-              type: "color",
-              defaultValue: "#2d3748",
-            },
-            {
-              key: "hoverBorders",
-              label: "Hover Borders",
-              type: "color",
-              defaultValue: "#cbd5e0",
-            },
-          ],
-        },
-        {
-          key: "selectedVariants",
-          label: "Selected Variants",
-          type: "group",
-          children: [
-            {
-              key: "background",
-              label: "Background",
-              type: "color",
-              defaultValue: "#3182ce",
-            },
-            {
-              key: "text",
-              label: "Text",
-              type: "color",
-              defaultValue: "#ffffff",
-            },
-            {
-              key: "borders",
-              label: "Borders",
-              type: "color",
-              defaultValue: "#3182ce",
-            },
-            {
-              key: "hoverBackground",
-              label: "Hover Background",
-              type: "color",
-              defaultValue: "#2c5aa0",
-            },
-            {
-              key: "hoverText",
-              label: "Hover Text",
-              type: "color",
-              defaultValue: "#ffffff",
-            },
-            {
-              key: "hoverBorders",
-              label: "Hover Borders",
-              type: "color",
-              defaultValue: "#2c5aa0",
-            },
-          ],
-        },
-      ],
+      settings: PALETTE_FIELDS,
     },
     {
       key: "branding",

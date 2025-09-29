@@ -1,49 +1,53 @@
-export interface ThemeColors {
-  background: string
-  headings: string
-  text: string
-  links: string
-  hoverLinks: string
-  borders: string
-  shadow: string
-  primaryButton: {
+export interface ColorPalette {
+  id: string
+  name: string
+  colors: {
     background: string
+    headings: string
     text: string
+    links: string
+    hoverLinks: string
     borders: string
-    hoverBackground: string
-    hoverText: string
-    hoverBorders: string
-  }
-  secondaryButton: {
-    background: string
-    text: string
-    borders: string
-    hoverBackground: string
-    hoverText: string
-    hoverBorders: string
-  }
-  inputs: {
-    background: string
-    transparent: string
-    text: string
-    borders: string
-    hoverBackground: string
-  }
-  variants: {
-    background: string
-    text: string
-    borders: string
-    hoverBackground: string
-    hoverText: string
-    hoverBorders: string
-  }
-  selectedVariants: {
-    background: string
-    text: string
-    borders: string
-    hoverBackground: string
-    hoverText: string
-    hoverBorders: string
+    shadow: string
+    primaryButton: {
+      background: string
+      text: string
+      borders: string
+      hoverBackground: string
+      hoverText: string
+      hoverBorders: string
+    }
+    secondaryButton: {
+      background: string
+      text: string
+      borders: string
+      hoverBackground: string
+      hoverText: string
+      hoverBorders: string
+    }
+    inputs: {
+      background: string
+      transparent: string
+      text: string
+      borders: string
+      hoverBackground: string
+    }
+    variants: {
+      background: string
+      text: string
+      borders: string
+      hoverBackground: string
+      hoverText: string
+      hoverBorders: string
+    }
+    selectedVariants: {
+      background: string
+      text: string
+      borders: string
+      hoverBackground: string
+      hoverText: string
+      hoverBorders: string
+    }
   }
 }
 
@@ -96,8 +100,8 @@ export interface ThemeConfig {
   id: string
   name: string
   storeId: string
-  activeColorPalette?: string
-  colors: ThemeColors
+  activePaletteId: string
+  palettes: ColorPalette[]
   typography: ThemeTypography
   branding: ThemeBranding
   customCSS?: string
@@ -126,19 +130,23 @@ export interface ThemeSection {
   settings: ThemeSetting[]
 }
 
-export interface ThemeSetting {
+export type ThemeSetting = {
   key: string
   label: string
-  type: "color" | "palette" | "select" | "number" | "range" | "file" | "group"
   defaultValue?: any
-  min?: number
-  max?: number
-  step?: number
-  unit?: string
-  options?: Array<{ label: string; value: string | number }>
-  children?: ThemeSetting[]
   description?: string
-}
+} & (
+  | { type: "color" }
+  | {
+      type: "select"
+      options?: Array<{ label: string; value: string | number }>
+    }
+  | { type: "number"; unit?: string; min?: number; max?: number }
+  | { type: "range"; unit?: string; min?: number; max?: number; step?: number }
+  | { type: "file" }
+  | { type: "group"; children: ThemeSetting[] }
+  | { type: "paletteManager"; paletteSchema: Omit<ThemeSetting, "key">[] }
+)
 
 export interface SelectorInfo {
   selector: string

@@ -13,6 +13,7 @@ import {
   TypeIcon,
 } from "lucide-react"
 import { ALL_PAGES } from "./groups"
+import { BUTTON_SCHEMA } from "./component/basic/button.schema"
 
 export const COMPONENTS_SCHEMAS: Record<string, ComponentSchema> = {
   [Sections.HEADER]: {
@@ -417,63 +418,7 @@ export const COMPONENTS_SCHEMAS: Record<string, ComponentSchema> = {
     ],
   },
 
-  [BasicBlocks.BUTTON]: {
-    type: BasicBlocks.BUTTON,
-    icon: SquareMousePointerIcon,
-    label: "Button",
-    category: "block",
-    isDraggable: true,
-    allowedParents: [Sections.HERO_SECTION, Sections.RICH_TEXT],
-    allowedChildren: [],
-    defaultSettings: [
-      {
-        key: "text",
-        label: "Button Text",
-        type: "text",
-        defaultValue: "Click Here",
-        section: "general",
-      },
-      {
-        key: "url",
-        label: "Link URL",
-        type: "text",
-        defaultValue: "#",
-        section: "general",
-      },
-      {
-        key: "style",
-        label: "Button Style",
-        type: "select",
-        defaultValue: "primary",
-        section: "general",
-        options: [
-          { label: "Primary", value: "primary" },
-          { label: "Secondary", value: "secondary" },
-          { label: "Outline", value: "outline" },
-        ],
-      },
-      {
-        key: "size",
-        label: "Size",
-        type: "select",
-        defaultValue: "md",
-        section: "general",
-        options: [
-          { label: "Small", value: "sm" },
-          { label: "Medium", value: "md" },
-          { label: "Large", value: "lg" },
-        ],
-      },
-      {
-        key: "mobileFullWidth",
-        label: "Full Width on Mobile",
-        type: "boolean",
-        defaultValue: false,
-        section: "mobile",
-      },
-    ],
-  },
-
+  [BasicBlocks.BUTTON]: BUTTON_SCHEMA,
   [BasicBlocks.IMAGE]: {
     type: BasicBlocks.IMAGE,
     icon: ImageIcon,
@@ -604,30 +549,6 @@ export const COMPONENTS_SCHEMAS: Record<string, ComponentSchema> = {
             label: "Out Stock Text",
             type: "text",
             defaultValue: "Sold Out From the Slot",
-          },
-          {
-            key: "outStockStyle",
-            label: "Out Stock Style",
-            type: "select",
-            defaultValue: "primary",
-            section: "general",
-            options: [
-              { label: "Primary", value: "primary" },
-              { label: "Secondary", value: "secondary" },
-              { label: "Outline", value: "outline" },
-            ],
-          },
-          {
-            key: "inStockStyle",
-            label: "In Stock Style",
-            type: "select",
-            defaultValue: "primary",
-            section: "general",
-            options: [
-              { label: "Primary", value: "primary" },
-              { label: "Secondary", value: "secondary" },
-              { label: "Outline", value: "outline" },
-            ],
           },
         ],
         action: {

@@ -119,23 +119,53 @@ export interface ComponentProps {
 }
 
 /** The type definition for a single setting in the editor's panel */
-export type SettingsDefinition = {
+
+interface BaseSetting {
   key: string
   label: string
   defaultValue?: any
   section?: "general" | "mobile" | string
-} & (
-  | { type: "text" }
-  | { type: "textarea" }
-  | { type: "number" }
-  | { type: "boolean" }
-  | {
-      type: "select"
-      options?: Array<{ label: string; value: string | number }>
-    }
-  | { type: "color" }
-  | { type: "image" }
-  | { type: "icon" }
-  | { type: "range"; max: number[]; min: number[]; step: number }
-  | { type: "group"; options: Array<{ label: string; value: string | number }> }
-)
+}
+
+type TextSetting = BaseSetting & {
+  type: "text" | "textarea" | "number" | "color" | "image" | "icon"
+}
+type BooleanSetting = BaseSetting & { type: "boolean" }
+type SelectSetting = BaseSetting & {
+  type: "select"
+  options: Array<{ label: string; value: string | number }>
+}
+type GroupSetting = BaseSetting & {
+  type: "group"
+  options: Array<{ label: string; value: string | number }>
+}
+type RangeSetting = BaseSetting & {
+  type: "range"
+  max: number[]
+  min: number[]
+  step: number
+}
+
+type LinkSetting = BaseSetting & { type: "link" }
+
+/**
+ * The final, complete type for a single setting in the editor's panel.
+ * This is a robust discriminated union.
+ */
+export type SettingsDefinition =
+  | TextSetting
+  | BooleanSetting
+  | SelectSetting
+  | GroupSetting
+  | RangeSetting
+  | LinkSetting
+
+export type SettingsFromSchema<T extends readonly SettingsDefinition[]> = {
+  -readonly [K in T[number] as K["key"]]: K["defaultValue"] extends boolean
+    ? boolean
+    : K["defaultValue"] extends number
+    ? number
+    : K["defaultValue"] extends string
+    ? string
+    : any
+}

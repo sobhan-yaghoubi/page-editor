@@ -16,6 +16,7 @@ const ProductDetailsSectionView = ({ settings, children }: ComponentProps) => {
     flexDirection: "column",
     gap: "1.5rem",
     width: "100%",
+    alignItems: "start",
   }
 
   return <div style={style}>{children}</div>

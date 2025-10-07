@@ -19,7 +19,7 @@ export const ClientComponentRenderer = ({
   return (
     <ComponentToRender
       id={component.id}
-      settings={component.settings}
+      settings={component.settings as any}
       action={component.action}
     >
       {component.children?.map((childComponent) => (

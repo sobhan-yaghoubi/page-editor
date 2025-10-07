@@ -1,18 +1,13 @@
-import React from "react"
-import { ComponentData } from "@/types"
-import {
-  CLIENT_ONLY_COMPONENTS,
-  COMPONENT_MAP,
-} from "@/configs/componentMap.view"
+import { ComponentData } from "../types"
+import { COMPONENT_MAP } from "../configs/componentMap.view"
+import { CLIENT_ONLY_COMPONENTS } from "../configs/componentMap.view"
 import { ClientComponentRenderer } from "./ComponentViewRenderer.client"
-
-export interface ComponentRendererProps {
-  component: ComponentData
-}
 
 export const ComponentViewRenderer = ({
   component,
-}: ComponentRendererProps) => {
+}: {
+  component: ComponentData
+}) => {
   if (CLIENT_ONLY_COMPONENTS.has(component.type)) {
     return <ClientComponentRenderer component={component} />
   }
@@ -20,23 +15,33 @@ export const ComponentViewRenderer = ({
   const ComponentToRender = COMPONENT_MAP[component.type]
 
   if (!ComponentToRender) {
-    console.error(
-      `ComponentRenderer: Unknown component type "${component.type}"`
-    )
+    if (process.env.NODE_ENV !== "production") {
+      return (
+        <div
+          style={{
+            border: "2px dotted blue",
+            padding: "1rem",
+            margin: "0.5rem",
+          }}
+        >
+          <strong>Developer Note:</strong>
+          <br />
+          Component type "{component.type}" is a data-driven component and must
+          be handled by the application's top-level renderer.
+        </div>
+      )
+    }
     return null
   }
 
   return (
     <ComponentToRender
       id={component.id}
-      settings={component.settings}
+      settings={component.settings as any}
       action={component.action}
     >
-      {component.children?.map((childComponent) => (
-        <ComponentViewRenderer
-          key={childComponent.id}
-          component={childComponent}
-        />
+      {component.children?.map((child) => (
+        <ComponentViewRenderer key={child.id} component={child} />
       ))}
     </ComponentToRender>
   )

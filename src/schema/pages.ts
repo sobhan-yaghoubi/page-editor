@@ -14,18 +14,6 @@ export const PAGE_SCHEMAS: Record<string, PageSchema> = {
       Sections.SUBSCRIPTION_FORM,
     ],
   },
-  [Layouts.CONTACT]: {
-    type: "flexible",
-    name: "ContactPage",
-    canHaveFooter: false,
-    canHaveHeader: true,
-    allowedSections: [
-      Sections.PRODUCT_FEATURES,
-      Sections.RICH_TEXT,
-      Sections.SUBSCRIPTION_FORM,
-    ],
-  },
-
   [Layouts.PRODUCT]: {
     type: "fixed",
     name: "ProductPage",

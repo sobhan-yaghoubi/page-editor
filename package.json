@@ -31,6 +31,7 @@
   },
   "scripts": {
     "build": "vite build",
+    "type-check": "tsc --noEmit",
     "dev:build": "vite build --watch"
   },
   "repository": {

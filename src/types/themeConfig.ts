@@ -1,3 +1,5 @@
+import { CSSProperties } from "react"
+
 export interface ThemeColors {
   background: string
   headings: string
@@ -49,10 +51,30 @@ export interface ThemeColors {
 
 export interface ThemeTypography {
   fonts: {
-    body: string
-    subheading: string
-    heading: string
-    accent: string
+    body: {
+      path:
+        | Array<{ weight: number; url: string; format: string }>
+        | { url: string; format: string }
+      name: string
+    }
+    subheading: {
+      path:
+        | Array<{ weight: number; url: string; format: string }>
+        | { url: string; format: string }
+      name: string
+    }
+    heading: {
+      path:
+        | Array<{ weight: number; url: string; format: string }>
+        | { url: string; format: string }
+      name: string
+    }
+    accent: {
+      path:
+        | Array<{ weight: number; url: string; format: string }>
+        | { url: string; format: string }
+      name: string
+    }
   }
   paragraph: {
     size: number
@@ -146,3 +168,8 @@ export interface SelectorInfo {
   type: "element" | "class" | "id" | "pseudo" | "attribute"
   category?: "structure" | "typography" | "interactive" | "state"
 }
+
+export type StyleRecipeBook = Record<
+  string,
+  (theme: ThemeConfig) => CSSProperties
+>

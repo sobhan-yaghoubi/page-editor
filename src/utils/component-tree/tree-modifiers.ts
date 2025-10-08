@@ -5,6 +5,7 @@ import {
   ComponentData,
   ComponentType,
   PageSchema,
+  SettingsDefinition,
 } from "@/types"
 
 /**
@@ -137,10 +138,13 @@ export const createNewComponent = (componentType: ComponentType) => {
   const schema = COMPONENTS_SCHEMAS[componentType]
   if (!schema) return null
 
-  const settings = schema.defaultSettings.reduce((acc, setting) => {
-    acc[setting.key] = setting.defaultValue
-    return acc
-  }, {} as Record<string, any>)
+  const settings = schema.defaultSettings.reduce(
+    (acc, setting: SettingsDefinition) => {
+      acc[setting.key] = setting.defaultValue
+      return acc
+    },
+    {} as Record<string, any>
+  )
 
   const action: ActionDefinition | undefined = schema.action
 

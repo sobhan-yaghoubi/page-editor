@@ -4,7 +4,9 @@ import { EditorDocument } from "@/types"
 /**
  * Get the active Document (header, page, or footer) from the editor state
  */
-export const getActiveDocument = (state: EditorState): EditorDocument => {
+export const getActiveDocument = (
+  state: Pick<EditorState, "activeContext" | "header" | "footer" | "activePage">
+): EditorDocument => {
   switch (state.activeContext) {
     case "header":
       return state.header

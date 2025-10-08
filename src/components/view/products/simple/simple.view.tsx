@@ -1,7 +1,7 @@
 import React from "react"
 import { ComponentProps } from "@/types"
-import { ProductFeatureSettings } from "@/schema/component/sections/featuredProducts.schema"
 import { Product } from "@/types/product"
+import { ProductFeatureSettings } from "@/schemas/components/products/simple/simple.schema"
 
 type FeaturedProductsLayoutProps = ComponentProps<
   ProductFeatureSettings,

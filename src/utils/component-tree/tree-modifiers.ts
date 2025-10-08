@@ -1,5 +1,5 @@
 import uuid from "@/lib/uuid"
-import { COMPONENTS_SCHEMAS } from "@/schema/blocks"
+import { COMPONENTS_SCHEMAS } from "@/schemas/shared/blocks"
 import {
   ActionDefinition,
   ComponentData,

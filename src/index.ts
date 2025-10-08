@@ -2,12 +2,12 @@ export * from "./types"
 export * from "./types/product"
 export * from "./types/themeConfig"
 
-export * from "./schema/enums"
-export * from "./schema/blocks"
-export * from "./schema/pages"
-export * from "./schema/global"
-export * from "./schema/groups"
-export * from "./schema/component"
+export * from "./schemas/shared/enums"
+export * from "./schemas/shared/blocks"
+export * from "./schemas/shared/pages"
+export * from "./schemas/shared/global"
+export * from "./schemas/shared/groups"
+export * from "./schemas/components/"
 
 export * from "./mock-data/page"
 

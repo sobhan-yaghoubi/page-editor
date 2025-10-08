@@ -6,7 +6,7 @@ import {
   ModuleUI,
   ProductBlocks,
   Sections,
-} from "@/schema/enums"
+} from "@/schemas/shared/enums"
 
 /**
  * Represents all possible types of a renderable component.

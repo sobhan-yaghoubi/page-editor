@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react"
 import { ComponentProps } from "@/types"
 import { useProduct } from "@/contexts/ProductContext"
 import { useRenderers } from "@/contexts/RenderContext"
-import { BasicBlocks } from "@/schema/enums"
+import { BasicBlocks } from "@/schemas/shared/enums"
 
 const ProductGalleryView = ({ settings }: ComponentProps) => {
   const renderers = useRenderers()

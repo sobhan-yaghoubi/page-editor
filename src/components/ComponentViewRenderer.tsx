@@ -1,6 +1,8 @@
 import { ComponentData } from "../types"
-import { COMPONENT_MAP } from "../configs/componentMap.view"
-import { CLIENT_ONLY_COMPONENTS } from "../configs/componentMap.view"
+import {
+  CLIENT_ONLY_COMPONENTS,
+  COMPONENT_MAP_VIEW,
+} from "../configs/component.registry"
 import { ClientComponentRenderer } from "./ComponentViewRenderer.client"
 
 export const ComponentViewRenderer = ({
@@ -12,7 +14,7 @@ export const ComponentViewRenderer = ({
     return <ClientComponentRenderer component={component} />
   }
 
-  const ComponentToRender = COMPONENT_MAP[component.type]
+  const ComponentToRender = COMPONENT_MAP_VIEW[component.type]
 
   if (!ComponentToRender) {
     if (process.env.NODE_ENV !== "production") {

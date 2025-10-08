@@ -3,7 +3,7 @@
 import React from "react"
 import clsx from "clsx"
 import { ComponentProps, Override } from "@/types"
-import { ButtonSettings } from "@/schema/component/basic/button.schema"
+import { ButtonSettings } from "@/schemas/components/basic/button/button.schema"
 
 export const Button = ({
   settings,

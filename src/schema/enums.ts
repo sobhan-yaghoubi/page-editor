@@ -97,5 +97,5 @@ export enum ProductBlocks {
   PRODUCT_DESCRIPTION = "PRODUCT_DESCRIPTION",
 
   /** Represents a button to add the product to the shopping cart. */
-  ADD_TO_CART_BUTTON = "ADD_TO_CART_BUTTON",
+  PRODUCT_ADD_TO_CART_BUTTON = "PRODUCT_ADD_TO_CART_BUTTON",
 }

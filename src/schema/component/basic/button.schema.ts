@@ -6,7 +6,7 @@ import {
 } from "@/types"
 import { SquareMousePointerIcon } from "lucide-react"
 
-const settings: SettingsDefinition[] = [
+const settings = [
   {
     key: "text",
     label: "Button Text",
@@ -52,7 +52,7 @@ const settings: SettingsDefinition[] = [
     defaultValue: false,
     section: "mobile",
   },
-]
+] as const satisfies readonly SettingsDefinition[]
 
 export type ButtonSettings = SettingsFromSchema<typeof settings>
 

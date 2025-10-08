@@ -94,60 +94,6 @@ export const EXAMPLE_HOME_PAGE_COMPONENTS: PageData["components"] = [
   },
 ]
 
-export const EXAMPLE_CONTACT_PAGE_COMPONENTS: PageData["components"] = [
-  {
-    id: "hero-2",
-    type: Sections.HERO_SECTION,
-    settings: {
-      backgroundColor: "#f8f9fa",
-      textAlignment: "center",
-      padding: "large",
-      layout: "stacked",
-    },
-    children: [
-      {
-        id: "hero-heading-2",
-        type: BasicBlocks.HEADING,
-        settings: {
-          text: "Welcome to Our Store",
-          level: "h1",
-          color: "#333333",
-        },
-      },
-      {
-        id: "hero-text-2",
-        type: BasicBlocks.TEXT,
-        settings: {
-          content: "Discover amazing products at unbeatable prices.",
-          fontSize: "large",
-          color: "#666666",
-        },
-      },
-      {
-        id: "hero-button-2",
-        type: BasicBlocks.BUTTON,
-        settings: {
-          text: "Shop Now",
-          url: "/products",
-          style: "primary",
-          size: "lg",
-        },
-      },
-    ],
-  },
-  {
-    id: "features-2",
-    type: Sections.PRODUCT_FEATURES,
-    settings: {
-      title: "Why Choose Us?",
-      showTitle: true,
-      layout: "grid",
-      columns: 3,
-    },
-    children: [],
-  },
-]
-
 export const EXAMPLE_HEADER_COMPONENTS: PageData["components"] = [
   {
     id: "hero-text-header-1",
@@ -231,7 +177,7 @@ export const EXAMPLE_PRODUCT_PAGE_COMPONENTS: PageData["components"] = [
       },
       {
         id: "prod-add-to-cart-abc",
-        type: ProductBlocks.ADD_TO_CART_BUTTON,
+        type: ProductBlocks.PRODUCT_ADD_TO_CART_BUTTON,
         slotName: "addToCart",
         settings: {
           inStockText: "Add to Bag",

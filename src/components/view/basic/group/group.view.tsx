@@ -1,6 +1,6 @@
 import { CSSProperties } from "react"
-import { GroupSettings } from "@/schema/component/basic/group.schema"
 import { ComponentProps, Override } from "@/types"
+import { GroupSettings } from "@/schemas/components/basic/group/group.schema"
 
 const GroupView = ({
   settings,

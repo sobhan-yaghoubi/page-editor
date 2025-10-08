@@ -1,6 +1,6 @@
-import { COMPONENTS_SCHEMAS } from "@/schema/blocks"
-import { GLOBAL_SCHEMAS } from "@/schema/global"
-import { PAGE_SCHEMAS } from "@/schema/pages"
+import { COMPONENTS_SCHEMAS } from "@/schemas/shared/blocks"
+import { GLOBAL_SCHEMAS } from "@/schemas/shared/global"
+import { PAGE_SCHEMAS } from "@/schemas/shared/pages"
 import {
   ComponentData,
   ComponentSchema,

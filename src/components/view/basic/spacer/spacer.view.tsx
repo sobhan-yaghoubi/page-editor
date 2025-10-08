@@ -1,7 +1,7 @@
 import { useId } from "react"
-import { SpacerSettings } from "@/schema/component/basic/spacer.schema"
 import { ComponentProps, Override } from "@/types"
 import { toSize } from "@/utils/components"
+import { SpacerSettings } from "@/schemas/components/basic/spacer/spacer.schema"
 
 type Props = Override<ComponentProps, "settings", SpacerSettings>
 

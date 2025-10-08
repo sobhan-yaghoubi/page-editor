@@ -6,7 +6,7 @@ import {
   ModuleUI,
   ProductBlocks,
   Sections,
-} from "@/schema/enums"
+} from "@/schemas/shared/enums"
 
 /**
  * Represents all possible types of a renderable component.
@@ -421,3 +421,17 @@ export type SettingsFromSchema<T extends readonly { key: string }[]> = {
  * @type Override
  */
 export type Override<T, K extends keyof T, U> = Omit<T, K> & { [P in K]: U }
+
+/**
+ * Describes a function that fetches data for a dynamic setting.
+ * It must return a promise that resolves to an array of label/value pairs.
+ */
+export type DataLoader = () => Promise<
+  { label: string; value: string | number }[]
+>
+
+/**
+ * A map of semantic source keys (e.g., 'productCollections') to their
+ * corresponding data loader functions. The application will provide this.
+ */
+export type DataLoaderMap = Record<string, DataLoader>

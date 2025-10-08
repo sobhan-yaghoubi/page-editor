@@ -1,7 +1,7 @@
 "use client"
 
+import { COMPONENT_MAP_VIEW } from "@/editor"
 import { ComponentData } from "../types"
-import { COMPONENT_MAP } from "../configs/componentMap.view"
 
 interface ClientComponentRendererProps {
   component: ComponentData
@@ -10,7 +10,7 @@ interface ClientComponentRendererProps {
 export const ClientComponentRenderer = ({
   component,
 }: ClientComponentRendererProps) => {
-  const ComponentToRender = COMPONENT_MAP[component.type]
+  const ComponentToRender = COMPONENT_MAP_VIEW[component.type]
 
   if (!ComponentToRender) {
     return <div>[Client] Unknown Component: {component.type}</div>

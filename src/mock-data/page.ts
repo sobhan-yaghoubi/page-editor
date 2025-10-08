@@ -1,4 +1,4 @@
-import { BasicBlocks, ProductBlocks, Sections } from "@/schema/enums"
+import { BasicBlocks, ProductBlocks, Sections } from "@/schemas/shared/enums"
 import { PageData } from "@/types"
 
 export const EXAMPLE_HOME_PAGE_COMPONENTS: PageData["components"] = [

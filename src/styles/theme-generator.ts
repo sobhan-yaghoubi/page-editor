@@ -3,16 +3,30 @@ import {
   ThemeTypography,
   ComponentCustomCSS,
 } from "@/types/themeConfig"
+import { styleObjectToCssString } from "@/styles/theme-helper"
+import { createStyleDefinitions } from "."
 
 /**
- * Utilities for generating theme-driven CSS artifacts (variables, base CSS,
- * component overrides, and Google Font imports) from a `ThemeConfig`
+ * Utilities for generating theme-driven CSS artifacts (root variables, base CSS,
+ * per-component overrides, and font-face declarations) from a {@link ThemeConfig}.
+ *
+ * @example
+ * const css = ThemeCSSGenerator.generateCSS(themeConfig)
+ * Inject `css` into a <style> tag or your CSS pipeline.
  */
 export class ThemeCSSGenerator {
   /**
-   * Build a CSS `:root` block with custom properties derived from the theme colors
-   * and typography settings. These variables are intended to be consumed by the
-   * generated styles and your app’s components
+   * Build a `:root` block with CSS custom properties derived from the theme’s
+   * color palette and typography settings. These variables are consumed by the
+   * generated styles and your application components.
+   *
+   * @param { ThemeConfig } theme - The full theme configuration.
+   * @returns { string } A CSS string containing a `:root { ... }` block.
+   *
+   * @example
+   * const vars = ThemeCSSGenerator.generateCssVariables(theme)
+   * ->
+   * ":root { --color-background: #fff; --paragraph-size: 16px; ... }"
    */
   static generateCssVariables(theme: ThemeConfig) {
     const { colors, typography } = theme
@@ -53,9 +67,9 @@ export class ThemeCSSGenerator {
         --input-bg-hover: ${colors.inputs.hoverBackground};
         
         /* --- Typography Fonts --- */
-        --font-body: "${typography.fonts.body}", sans-serif;
-        --font-heading: "${typography.fonts.heading}", sans-serif;
-        --font-accent: "${typography.fonts.accent}", sans-serif;
+        --font-body: "${typography.fonts.body.name}", sans-serif;
+        --font-heading: "${typography.fonts.heading.name}", sans-serif;
+        --font-accent: "${typography.fonts.accent.name}", sans-serif;
         
         /* --- Paragraph --- */
         --paragraph-size: ${typography.paragraph.size}px;
@@ -97,101 +111,48 @@ export class ThemeCSSGenerator {
   }
 
   /**
-   * Produce the baseline CSS that wires the previously generated variables into
-   * usable styles for the editor scope (body, headings, links, buttons), and
-   * appends any custom CSS defined on the theme
+   * Produce the baseline CSS rules by wiring the previously generated variables
+   * into usable styles (e.g., body, headings, links, buttons). Any custom CSS
+   * defined on the theme is appended at the end.
+   *
+   * @param { ThemeConfig } theme - The theme configuration driving the style recipes.
+   * @returns { string } A CSS string with concrete rules (selectors and declarations).
+   *
    */
   static generateCSS(theme: ThemeConfig): string {
-    const { typography } = theme
+    let finalCss = ""
 
-    return `
-      /* --- Base HTML & Body Styles --- */
-      .editor-theme-scope {
-        background-color: var(--theme-color-background);
-        color: var(--theme-color-text);
-        font-family: var(--theme-font-body);
-        font-size: var(--theme-paragraph-size);
-        line-height: var(--theme-paragraph-line-height);
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-      }
-        
-      /* --- Headings --- */
-      ${Object.keys(typography.headings)
-        .map(
-          (level) => `${level} {
-        font-family: var(--theme-${level}-font);
-        font-size: var(--theme-${level}-size);
-        line-height: var(--theme-${level}-line-height);
-        letter-spacing: var(--theme-${level}-letter-spacing);
-        text-transform: var(--theme-${level}-case);
-        color: var(--theme-color-headings);
-      }`
-        )
-        .join("\n")}
-      
-      /* --- Links --- */
-      a {
-        color: var(--theme-color-links);
-        text-decoration: none;
-        transition: color 0.2s ease-in-out;
-      }
-      a:hover {
-        color: var(--theme-color-links-hover);
-      }
-      
-      /* --- Buttons style --- */
-      .btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0.75rem 1.5rem; /* Example padding */
-        font-size: 1rem;
-        cursor: pointer;
-        text-decoration: none;
-        transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-      }
-      
-      /* --- Primary Button Style --- */
-      .btn-primary {
-        background-color: var(--btn-primary-bg);
-        color: var(--btn-primary-text);
-        border: var(--btn-primary-border-width) solid var(--btn-primary-border-color);
-        border-radius: var(--btn-primary-radius);
-        font-family: var(--btn-primary-font);
-        font-weight: var(--btn-primary-weight);
-      }
-      .btn-primary:hover {
-        background-color: var(--btn-primary-bg-hover);
-        color: var(--btn-primary-text-hover);
-        border-color: var(--btn-primary-border-color-hover);
-      }
-      
-      /* --- Second Button Style --- */
-      .btn-secondary {
-        background-color: var(--btn-secondary-bg);
-        color: var(--btn-secondary-text);
-        border: var(--btn-secondary-border-width) solid var(--btn-secondary-border-color);
-        border-radius: var(--btn-secondary-radius);
-        font-family: var(--btn-secondary-font);
-        font-weight: var(--btn-secondary-weight);
-      }
-      
-      .btn-secondary:hover {
-        background-color: var(--btn-secondary-bg-hover);
-        color: var(--btn-secondary-text-hover);
-        border-color: var(--btn-secondary-border-color-hover);
-      }
-      
-      /* --- Custom Css Styles --- */
-      ${theme.customCSS || ""}
+    const styleRecipes = createStyleDefinitions(theme)
 
-`.trim()
+    for (const selector in styleRecipes) {
+      const styleFunction = styleRecipes[selector]
+      const styleObject = styleFunction(theme)
+      const cssProperties = styleObjectToCssString(styleObject)
+      finalCss += `${selector} {\n${cssProperties}\n}\n\n`
+    }
+
+    if (theme.customCSS) {
+      finalCss += `/* --- Custom User CSS --- */\n${theme.customCSS}\n`
+    }
+
+    return finalCss
   }
 
   /**
-   * Generate component-scoped custom CSS for a specific component instance.
-   * If no custom CSS is provided for the component, returns an empty string
+   * Generate component-scoped CSS for a specific component instance.
+   * If no custom CSS exists for the component, returns an empty string.
+   *
+   * @param { ComponentCustomCSS } componentCSS - The component’s custom CSS payload.
+   * @param { string } componentSelector - The CSS selector that targets the component instance.
+   * @returns { string } A CSS rule block (or an empty string if no CSS provided).
+   *
+   * @example
+   * ThemeCSSGenerator.generateComponentCSS(
+   *   { componentId: "card-1", css: "padding: 1rem;" },
+   *   ".card[data-id='card-1']"
+   * )
+   * ->
+   * "/* Custom CSS for component card-1 \n.card[data-id='card-1'] { padding: 1rem; }"
    */
   static generateComponentCSS(
     componentCSS: ComponentCustomCSS,
@@ -207,10 +168,18 @@ export class ThemeCSSGenerator {
   }
 
   /**
-   * Generate full css scope for all theme and components
-   * @param themeConfig
-   * @param scopeName
-   * @returns an string scopedCss
+   * Generate a full CSS scope for the given theme and a scope name.
+   * This includes font-face declarations, CSS variables, and the base CSS,
+   * wrapped for use under a given scope (e.g., a class applied to an editor root).
+   *
+   * @param { ThemeConfig } themeConfig - The theme to serialize to CSS.
+   * @param { string } scopeName - The class name to scope styles under (without the leading dot).
+   * @returns { string } A single CSS string containing font faces, variables, and scoped rules.
+   *
+   * @example
+   * const css = ThemeCSSGenerator.generateCssScope(theme, "editor-scope")
+   * ->
+   * "@font-face {...}\n:root {...}\n.editor-scope { ... }"
    */
   static generateCssScope(themeConfig: ThemeConfig, scopeName: string) {
     const fontImportUrl = this.generateFontImports(themeConfig.typography)
@@ -232,8 +201,16 @@ export class ThemeCSSGenerator {
   }
 
   /**
-   * Build a Google Fonts `@import` statement for all unique fonts referenced
-   * by the theme’s typography (body, heading, accent, subheading)
+   * Build `@font-face` declarations for all unique fonts referenced by the theme’s
+   * typography (body, heading, accent, subheading).
+   *
+   * @param { ThemeTypography } typography - Typography configuration with font metadata and file paths.
+   * @returns { string } A CSS string containing one or more `@font-face` rules (or an empty string if none).
+   *
+   * @example
+   * const faces = ThemeCSSGenerator.generateFontImports(theme.typography)
+   * ->
+   * "@font-face { font-family: Inter; font-style: normal; font-weight: 400; ... }"
    */
   static generateFontImports(typography: ThemeTypography): string {
     const uniqueFonts = new Set([
@@ -248,20 +225,34 @@ export class ThemeCSSGenerator {
     }
 
     const fontFamilies = Array.from(uniqueFonts)
-      .map(
-        (font) =>
-          `${font.replace(
-            /\s+/g,
-            "+"
-          )}:wght@100;200;300;400;500;600;700;800;900`
+      .map((font) =>
+        Object.entries(font.path)
+          .map(
+            (fontPath) => `
+            @font-face {  
+              font-family: ${font.name};
+              font-style: normal;
+              font-weight: ${fontPath[1].weight};
+              font-display: swap;
+              src : url("${fontPath[1].url}") format("${fontPath[1].format}") 
+            }`
+          )
+          .join(" ")
       )
-      .join("&family=")
+      .join(" ")
 
-    return `@import url('https://fonts.googleapis.com/css2?family=${fontFamilies}&display=swap');`
+    return fontFamilies
   }
 
   /**
-   * Translate a semantic line-height token into a numeric CSS line-height
+   * Translate a semantic line-height token into a numeric CSS line-height.
+   *
+   * @param { "tight" | "normal" | "loose" } value - Semantic token for line-height.
+   * @returns { string } The numeric CSS line-height (e.g., `"1.25"`).
+   *
+   * @example
+   * "1.5"
+   * ThemeCSSGenerator["getLineHeight"]("normal")
    */
   private static getLineHeight(value: "tight" | "normal" | "loose"): string {
     switch (value) {
@@ -276,7 +267,14 @@ export class ThemeCSSGenerator {
   }
 
   /**
-   * Translate a semantic letter-spacing token into a CSS letter-spacing value
+   * Translate a semantic letter-spacing token into a CSS `letter-spacing` value.
+   *
+   * @param { "tight" | "normal" | "loose" } value - Semantic token for letter-spacing.
+   * @returns { string } The CSS letter-spacing value (e.g., `"-0.025em"`).
+   *
+   * @example
+   *"0"
+   * ThemeCSSGenerator["getLetterSpacing"]("normal")
    */
   private static getLetterSpacing(value: "tight" | "normal" | "loose"): string {
     switch (value) {

@@ -15,7 +15,7 @@ const ProductAddToCartButtonEditor = ({ settings }: ComponentProps) => {
   })
 
   return (
-    <button disabled className={buttonClassName}>
+    <button className={buttonClassName}>
       {buttonText}
     </button>
   )

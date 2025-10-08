@@ -42,9 +42,6 @@ export const SubscriptionForm = ({ settings, children }: ComponentProps) => {
         <UIButton size="default">
           <MoveRightIcon />
         </UIButton> */}
-        <Button id={uuid()} settings={{}}>
-          <MoveRightIcon />
-        </Button>
       </div>
     </div>
   )

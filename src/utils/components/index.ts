@@ -27,3 +27,6 @@ export function formatCurrency(
     }).format(amount)
   }
 }
+
+export const toSize = (val: number, unit: "px" | "%") =>
+  `${Math.max(0, val)}${unit}`

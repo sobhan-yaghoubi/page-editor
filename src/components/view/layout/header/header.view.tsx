@@ -1,6 +1,7 @@
+import { ComponentProps } from "@/types"
 import React from "react"
 
-const Header = ({ children }: { children: React.ReactNode }) => {
+const Header = ({ children }: ComponentProps) => {
   return (
     <div>
       <p>HEADER</p>

@@ -1,19 +1,13 @@
 "use client"
 
 import React from "react"
-import { ComponentProps } from "@/types"
 import clsx from "clsx"
+import { ComponentProps, Override } from "@/types"
+import { ButtonSettings } from "@/schema/component/basic/button.schema"
 
-interface ButtonSettings {
-  style?: "primary" | "secondary" | "outline"
-  size?: "sm" | "md" | "lg"
-  text?: string
-  url?: string
-}
-
-export const Button = ({ settings: genericSettings }: ComponentProps) => {
-  const settings = genericSettings as ButtonSettings
-
+export const Button = ({
+  settings,
+}: Override<ComponentProps, "settings", ButtonSettings>) => {
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
   }

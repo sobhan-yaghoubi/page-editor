@@ -1,7 +1,7 @@
 import { create } from "zustand"
 import { ThemeConfig } from "@/types/themeConfig"
 import { THEME_SETTINGS_SCHEMA } from "../configs/theme"
-import { generateDefaultThemeConfig } from "@/utils/theme/theme-helpers"
+import { generateDefaultThemeConfig } from "@/styles/theme-helper"
 import { set } from "lodash"
 
 type ThemeState = {

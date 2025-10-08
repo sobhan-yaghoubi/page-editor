@@ -1,6 +1,6 @@
 {
   "name": "@sobhan.yaghoubi/page-editor",
-  "version": "0.1.21",
+  "version": "0.1.25",
   "description": "A powerful, schema-driven page-editor for React and Next.js.",
   "author": "sobhan yaghoubi",
   "license": "ISC",
@@ -31,6 +31,7 @@
   },
   "scripts": {
     "build": "vite build",
+    "type-check": "tsc --noEmit",
     "dev:build": "vite build --watch"
   },
   "repository": {

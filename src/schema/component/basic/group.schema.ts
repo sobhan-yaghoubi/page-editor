@@ -1,0 +1,267 @@
+import { BasicBlocks } from "@/schema/enums"
+import {
+  ComponentSchema,
+  SettingsDefinition,
+  SettingsFromSchema,
+} from "@/types"
+import { MaximizeIcon } from "lucide-react"
+
+const settings = [
+  {
+    section: "Layout",
+    key: "group-direction",
+    label: "Direction",
+    type: "select",
+    options: [
+      { label: "Vertical", value: "vertical" },
+      { label: "Horizontal", value: "horizontal" },
+    ],
+    defaultValue: "horizontal",
+  },
+  {
+    section: "Layout",
+    key: "group-direction-vertical-on-mobile",
+    label: "Vertical on mobile",
+    type: "boolean",
+    defaultValue: false,
+    condition: {
+      key: "group-direction",
+      value: "horizontal",
+    },
+  },
+  {
+    section: "Layout",
+    key: "group-alignment",
+    label: "Alignment",
+    type: "select",
+    options: [
+      {
+        label: "Left",
+        value: "left",
+      },
+      { label: "Center", value: "center" },
+      {
+        label: "Right",
+        value: "right",
+      },
+      {
+        label: "Space between",
+        value: "space-between",
+        condition: {
+          key: "group-direction",
+          value: "horizontal",
+        },
+      },
+    ],
+    defaultValue: "center",
+  },
+  {
+    section: "Layout",
+    key: "group-position",
+    label: "Position",
+    type: "select",
+    options: [
+      {
+        label: "Top",
+        value: "top",
+      },
+      { label: "Center", value: "center" },
+      {
+        label: "Bottom",
+        value: "bottom",
+      },
+      {
+        label: "Space between",
+        value: "space-between",
+        condition: {
+          key: "group-direction",
+          value: "vertical",
+        },
+      },
+    ],
+    defaultValue: "center",
+  },
+  {
+    section: "Layout",
+    key: "group-layout-gap",
+    label: "Gap",
+    type: "range",
+    max: 100,
+    min: 0,
+    defaultValue: 14,
+    unit: "px",
+    step: 1,
+  },
+
+  {
+    section: "Size",
+    label: "Width",
+    key: "group-size-width",
+    type: "select",
+    options: [
+      { label: "Fit", value: "fit" },
+      { label: "Fill", value: "fill" },
+      { label: "Custom", value: "custom" },
+    ],
+    defaultValue: "fill",
+  },
+  {
+    section: "Size",
+    label: "Custom width",
+    key: "group-size-width-custom",
+    type: "range",
+    min: 0,
+    max: 100,
+    unit: "%",
+    step: 1,
+    condition: { key: "group-size-width", value: "custom" },
+  },
+
+  {
+    section: "Size",
+    label: "Mobile Width",
+    key: "group-size-mobile-width",
+    type: "select",
+    options: [
+      { label: "Fit", value: "fit" },
+      { label: "Fill", value: "fill" },
+      { label: "Custom", value: "custom" },
+    ],
+    defaultValue: "fill",
+  },
+  {
+    section: "Size",
+    label: "Custom width",
+    key: "group-size-mobile-width-custom",
+    type: "range",
+    min: 0,
+    max: 100,
+    unit: "%",
+    step: 1,
+    condition: { key: "group-size-mobile-width", value: "custom" },
+  },
+
+  {
+    section: "Size",
+    label: "Height",
+    key: "group-size-height",
+    type: "select",
+    options: [
+      { label: "Fit", value: "fit" },
+      { label: "Fill", value: "fill" },
+      { label: "Custom", value: "custom" },
+    ],
+    defaultValue: "fit",
+  },
+  {
+    section: "Size",
+    label: "Custom width",
+    key: "group-size-height-custom",
+    type: "range",
+    min: 0,
+    max: 100,
+    unit: "%",
+    step: 1,
+    condition: { key: "group-size-height", value: "custom" },
+  },
+
+  {
+    section: "Appearance",
+    label: "Borders",
+    key: "group-appearance-border",
+    type: "select",
+    options: [
+      { label: "None", value: "none" },
+      { label: "Solid", value: "solid" },
+    ],
+  },
+  {
+    section: "Appearance",
+    label: "Border thickness",
+    key: "group-appearance-border-thickness",
+    type: "range",
+    min: 0,
+    max: 10,
+    unit: "px",
+    defaultValue: 1,
+    step: 1,
+    condition: { key: "group-appearance-border", value: "solid" },
+  },
+  {
+    section: "Appearance",
+    label: "Border opacity",
+    key: "group-appearance-border-opacity",
+    type: "range",
+    min: 0,
+    max: 100,
+    unit: "%",
+    defaultValue: 100,
+    step: 1,
+    condition: { key: "group-appearance-border", value: "solid" },
+  },
+  {
+    section: "Appearance",
+    label: "Corner radius",
+    key: "group-appearance-",
+    type: "range",
+    max: 100,
+    min: 0,
+    unit: "px",
+    step: 1,
+    defaultValue: 0,
+  },
+
+  {
+    section: "Padding",
+    key: "group-padding-top",
+    label: "Top",
+    type: "range",
+    min: 0,
+    max: 100,
+    unit: "px",
+    step: 1,
+  },
+  {
+    section: "Padding",
+    key: "group-padding-bottom",
+    label: "Bottom",
+    type: "range",
+    min: 0,
+    max: 100,
+    unit: "px",
+    step: 1,
+  },
+  {
+    section: "Padding",
+    key: "group-padding-left",
+    label: "Left",
+    type: "range",
+    min: 0,
+    max: 100,
+    unit: "px",
+    step: 1,
+  },
+  {
+    section: "Padding",
+    key: "group-padding-right",
+    label: "Right",
+    type: "range",
+    min: 0,
+    max: 100,
+    unit: "px",
+    step: 1,
+  },
+] as const satisfies readonly SettingsDefinition[]
+
+export type GroupSettings = SettingsFromSchema<typeof settings>
+
+export const GROUP_SCHEMA: ComponentSchema = {
+  type: BasicBlocks.GROUP,
+  icon: MaximizeIcon,
+  label: "Group",
+  category: "block",
+  isDraggable: true,
+  allowedParents: "*",
+  allowedChildren: "*",
+  defaultSettings: settings,
+}

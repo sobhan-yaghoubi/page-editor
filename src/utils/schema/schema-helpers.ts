@@ -1,7 +1,12 @@
 import { COMPONENTS_SCHEMAS } from "@/schema/blocks"
 import { GLOBAL_SCHEMAS } from "@/schema/global"
 import { PAGE_SCHEMAS } from "@/schema/pages"
-import { ComponentData, ComponentSchema } from "@/types"
+import {
+  ComponentData,
+  ComponentSchema,
+  SettingCondition,
+  SettingSimpleCondition,
+} from "@/types"
 
 /**
  * Gets the list of available components that can be added to a parent
@@ -97,4 +102,42 @@ export function isMoveValid(draggedType: string, targetType: string): boolean {
       draggedSchema.allowedParents.some((parent) => parent === targetType))
 
   return parentApproval && childApproval
+}
+
+export function evaluateCondition(
+  condition: SettingCondition | undefined,
+  currentSetting: Record<string, any>
+): boolean {
+  if (!condition) return true
+
+  if ("AND" in condition) {
+    return condition.AND.every((subCondition) =>
+      evaluateCondition(subCondition, currentSetting)
+    )
+  }
+
+  if ("OR" in condition) {
+    return condition.OR.every((subCondition) =>
+      evaluateCondition(subCondition, currentSetting)
+    )
+  }
+
+  const simpleCondition = condition as SettingSimpleCondition
+  const dependentValue = currentSetting[simpleCondition.key]
+  const conditionValue = simpleCondition.value
+
+  switch (simpleCondition.operator) {
+    case "notEqual":
+      return dependentValue !== conditionValue
+
+    case "greaterThan":
+      return Number(dependentValue) > Number(conditionValue)
+
+    case "lessThan":
+      return Number(dependentValue) < Number(conditionValue)
+
+    case "equals":
+    default:
+      return dependentValue === conditionValue
+  }
 }

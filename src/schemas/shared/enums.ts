@@ -17,6 +17,15 @@ export enum Layouts {
 
   /** Represents a layout for user-specific pages (e.g., account or settings). */
   USER_PAGES = "pages",
+
+  /** Represents the cart page layout. */
+  CART = "cart",
+
+  /** Represents the product list page layout. */
+  PRODUCT_LIST = "product-list",
+
+  /** Represents the search page layout. */
+  SEARCH = "search",
 }
 
 /**
@@ -41,6 +50,9 @@ export enum Sections {
 
   /** Represents a section that contains a subscription form. */
   SUBSCRIPTION_FORM = "SUBSCRIPTION_FORM",
+
+  /** Represents a section that contains a banner */
+  BANNER = "BANNER",
 }
 
 /**
@@ -65,6 +77,18 @@ export enum BasicBlocks {
 
   /** Represents a group block, used to group multiple elements together. */
   GROUP = "GROUP",
+
+  APP_COMPONENT_SLOT = "APP_COMPONENT_SLOT",
+}
+
+export enum AppComponents {
+  HEADER_CART_ICON = "HEADER_CART_ICON",
+  HEADER_USER_PROFILE = "HEADER_USER_PROFILE",
+  HEADER_SEARCH_BAR = "HEADER_SEARCH_BAR",
+  HEADER_WISHLIST_ICON = "HEADER_WISHLIST_ICON",
+  HEADER_MAIN_NAVIGATION = "HEADER_MAIN_NAVIGATION",
+
+  CART_SUMMARY = "CART_SUMMARY",
 }
 
 /**
@@ -73,7 +97,16 @@ export enum BasicBlocks {
  */
 export enum ModuleUI {
   /** Represents a product box UI component, which showcases a product in a boxed format. */
-  PRODUCT_BOX = "PRODUCT_BOX",
+  PRODUCT_CARD = "PRODUCT_CARD",
+}
+
+/**
+ * Defines the types for template UI components.
+ */
+export enum TemplateUI {
+  BRAND_FEATURES = "BRANDS_FEATURE",
+  BEST_COMMENTS = "BEST_COMMENTS",
+  BLOG_FEATURES = "BLOG_FEATURES",
 }
 
 /**

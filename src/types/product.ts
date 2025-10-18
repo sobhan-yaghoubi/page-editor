@@ -38,5 +38,10 @@ export interface ProductActions {
    * @param payload - The data for the item to add.
    * @returns A Promise that resolves when the action is complete.
    */
-  onAddToCart: (payload: AddToCartPayload) => Promise<void>
+  onAddToCart: (payload: AddToCartPayload) => Promise<void> | void
 }
+
+export type ProductCard = Pick<
+  Product,
+  "id" | "currency" | "images" | "inStock" | "name" | "price" | "sku"
+>

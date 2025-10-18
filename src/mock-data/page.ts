@@ -1,4 +1,9 @@
-import { BasicBlocks, ProductBlocks, Sections } from "@/schemas/shared/enums"
+import {
+  BasicBlocks,
+  ModuleUI,
+  ProductBlocks,
+  Sections,
+} from "@/schemas/shared/enums"
 import { PageData } from "@/types"
 
 export const EXAMPLE_HOME_PAGE_COMPONENTS: PageData["components"] = [
@@ -41,7 +46,64 @@ export const EXAMPLE_HOME_PAGE_COMPONENTS: PageData["components"] = [
       layout: "grid",
       columns: 3,
     },
-    children: [],
+    children: [
+      {
+        id: "",
+        type: ModuleUI.PRODUCT_CARD,
+        slotName: "productCartLayout",
+        settings: {
+          backgroundColor: "#FFFFFF",
+          borderRadius: 12,
+        },
+        children: [
+          {
+            id: "card-image-1",
+            type: ProductBlocks.PRODUCT_GALLERY,
+            settings: {
+              aspectRatio: "1/1",
+              fit: "contain",
+            },
+          },
+
+          {
+            id: "card-title-1",
+            type: ProductBlocks.PRODUCT_TITLE,
+            settings: {
+              tag: "h3",
+              fontSize: "medium",
+            },
+          },
+
+          {
+            id: "card-price-1",
+            type: ProductBlocks.PRODUCT_PRICE,
+            settings: {
+              fontSize: "small",
+              color: "#333333",
+            },
+          },
+
+          {
+            id: "card-spacer-1",
+            type: BasicBlocks.SPACER,
+            settings: {
+              height: 16,
+            },
+          },
+
+          {
+            id: "card-add-to-cart-1",
+            type: ProductBlocks.PRODUCT_ADD_TO_CART_BUTTON,
+            settings: {
+              inStockText: "Add to Cart",
+              outOfStockText: "Sold Out",
+              style: "primary",
+              width: "full",
+            },
+          },
+        ],
+      },
+    ],
   },
 
   {

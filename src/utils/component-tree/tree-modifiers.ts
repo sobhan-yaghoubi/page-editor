@@ -4,6 +4,7 @@ import {
   ActionDefinition,
   ComponentData,
   ComponentType,
+  DefaultChild,
   PageSchema,
   SettingsDefinition,
 } from "@/types"
@@ -134,7 +135,10 @@ export function addComponentAtIndex(
 /**
  * Creates a new component instance based on its schema, populating default settings
  */
-export const createNewComponent = (componentType: ComponentType) => {
+export const createNewComponent = (
+  componentType: ComponentType,
+  overrides?: DefaultChild
+) => {
   const schema = COMPONENTS_SCHEMAS[componentType]
   if (!schema) return null
 
@@ -156,6 +160,25 @@ export const createNewComponent = (componentType: ComponentType) => {
     action,
   }
 
+  let childrenToCreate: DefaultChild[] | undefined
+
+  if (overrides?.children) {
+    childrenToCreate = overrides.children
+  } else if (schema.slots) {
+    childrenToCreate = Object.entries(schema.slots).map(([_, slotDef]) => ({
+      type: slotDef.component,
+    }))
+  } else if (schema.defaultChildren) {
+    childrenToCreate = schema.defaultChildren
+  }
+
+  if (childrenToCreate) {
+    newComponent.children = childrenToCreate
+      .map((childDef) => {
+        return createNewComponent(childDef.type, childDef)
+      })
+      .filter((c): c is ComponentData => !!c)
+  }
   return newComponent
 }
 

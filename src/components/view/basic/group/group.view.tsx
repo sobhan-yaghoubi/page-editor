@@ -1,4 +1,4 @@
-import { CSSProperties } from "react"
+import React, { CSSProperties } from "react"
 import { ComponentProps, Override } from "@/types"
 import { GroupSettings } from "@/schemas/components/basic/group/group.schema"
 
@@ -27,6 +27,8 @@ const GroupView = ({
     "group-padding-left": paddingLeft,
     "group-padding-right": paddingRight,
   } = settings
+
+  const childCount = React.Children.count(children)
 
   const getAlignItems = () => {
     if (direction === "horizontal") {
@@ -79,65 +81,37 @@ const GroupView = ({
     return "fit-content"
   }
 
-  const baseStyle: CSSProperties = {
-    display: "flex",
-    flexDirection: direction === "vertical" ? "column" : "row",
-    alignItems: getAlignItems(),
-    justifyContent: getJustifyContent(),
-    gap: `${gap}px`,
-    width: getWidth(true),
-    height: getHeight(),
-    paddingTop: paddingTop !== undefined ? `${paddingTop}px` : undefined,
-    paddingBottom:
+  const style: CSSProperties = {
+    ["--group-flex-direction" as any]:
+      direction === "vertical" ? "column" : "row",
+    ["--group-align-items" as any]: getAlignItems(),
+    ["--group-justify-content" as any]: getJustifyContent(),
+    ["--group-gap" as any]: `${gap}px`,
+    ["--group-width" as any]: getWidth(true),
+    ["--group-height" as any]: getHeight(),
+    ["--group-padding-top" as any]:
+      paddingTop !== undefined ? `${paddingTop}px` : undefined,
+    ["--group-padding-bottom" as any]:
       paddingBottom !== undefined ? `${paddingBottom}px` : undefined,
-    paddingLeft: paddingLeft !== undefined ? `${paddingLeft}px` : undefined,
-    paddingRight: paddingRight !== undefined ? `${paddingRight}px` : undefined,
-    borderRadius: `${cornerRadius}px`,
-    border:
+    ["--group-padding-left" as any]:
+      paddingLeft !== undefined ? `${paddingLeft}px` : undefined,
+    ["--group-padding-right" as any]:
+      paddingRight !== undefined ? `${paddingRight}px` : undefined,
+    ["--group-border-radius" as any]: `${cornerRadius}px`,
+    ["--group-border" as any]:
       border === "solid"
         ? `${borderThickness}px solid rgba(0, 0, 0, ${borderOpacity / 100})`
         : "none",
-    boxSizing: "border-box",
-  }
-
-  const mobileStyle: CSSProperties = {
-    flexDirection:
+    ["--group-cols" as any]: childCount === 2 ? "2" : undefined,
+    ["--group-mobile-flex-direction" as any]:
       verticalOnMobile && direction === "horizontal" ? "column" : undefined,
-    width: getWidth(false),
+    ["--group-mobile-width" as any]: getWidth(false),
   }
 
   return (
-    <>
-      <style>
-        {`
-          .group-component {
-            ${Object.entries(baseStyle)
-              .filter(([_, v]) => v !== undefined)
-              .map(([k, v]) => {
-                const cssKey = k.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`)
-                return `${cssKey}: ${v};`
-              })
-              .join("\n            ")}
-          }
-
-          @media (max-width: 768px) {
-            .group-component {
-              ${Object.entries(mobileStyle)
-                .filter(([_, v]) => v !== undefined)
-                .map(([k, v]) => {
-                  const cssKey = k.replace(
-                    /[A-Z]/g,
-                    (m) => `-${m.toLowerCase()}`
-                  )
-                  return `${cssKey}: ${v};`
-                })
-                .join("\n              ")}
-            }
-          }
-        `}
-      </style>
-      <div className="group-component">{children}</div>
-    </>
+    <div className="group-component" style={style}>
+      {children}
+    </div>
   )
 }
 

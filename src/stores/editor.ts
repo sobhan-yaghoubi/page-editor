@@ -29,6 +29,11 @@ export type EditorState = {
   isFooterVisible: boolean
   editorWidth: ScreenWidthOption
 
+  updatePageVisibility: (payload: {
+    isHeaderVisible?: boolean
+    isFooterVisible?: boolean
+  }) => void
+
   setSelectedBlock: (
     block: EditorState["selectedBlock"],
     context?: EditorState["activeContext"]
@@ -80,10 +85,14 @@ const useEditorStore = create<EditorState>((set) => ({
 
   loadEditorData: (data) => {
     const initialPage = data.page
-    let visibility = { header: false, footer: false }
-    if (initialPage?.segment) {
-      visibility = getPageHeaderFooterSupport(initialPage.segment)
-    }
+    const schemaSupport = initialPage?.segment
+      ? getPageHeaderFooterSupport(initialPage?.segment)
+      : null
+
+    const headerVisible =
+      schemaSupport?.header && (initialPage?.isHeaderVisible ?? true)
+    const footerVisible =
+      schemaSupport?.footer && (initialPage?.isFooterVisible ?? true)
 
     set({
       activePage: data.page,
@@ -91,24 +100,58 @@ const useEditorStore = create<EditorState>((set) => ({
       footer: data.footer,
       activeContext: "page",
       selectedBlock: null,
-      isHeaderVisible: visibility.header,
-      isFooterVisible: visibility.footer,
+      isHeaderVisible: headerVisible,
+      isFooterVisible: footerVisible,
     })
   },
+
   setEditorWidth: (widthOption) => set({ editorWidth: widthOption }),
 
   setActivePage: (page) => {
     if (!page) return
 
-    const visibility = getPageHeaderFooterSupport(page.segment)
+    const schemaSupport = getPageHeaderFooterSupport(page.segment)
+
+    const headerVisible = schemaSupport.header && (page.isHeaderVisible ?? true)
+    const footerVisible = schemaSupport.footer && (page.isFooterVisible ?? true)
+
     set({
       activePage: page,
       activeContext: "page",
       selectedBlock: null,
-      isHeaderVisible: visibility.header,
-      isFooterVisible: visibility.footer,
+      isHeaderVisible: headerVisible,
+      isFooterVisible: footerVisible,
     })
   },
+
+  updatePageVisibility: (payload) =>
+    set((state) => {
+      if (!state.activePage) return {}
+
+      const updatedActivePage = {
+        ...state.activePage,
+        isHeaderVisible:
+          payload.isHeaderVisible ?? state.activePage.isHeaderVisible,
+        isFooterVisible:
+          payload.isFooterVisible ?? state.activePage.isFooterVisible,
+      }
+
+      // Re-calculate the final visibility for the UI based on the new intent
+      // and the existing schema rules.
+      const schemaSupport = getPageHeaderFooterSupport(
+        updatedActivePage.segment
+      )
+      const newHeaderVisible =
+        schemaSupport.header && (updatedActivePage.isHeaderVisible ?? true)
+      const newFooterVisible =
+        schemaSupport.footer && (updatedActivePage.isFooterVisible ?? true)
+
+      return {
+        activePage: updatedActivePage,
+        isHeaderVisible: newHeaderVisible,
+        isFooterVisible: newFooterVisible,
+      }
+    }),
 
   setSelectedBlock: (block, context) =>
     set((state) => ({

@@ -1,0 +1,19 @@
+.editor-theme-scope {
+  background-color: var(--theme-color-background);
+  color: var(--theme-color-text);
+  font-family: var(--theme-font-body);
+  font-size: var(--theme-paragraph-size);
+  line-height: var(--theme-paragraph-line-height);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: var(--theme-color-links);
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+  color: var(--theme-color-links-hover);
+}

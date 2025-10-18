@@ -2,37 +2,55 @@ import React from "react"
 import { ComponentProps } from "@/types"
 import { Product } from "@/types/product"
 import { ProductFeatureSettings } from "@/schemas/components/products/simple/simple.schema"
+import { ComponentData } from "@/types"
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPagination,
+  CarouselPrevious,
+} from "@/components/common/carousel"
 
-type FeaturedProductsLayoutProps = ComponentProps<
-  ProductFeatureSettings,
-  React.ReactNode,
-  Product[]
->
+export interface FeaturedProductsViewProps
+  extends ComponentProps<ProductFeatureSettings, ComponentData[], Product[]> {}
 
 export const FeaturedProductsView = ({
   settings,
   data: products,
-}: FeaturedProductsLayoutProps) => {
-  const { title = "Featured Products", columns = 4 } = settings
+  children,
+  renderRepeater,
+}: FeaturedProductsViewProps) => {
+  const {
+    title = "Featured Products",
+    itemsPerView,
+    mobileItemsPerView,
+  } = settings || {}
 
-  const gridStyle: React.CSSProperties = {
-    display: "grid",
-    gap: "1rem",
-    gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
-  }
+  if (!Array.isArray(products) || products.length === 0 || !children)
+    return null
+
+  const template = (children ?? []) as ComponentData[]
 
   return (
-    <section style={{ padding: "1rem" }}>
+    <section>
       <h2
         style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "1rem" }}
       >
         {title}
       </h2>
-      <div style={gridStyle}>
-        {products?.map((product) => (
-          <div key={product.id}>{product.name}</div>
-        ))}
-      </div>
+
+      <Carousel
+        style={{ position: "relative" }}
+        columnsMobile={mobileItemsPerView}
+        columnsDesktop={itemsPerView}
+      >
+        <CarouselContent style={{ position: "relative" }}>
+          {renderRepeater?.(products, template, CarouselItem)}
+        </CarouselContent>
+        <CarouselPrevious />
+        <CarouselNext />
+      </Carousel>
     </section>
   )
 }

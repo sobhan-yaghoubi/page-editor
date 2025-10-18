@@ -168,8 +168,3 @@ export interface SelectorInfo {
   type: "element" | "class" | "id" | "pseudo" | "attribute"
   category?: "structure" | "typography" | "interactive" | "state"
 }
-
-export type StyleRecipeBook = Record<
-  string,
-  (theme: ThemeConfig) => CSSProperties
->

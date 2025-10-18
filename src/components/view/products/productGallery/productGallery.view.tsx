@@ -5,10 +5,26 @@ import { ComponentProps } from "@/types"
 import { useProduct } from "@/contexts/ProductContext"
 import { useRenderers } from "@/contexts/RenderContext"
 import { BasicBlocks } from "@/schemas/shared/enums"
+import { Product } from "@/types/product"
 
-const ProductGalleryView = ({ settings }: ComponentProps) => {
+const ProductGalleryView = ({
+  settings,
+  data,
+}: ComponentProps<
+  ComponentProps["settings"],
+  ComponentProps["children"],
+  Product
+>) => {
+  const isDataDriven = Boolean(data)
+  let product: Product | null = null
+  if (!isDataDriven) {
+    const { product: productContext } = useProduct()
+    product = productContext
+  } else {
+    product = data ?? null
+  }
+
   const renderers = useRenderers()
-  const { product } = useProduct()
   const { layout = "stacked" } = settings
   const [activeImage, setActiveImage] = useState<string | null>(null)
 

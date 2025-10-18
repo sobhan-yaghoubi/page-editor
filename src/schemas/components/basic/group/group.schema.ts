@@ -264,4 +264,5 @@ export const GROUP_SCHEMA: ComponentSchema = {
   allowedParents: "*",
   allowedChildren: "*",
   defaultSettings: settings,
+  isSelfNestingAllowed: false,
 }

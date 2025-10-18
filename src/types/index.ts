@@ -6,6 +6,7 @@ import {
   ModuleUI,
   ProductBlocks,
   Sections,
+  TemplateUI,
 } from "@/schemas/shared/enums"
 
 /**
@@ -15,7 +16,12 @@ import {
  *
  * @type ComponentType
  */
-export type ComponentType = Sections | BasicBlocks | ProductBlocks | ModuleUI
+export type ComponentType =
+  | Sections
+  | BasicBlocks
+  | ProductBlocks
+  | ModuleUI
+  | TemplateUI
 
 /**
  * Represents all possible parents a component can have.
@@ -89,6 +95,7 @@ export interface PageData {
  * @type DocumentData
  * @property { string | number } id - Document identifier.
  * @property { string } name - UI readable name.
+ * @property { string } type - Type of the page extra helper for detect Page Schemas
  * @property { string } segment - Segment or route key (e.g., "header", "footer", "home", etc).
  * @property { ComponentData<any>[] } components - Top-level component tree.
  * @property { boolean } isHeaderVisible - Whether a header should be rendered for this doc.
@@ -98,6 +105,7 @@ export interface DocumentData {
   id: string | number
   name: string
   segment: string
+  type: string
   components: ComponentData<any>[]
   isHeaderVisible?: boolean
   isFooterVisible?: boolean
@@ -127,6 +135,12 @@ export interface SlotDefinition {
   action?: ActionDefinition
 }
 
+export type DefaultChild = {
+  type: ComponentType
+  settings?: Record<string, any>
+  children?: DefaultChild[]
+}
+
 /**
  * Master schema for a single component: rules, settings, and editor behavior.
  *
@@ -141,6 +155,8 @@ export interface SlotDefinition {
  * @property { ParentType[] | "*" } allowedParents - Valid parent types or "*" for any.
  * @property { (ComponentType | { type: ComponentType, max?: number })[] | "*" } allowedChildren - Valid child types or "*" for any; supports per-type max counts.
  * @property { ComponentType[] } disallowedChildren - Explicitly forbidden child types.
+ * @property { DefaultChild[] } defaultChildren - Pre-populated Layout
+ * @property { boolean } isSelfNestingAllowed - For a "Element" that can be nested inside another "Element"
  * @property { ReadonlyArray<SettingsDefinition> } defaultSettings - Default settings schema for new instances.
  * @property { Record<string, SlotDefinition>= } slots - Named slots and their constraints.
  * @property { Record<string, any>= } metadata - Free-form component metadata.
@@ -161,7 +177,10 @@ export interface ComponentSchema {
     | (ComponentType | { type: ComponentType; max?: number })[]
     | "*"
   disallowedChildren?: ComponentType[]
+  defaultChildren?: DefaultChild[]
+  isRepeater?: boolean
   defaultSettings: ReadonlyArray<SettingsDefinition>
+  isSelfNestingAllowed?: boolean
   slots?: Record<string, SlotDefinition>
   metadata?: Record<string, any>
   action?: ActionDefinition
@@ -209,6 +228,12 @@ export interface ComponentProps<
   data?: TData
   isSelected?: boolean
   action?: ActionDefinition
+  renderRepeater?: (
+    items: any[],
+    template: ComponentData[],
+    Wrapper: React.ElementType,
+    additionalWrapperProps?: React.HTMLProps<HTMLElement>
+  ) => React.ReactNode
 }
 
 /**
@@ -357,6 +382,20 @@ type DynamicSelect = BaseSetting & {
  */
 type LinkSetting = BaseSetting & { type: "link" }
 
+//TODO: write proper js doc
+export type RepeaterField = SettingsDefinition & {
+  section?: never
+  condition?: never
+}
+
+/**
+ * A repeater setting for managing an array of objects.
+ */
+type RepeaterSetting = BaseSetting & {
+  type: "repeater"
+  itemSchema: RepeaterField[]
+}
+
 /**
  * Final discriminated union type for any single editor setting definition.
  *
@@ -370,6 +409,7 @@ export type SettingsDefinition =
   | RangeSetting
   | LinkSetting
   | DynamicSelect
+  | RepeaterSetting
 
 /**
  * Helper to extract the value type from a setting's options array.

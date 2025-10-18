@@ -43,7 +43,7 @@ export const PRODUCT_PRICE_SCHEMA: ComponentSchema = {
   category: "block",
   isDraggable: true,
   isDeletable: false,
-  allowedParents: [ProductBlocks.PRODUCT_DETAILS_SECTION, ModuleUI.PRODUCT_BOX],
+  allowedParents: [ProductBlocks.PRODUCT_DETAILS_SECTION, ModuleUI.PRODUCT_CARD],
   allowedChildren: [],
   defaultSettings: settings,
 }

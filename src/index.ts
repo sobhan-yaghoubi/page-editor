@@ -18,4 +18,3 @@ export * from "./utils/schema/schema-helpers"
 
 export * from "./styles/theme-generator"
 export * from "./styles/theme-helper"
-export * from "./styles/index"

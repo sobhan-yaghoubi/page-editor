@@ -4,9 +4,24 @@ import React from "react"
 import { ComponentProps } from "@/types"
 import { useProduct } from "@/contexts/ProductContext"
 import { formatCurrency } from "@/utils/components/index"
+import { Product } from "@/types/product"
 
-const ProductPriceView = ({ settings }: ComponentProps) => {
-  const { product } = useProduct()
+const ProductPriceView = ({
+  settings,
+  data,
+}: ComponentProps<
+  ComponentProps["settings"],
+  ComponentProps["children"],
+  Product
+>) => {
+  const isDataDriven = Boolean(data)
+  let product: Product | null = null
+  if (!isDataDriven) {
+    const { product: productContext } = useProduct()
+    product = productContext
+  } else {
+    product = data ?? null
+  }
 
   if (!product) {
     const skeletonStyle: React.CSSProperties = {

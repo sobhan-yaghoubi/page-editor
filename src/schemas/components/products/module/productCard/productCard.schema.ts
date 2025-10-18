@@ -9,6 +9,7 @@ import {
   SettingsDefinition,
   SettingsFromSchema,
 } from "@/types"
+import { LayoutPanelTopIcon } from "lucide-react"
 
 const settings = [
   {
@@ -32,7 +33,8 @@ const settings = [
 export type ProductCardSettings = SettingsFromSchema<typeof settings>
 
 export const PRODUCT_CARD_SCHEMA: ComponentSchema = {
-  type: ModuleUI.PRODUCT_BOX,
+  type: ModuleUI.PRODUCT_CARD,
+  icon: LayoutPanelTopIcon,
   label: "Product Card Template",
   category: "block",
   isDraggable: false,
@@ -44,6 +46,9 @@ export const PRODUCT_CARD_SCHEMA: ComponentSchema = {
     ProductBlocks.PRODUCT_PRICE,
     ProductBlocks.PRODUCT_ADD_TO_CART_BUTTON,
     BasicBlocks.TEXT,
+    BasicBlocks.SPACER,
   ],
   defaultSettings: settings,
 }
+
+export { settings as ProductCardSetting }

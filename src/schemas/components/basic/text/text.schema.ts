@@ -60,7 +60,7 @@ export const TEXT_SCHEMA: ComponentSchema = {
     Sections.RICH_TEXT,
     Sections.SUBSCRIPTION_FORM,
     Sections.PRODUCT_FEATURES,
-    ModuleUI.PRODUCT_BOX,
+    ModuleUI.PRODUCT_CARD,
   ],
   allowedChildren: [],
   defaultSettings: settings,

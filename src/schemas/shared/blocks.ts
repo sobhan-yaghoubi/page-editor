@@ -1,5 +1,11 @@
 import { ComponentSchema } from "@/types"
-import { BasicBlocks, ProductBlocks, Sections } from "./enums"
+import {
+  BasicBlocks,
+  ModuleUI,
+  ProductBlocks,
+  Sections,
+  TemplateUI,
+} from "./enums"
 
 import {
   BUTTON_SCHEMA,
@@ -19,7 +25,13 @@ import {
   PRODUCT_DESCRIPTION_SCHEMA,
   PRODUCT_ADD_TO_CART_BUTTON_SCHEMA,
   PRODUCT_GALLERY_SCHEMA,
+  PRODUCT_CARD_SCHEMA,
 } from "../components"
+import { BANNER_SCHEMA } from "../components/banners/banner/banner.schema"
+import { BRAND_FEATURE_SCHEMA } from "../components/template/brandsFeatures.schema"
+import { BEST_COMMENTS_SCHEMA } from "../components/template/bestComments.schema"
+import { BLOG_FEATURES_SCHEMA } from "../components/template/blogFeatures.schema"
+import { APP_COMPONENT_SLOT_SCHEMA } from "../components/common/appComponentSlot.schema"
 
 export const COMPONENTS_SCHEMAS: Record<string, ComponentSchema> = {
   [Sections.HEADER]: HEADER_SCHEMA,
@@ -28,12 +40,20 @@ export const COMPONENTS_SCHEMAS: Record<string, ComponentSchema> = {
   [Sections.PRODUCT_FEATURES]: PRODUCT_FEATURE_SCHEMA,
   [Sections.RICH_TEXT]: RICH_TEXT_SCHEMA,
   [Sections.SUBSCRIPTION_FORM]: SUBSCRIPTION_FORM_SCHEMA,
+  [Sections.BANNER]: BANNER_SCHEMA,
+
+  [ModuleUI.PRODUCT_CARD]: PRODUCT_CARD_SCHEMA,
+
+  [TemplateUI.BRAND_FEATURES]: BRAND_FEATURE_SCHEMA,
+  [TemplateUI.BEST_COMMENTS]: BEST_COMMENTS_SCHEMA,
+  [TemplateUI.BLOG_FEATURES]: BLOG_FEATURES_SCHEMA,
 
   [BasicBlocks.TEXT]: TEXT_SCHEMA,
   [BasicBlocks.BUTTON]: BUTTON_SCHEMA,
   [BasicBlocks.SPACER]: SPACER_SCHEMA,
   [BasicBlocks.GROUP]: GROUP_SCHEMA,
   [BasicBlocks.IMAGE]: IMAGE_SCHEMA,
+  [BasicBlocks.APP_COMPONENT_SLOT]: APP_COMPONENT_SLOT_SCHEMA,
 
   [ProductBlocks.PRODUCT_DETAILS_SECTION]: PRODUCT_DETAILS_SCHEMA,
   [ProductBlocks.PRODUCT_TITLE]: PRODUCT_TITLE_SCHEMA,

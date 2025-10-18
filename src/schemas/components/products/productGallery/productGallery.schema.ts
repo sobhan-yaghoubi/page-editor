@@ -42,7 +42,7 @@ export const PRODUCT_GALLERY_SCHEMA: ComponentSchema = {
   category: "section",
   isDraggable: true,
   isDeletable: false,
-  allowedParents: [Layouts.PRODUCT, ModuleUI.PRODUCT_BOX],
+  allowedParents: [Layouts.PRODUCT, ModuleUI.PRODUCT_CARD],
   allowedChildren: [],
   defaultSettings: settings,
 }

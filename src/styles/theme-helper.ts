@@ -80,27 +80,3 @@ export function generateDefaultThemeConfig(
 
   return config as ThemeConfig
 }
-
-/**
- * Converts a React {@link CSSProperties} object into a multi-line CSS declaration string.
- *
- * - Transforms camelCased property names to kebab-case (e.g., `backgroundColor` → `background-color`).
- * - Serializes each property as `"  <kebab-prop>: <value>;"` on its own line.
- * - Properties with `undefined` or `null` values are included as-is; consider filtering beforehand if needed.
- *
- * @param { CSSProperties } styles - The style object to serialize.
- * @returns { string } A CSS string suitable for embedding inside a style block or tag.
- *
- * @example
- * styleObjectToCssString({ backgroundColor: "#fff", fontSize: "14px" })
- * ->
- * "background-color: #fff;\n  font-size: 14px;"
- */
-export function styleObjectToCssString(styles: CSSProperties): string {
-  return Object.entries(styles)
-    .map(([key, value]) => {
-      const cssKey = key.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`)
-      return `  ${cssKey}: ${value};`
-    })
-    .join("\n")
-}

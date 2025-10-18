@@ -19,4 +19,4 @@ export * from "./products/productGallery/productGallery.schema"
 export * from "./products/productPrice/productPrice.schema"
 export * from "./products/productTitle/productTitle.schema"
 
-export * from "./products/module/productBox/productBox.schema"
+export * from "./products/module/productCard/productCard.schema"

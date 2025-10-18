@@ -1,34 +1,11 @@
+import { ThemeConfig, ThemeTypography } from "@/types/themeConfig"
 import {
-  ThemeConfig,
-  ThemeTypography,
-  ComponentCustomCSS,
-} from "@/types/themeConfig"
-import { styleObjectToCssString } from "@/styles/theme-helper"
-import { createStyleDefinitions } from "."
+  getAllStaticStyles,
+  getAllStaticStylesWithCustomQueries,
+} from "./static-styles"
 
-/**
- * Utilities for generating theme-driven CSS artifacts (root variables, base CSS,
- * per-component overrides, and font-face declarations) from a {@link ThemeConfig}.
- *
- * @example
- * const css = ThemeCSSGenerator.generateCSS(themeConfig)
- * Inject `css` into a <style> tag or your CSS pipeline.
- */
 export class ThemeCSSGenerator {
-  /**
-   * Build a `:root` block with CSS custom properties derived from the theme’s
-   * color palette and typography settings. These variables are consumed by the
-   * generated styles and your application components.
-   *
-   * @param { ThemeConfig } theme - The full theme configuration.
-   * @returns { string } A CSS string containing a `:root { ... }` block.
-   *
-   * @example
-   * const vars = ThemeCSSGenerator.generateCssVariables(theme)
-   * ->
-   * ":root { --color-background: #fff; --paragraph-size: 16px; ... }"
-   */
-  static generateCssVariables(theme: ThemeConfig) {
+  static generateCssVariables(theme: ThemeConfig): string {
     const { colors, typography } = theme
 
     return `
@@ -111,107 +88,112 @@ export class ThemeCSSGenerator {
   }
 
   /**
-   * Produce the baseline CSS rules by wiring the previously generated variables
-   * into usable styles (e.g., body, headings, links, buttons). Any custom CSS
-   * defined on the theme is appended at the end.
-   *
-   * @param { ThemeConfig } theme - The theme configuration driving the style recipes.
-   * @returns { string } A CSS string with concrete rules (selectors and declarations).
-   *
+   * Generate dynamic heading styles based on theme config
    */
-  static generateCSS(theme: ThemeConfig): string {
-    let finalCss = ""
-
-    const styleRecipes = createStyleDefinitions(theme)
-
-    for (const selector in styleRecipes) {
-      const styleFunction = styleRecipes[selector]
-      const styleObject = styleFunction(theme)
-      const cssProperties = styleObjectToCssString(styleObject)
-      finalCss += `${selector} {\n${cssProperties}\n}\n\n`
-    }
-
-    if (theme.customCSS) {
-      finalCss += `/* --- Custom User CSS --- */\n${theme.customCSS}\n`
-    }
-
-    return finalCss
-  }
-
-  /**
-   * Generate component-scoped CSS for a specific component instance.
-   * If no custom CSS exists for the component, returns an empty string.
-   *
-   * @param { ComponentCustomCSS } componentCSS - The component’s custom CSS payload.
-   * @param { string } componentSelector - The CSS selector that targets the component instance.
-   * @returns { string } A CSS rule block (or an empty string if no CSS provided).
-   *
-   * @example
-   * ThemeCSSGenerator.generateComponentCSS(
-   *   { componentId: "card-1", css: "padding: 1rem;" },
-   *   ".card[data-id='card-1']"
-   * )
-   * ->
-   * "/* Custom CSS for component card-1 \n.card[data-id='card-1'] { padding: 1rem; }"
-   */
-  static generateComponentCSS(
-    componentCSS: ComponentCustomCSS,
-    componentSelector: string
-  ): string {
-    if (!componentCSS.css) return ""
-    return `
-      /* Custom CSS for component ${componentCSS.componentId} */
-      ${componentSelector} {
-        ${componentCSS.css}
-      }
-    `.trim()
-  }
-
-  /**
-   * Generate a full CSS scope for the given theme and a scope name.
-   * This includes font-face declarations, CSS variables, and the base CSS,
-   * wrapped for use under a given scope (e.g., a class applied to an editor root).
-   *
-   * @param { ThemeConfig } themeConfig - The theme to serialize to CSS.
-   * @param { string } scopeName - The class name to scope styles under (without the leading dot).
-   * @returns { string } A single CSS string containing font faces, variables, and scoped rules.
-   *
-   * @example
-   * const css = ThemeCSSGenerator.generateCssScope(theme, "editor-scope")
-   * ->
-   * "@font-face {...}\n:root {...}\n.editor-scope { ... }"
-   */
-  static generateCssScope(themeConfig: ThemeConfig, scopeName: string) {
-    const fontImportUrl = this.generateFontImports(themeConfig.typography)
-
-    const cssVariables = this.generateCssVariables(themeConfig)
-    const cssClasses = this.generateCSS(themeConfig)
-
-    const scopedCSS = `
-        ${fontImportUrl}
-    
-        ${cssVariables}
-        
-        .${scopeName} {
-          ${cssClasses}
+  static generateHeadingStyles(theme: ThemeConfig): string {
+    return Object.keys(theme.typography.headings)
+      .map(
+        (level) => `
+        ${level} {
+          font-family: var(--${level}-font);
+          font-size: var(--${level}-size);
+          line-height: var(--${level}-line-height);
+          letter-spacing: var(--${level}-letter-spacing);
+          text-transform: var(--${level}-case);
+          color: var(--color-headings);
         }
       `
-
-    return scopedCSS
+      )
+      .join("\n")
   }
 
   /**
-   * Build `@font-face` declarations for all unique fonts referenced by the theme’s
-   * typography (body, heading, accent, subheading).
-   *
-   * @param { ThemeTypography } typography - Typography configuration with font metadata and file paths.
-   * @returns { string } A CSS string containing one or more `@font-face` rules (or an empty string if none).
-   *
-   * @example
-   * const faces = ThemeCSSGenerator.generateFontImports(theme.typography)
-   * ->
-   * "@font-face { font-family: Inter; font-style: normal; font-weight: 400; ... }"
+   * Generate complete CSS including static styles and dynamic theme
    */
+  static generateCSS(theme: ThemeConfig, scope?: string): string {
+    const staticCSS = getAllStaticStyles()
+
+    const headingCSS = this.generateHeadingStyles(theme)
+
+    let finalCSS = `
+      /* === Static Component Styles === */
+      ${staticCSS}
+        
+      /* === Dynamic Theme Styles === */
+      ${headingCSS}
+    `
+
+    if (theme.customCSS) {
+      finalCSS += `\n/* --- Custom User CSS --- */\n${theme.customCSS}\n`
+    }
+
+    if (scope) {
+      finalCSS = this.applyScope(finalCSS, scope)
+    }
+
+    return finalCSS
+  }
+
+  static generateCssWidthCustomQuery(
+    theme: ThemeConfig,
+    customQueryName: string,
+    scope?: string
+  ) {
+    const staticCSS = getAllStaticStylesWithCustomQueries(customQueryName)
+
+    const headingCSS = this.generateHeadingStyles(theme)
+
+    let finalCSS = `
+      /* === Static Component Styles === */
+      ${staticCSS}
+        
+      /* === Dynamic Theme Styles === */
+      ${headingCSS}
+    `
+
+    if (theme.customCSS) {
+      finalCSS += `\n/* --- Custom User CSS --- */\n${theme.customCSS}\n`
+    }
+
+    if (scope) {
+      finalCSS = this.applyScope(finalCSS, scope)
+    }
+
+    return finalCSS
+  }
+
+  /**
+   * Apply scope prefix to all selectors
+   */
+  private static applyScope(css: string, scope: string): string {
+    return css.replace(
+      /([^\r\n,{}]+)(,(?=[^}]*{)|\s*{)/g,
+      (match, selector, ending) => {
+        const trimmedSelector = selector.trim()
+
+        if (trimmedSelector.startsWith("@") || trimmedSelector === ":root") {
+          return match
+        }
+        return `${scope} ${trimmedSelector}${ending}`
+      }
+    )
+  }
+
+  /**
+   * Generate full scoped CSS (fonts + variables + styles)
+   */
+  static generateCssScope(themeConfig: ThemeConfig, scopeName: string): string {
+    const fontImports = this.generateFontImports(themeConfig.typography)
+    const cssVariables = this.generateCssVariables(themeConfig)
+    const scopedStyles = this.generateCSS(themeConfig, `.${scopeName}`)
+
+    return `
+      ${fontImports}
+      ${cssVariables}
+      ${scopedStyles}
+    `
+  }
+
   static generateFontImports(typography: ThemeTypography): string {
     const uniqueFonts = new Set([
       typography.fonts.body,
@@ -220,40 +202,27 @@ export class ThemeCSSGenerator {
       typography.fonts.subheading,
     ])
 
-    if (uniqueFonts.size === 0) {
-      return ""
-    }
+    if (uniqueFonts.size === 0) return ""
 
-    const fontFamilies = Array.from(uniqueFonts)
+    return Array.from(uniqueFonts)
       .map((font) =>
         Object.entries(font.path)
           .map(
-            (fontPath) => `
-            @font-face {  
-              font-family: ${font.name};
-              font-style: normal;
-              font-weight: ${fontPath[1].weight};
-              font-display: swap;
-              src : url("${fontPath[1].url}") format("${fontPath[1].format}") 
-            }`
+            ([, fontPath]) => `
+              @font-face {
+                font-family: ${font.name};
+                font-style: normal;
+                font-weight: ${fontPath.weight};
+                font-display: swap;
+                src: url("${fontPath.url}") format("${fontPath.format}");
+              }
+            `
           )
-          .join(" ")
+          .join("")
       )
-      .join(" ")
-
-    return fontFamilies
+      .join("")
   }
 
-  /**
-   * Translate a semantic line-height token into a numeric CSS line-height.
-   *
-   * @param { "tight" | "normal" | "loose" } value - Semantic token for line-height.
-   * @returns { string } The numeric CSS line-height (e.g., `"1.25"`).
-   *
-   * @example
-   * "1.5"
-   * ThemeCSSGenerator["getLineHeight"]("normal")
-   */
   private static getLineHeight(value: "tight" | "normal" | "loose"): string {
     switch (value) {
       case "tight":
@@ -266,16 +235,6 @@ export class ThemeCSSGenerator {
     }
   }
 
-  /**
-   * Translate a semantic letter-spacing token into a CSS `letter-spacing` value.
-   *
-   * @param { "tight" | "normal" | "loose" } value - Semantic token for letter-spacing.
-   * @returns { string } The CSS letter-spacing value (e.g., `"-0.025em"`).
-   *
-   * @example
-   *"0"
-   * ThemeCSSGenerator["getLetterSpacing"]("normal")
-   */
   private static getLetterSpacing(value: "tight" | "normal" | "loose"): string {
     switch (value) {
       case "tight":

@@ -1,18 +1,11 @@
-"use client"
-
-import { CSSProperties, useState, useEffect } from "react"
+import React, { CSSProperties } from "react"
 import { ComponentProps, Override } from "@/types"
 import { GroupSettings } from "@/schemas/components/basic/group/group.schema"
 
 const GroupEditor = ({
   settings,
   children,
-  onSettingsChange,
-}: Override<ComponentProps, "settings", GroupSettings> & {
-  onSettingsChange?: (settings: Partial<GroupSettings>) => void
-}) => {
-  const [isMobilePreview, setIsMobilePreview] = useState(false)
-
+}: Override<ComponentProps, "settings", GroupSettings>) => {
   const {
     "group-direction": direction = "horizontal",
     "group-direction-vertical-on-mobile": verticalOnMobile = false,
@@ -35,24 +28,10 @@ const GroupEditor = ({
     "group-padding-right": paddingRight,
   } = settings
 
-  // Detect if we're in mobile viewport
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobilePreview(window.innerWidth <= 768)
-    }
+  const childCount = React.Children.count(children)
 
-    checkMobile()
-    window.addEventListener("resize", checkMobile)
-    return () => window.removeEventListener("resize", checkMobile)
-  }, [])
-
-  const getAlignItems = (isInMobileMode: boolean) => {
-    const currentDirection =
-      isInMobileMode && verticalOnMobile && direction === "horizontal"
-        ? "vertical"
-        : direction
-
-    if (currentDirection === "horizontal") {
+  const getAlignItems = () => {
+    if (direction === "horizontal") {
       if (position === "top") return "flex-start"
       if (position === "bottom") return "flex-end"
       if (position === "center") return "center"
@@ -65,13 +44,8 @@ const GroupEditor = ({
     }
   }
 
-  const getJustifyContent = (isInMobileMode: boolean) => {
-    const currentDirection =
-      isInMobileMode && verticalOnMobile && direction === "horizontal"
-        ? "vertical"
-        : direction
-
-    if (currentDirection === "horizontal") {
+  const getJustifyContent = () => {
+    if (direction === "horizontal") {
       if (alignment === "left") return "flex-start"
       if (alignment === "right") return "flex-end"
       if (alignment === "center") return "center"
@@ -86,9 +60,9 @@ const GroupEditor = ({
     }
   }
 
-  const getWidth = (isInMobileMode: boolean) => {
-    const currentWidth = isInMobileMode ? mobileWidth : width
-    const currentCustom = isInMobileMode ? mobileWidthCustom : widthCustom
+  const getWidth = (isDesktop: boolean) => {
+    const currentWidth = isDesktop ? width : mobileWidth
+    const currentCustom = isDesktop ? widthCustom : mobileWidthCustom
 
     if (currentWidth === "fit") return "fit-content"
     if (currentWidth === "fill") return "100%"
@@ -107,39 +81,35 @@ const GroupEditor = ({
     return "fit-content"
   }
 
-  const getFlexDirection = (isInMobileMode: boolean) => {
-    if (isInMobileMode && verticalOnMobile && direction === "horizontal") {
-      return "column"
-    }
-    return direction === "vertical" ? "column" : "row"
-  }
-
-  const containerStyle: CSSProperties = {
-    display: "flex",
-    flexDirection: getFlexDirection(isMobilePreview),
-    alignItems: getAlignItems(isMobilePreview),
-    justifyContent: getJustifyContent(isMobilePreview),
-    gap: `${gap}px`,
-    width: getWidth(isMobilePreview),
-    height: getHeight(),
-    paddingTop: paddingTop !== undefined ? `${paddingTop}px` : undefined,
-    paddingBottom:
+  const style: CSSProperties = {
+    ["--group-flex-direction" as any]:
+      direction === "vertical" ? "column" : "row",
+    ["--group-align-items" as any]: getAlignItems(),
+    ["--group-justify-content" as any]: getJustifyContent(),
+    ["--group-gap" as any]: `${gap}px`,
+    ["--group-width" as any]: getWidth(true),
+    ["--group-height" as any]: getHeight(),
+    ["--group-padding-top" as any]:
+      paddingTop !== undefined ? `${paddingTop}px` : undefined,
+    ["--group-padding-bottom" as any]:
       paddingBottom !== undefined ? `${paddingBottom}px` : undefined,
-    paddingLeft: paddingLeft !== undefined ? `${paddingLeft}px` : undefined,
-    paddingRight: paddingRight !== undefined ? `${paddingRight}px` : undefined,
-    borderRadius: `${cornerRadius}px`,
-    border:
+    ["--group-padding-left" as any]:
+      paddingLeft !== undefined ? `${paddingLeft}px` : undefined,
+    ["--group-padding-right" as any]:
+      paddingRight !== undefined ? `${paddingRight}px` : undefined,
+    ["--group-border-radius" as any]: `${cornerRadius}px`,
+    ["--group-border" as any]:
       border === "solid"
         ? `${borderThickness}px solid rgba(0, 0, 0, ${borderOpacity / 100})`
         : "none",
-    boxSizing: "border-box",
-    position: "relative",
-    minHeight: height === "fit" ? "fit-content" : undefined,
-    minWidth: width === "fit" ? "fit-content" : undefined,
+    ["--group-cols" as any]: childCount === 2 ? "2" : undefined,
+    ["--group-mobile-flex-direction" as any]:
+      verticalOnMobile && direction === "horizontal" ? "column" : undefined,
+    ["--group-mobile-width" as any]: getWidth(false),
   }
 
   return (
-    <div style={containerStyle} data-component="group" data-editor-mode="true">
+    <div className="group-component" style={style}>
       {children}
     </div>
   )

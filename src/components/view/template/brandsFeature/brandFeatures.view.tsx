@@ -1,8 +1,11 @@
 import {
-  SimpleCarousel,
-  SimpleCarouselSlide,
-} from "@/components/common/carousel/simple"
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/common/carousel"
+import { ChevronLeftIcon } from "lucide-react"
 
 interface Brand {
   id: number
@@ -111,46 +114,70 @@ const BrandsFeatureView = () => {
     <>
       <div className="brands-feature-container">
         <div className="brands-feature-inner-container">
-          <div className="desktop-layout">
-            <div className="content-wrapper">
-              <div className="content-title">برنــدهای ســاعـت</div>
-              <div className="content-description">
-                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ
-              </div>
-              <div className="navigation-wrapper">
-                <button className="view-all-btn">
-                  <span className="view-all-btn-text">مشاهده همه</span>
-                </button>
-                <div className="arrows-wrapper">
-                  {/* <div className="arrow-left">
-                    <CarouselPrevious />
+          <Carousel
+            slideSize="40%"
+            gap="1.5rem"
+            autoplay
+            autoplayDelay={4000}
+            options={{
+              align: "center",
+              loop: true,
+            }}
+          >
+            <div className="desktop-layout">
+              <div className="content-wrapper">
+                <div className="content-title">برنــدهای ســاعـت</div>
+                <div className="content-description">
+                  لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ
+                </div>
+                <div className="navigation-wrapper">
+                  <button className="view-all-btn">
+                    <span className="view-all-btn-text">مشاهده همه</span>
+                  </button>
+                  <div className="arrows-wrapper">
+                    <div className="arrow-right">
+                      <CarouselNext
+                        style={{
+                          background: "var(--btn-primary-bg)",
+                          borderRadius: "var(--radius)",
+                          padding: "var(--spacing)",
+                          color: "var(--btn-primary-text)",
+                        }}
+                      />
+                    </div>
+                    <div className="arrow-left">
+                      <CarouselPrevious
+                        style={{
+                          background: "var(--btn-primary-bg)",
+                          borderRadius: "var(--radius)",
+                          padding: "var(--spacing)",
+                          color: "var(--btn-primary-text)",
+                        }}
+                      />
+                    </div>
                   </div>
-                  <div className="arrow-right">
-                    <CarouselNext />
-                  </div> */}
                 </div>
               </div>
+              <div style={{ width: "70%" }}>
+                <CarouselContent>
+                  {brands.map((brand) => (
+                    <CarouselItem key={brand.id}>
+                      <BrandCard
+                        brandName={brand.nameFa}
+                        quantity={brand.quantity}
+                        image={brand.image}
+                      />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+              </div>
             </div>
-            <div style={{ width: "70%" }}>
-              <SimpleCarousel>
-                {brands.map((brand) => (
-                  <SimpleCarouselSlide key={brand.id}>
-                    <BrandCard
-                      brandName={brand.nameFa}
-                      quantity={brand.quantity}
-                      image={brand.image}
-                    />
-                  </SimpleCarouselSlide>
-                ))}
-              </SimpleCarousel>
-            </div>
-          </div>
-
+          </Carousel>
           <div className="mobile-layout">
             <div className="brand-grid">
               {brands.map((brand) => (
                 <BrandCardMobile
-                  key={brand.id}
+                  key={`brand-card-mobile-${brand.id}`}
                   brandName={brand.nameFa}
                   logo={brand.logo}
                 />

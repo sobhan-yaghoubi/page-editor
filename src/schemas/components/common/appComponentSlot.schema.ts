@@ -12,12 +12,9 @@ const settings = [
     label: "Component to Render",
     type: "select",
     defaultValue: "",
-
     options: [
       ...Object.values(AppComponents).map((value) => ({
-        label: value
-          .replace(/_/g, " ")
-          .replace(/\b\w/g, (l) => l.toUpperCase()),
+        label: value.replace(/_/g, " ").toLowerCase(),
         value: value,
       })),
     ],

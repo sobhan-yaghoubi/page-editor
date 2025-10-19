@@ -32,6 +32,8 @@ import { BRAND_FEATURE_SCHEMA } from "../components/template/brandsFeatures.sche
 import { BEST_COMMENTS_SCHEMA } from "../components/template/bestComments.schema"
 import { BLOG_FEATURES_SCHEMA } from "../components/template/blogFeatures.schema"
 import { APP_COMPONENT_SLOT_SCHEMA } from "../components/common/appComponentSlot.schema"
+import { ANNOUNCEMENT_BAR_SCHEMA } from "../components/modules/announcementBar.schema"
+import { ANNOUNCEMENT_SCHEMA } from "../components/modules/announcement.schema"
 
 export const COMPONENTS_SCHEMAS: Record<string, ComponentSchema> = {
   [Sections.HEADER]: HEADER_SCHEMA,
@@ -47,7 +49,9 @@ export const COMPONENTS_SCHEMAS: Record<string, ComponentSchema> = {
   [TemplateUI.BRAND_FEATURES]: BRAND_FEATURE_SCHEMA,
   [TemplateUI.BEST_COMMENTS]: BEST_COMMENTS_SCHEMA,
   [TemplateUI.BLOG_FEATURES]: BLOG_FEATURES_SCHEMA,
+  [Sections.ANNOUNCEMENT_BAR]: ANNOUNCEMENT_BAR_SCHEMA,
 
+  [ModuleUI.ANNOUNCEMENT]: ANNOUNCEMENT_SCHEMA,
   [BasicBlocks.TEXT]: TEXT_SCHEMA,
   [BasicBlocks.BUTTON]: BUTTON_SCHEMA,
   [BasicBlocks.SPACER]: SPACER_SCHEMA,

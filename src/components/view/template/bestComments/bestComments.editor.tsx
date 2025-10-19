@@ -1,7 +1,9 @@
 import {
-  SimpleCarousel,
-  SimpleCarouselSlide,
-} from "@/components/common/carousel/simple"
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselPagination,
+} from "@/components/common/carousel"
 
 const reviews = [
   {
@@ -69,20 +71,30 @@ const BestCommentEditor = () => {
             <h2 className="reviews-desktop-title">نظرات مشتریان</h2>
           </div>
           <div className="reviews-desktop-list">
-            <SimpleCarousel>
-              {reviews.map((review) => (
-                <SimpleCarouselSlide key={review.id}>
-                  <ReviewCard
-                    name={review.name}
-                    date={review.date}
-                    rating={review.rating}
-                    review={review.review}
-                    initial={review.initial}
-                    variant="desktop"
-                  />
-                </SimpleCarouselSlide>
-              ))}
-            </SimpleCarousel>
+            <Carousel
+              slideSize="40%"
+              gap="1.5rem"
+              options={{
+                align: "center",
+                loop: false,
+              }}
+            >
+              <CarouselContent>
+                {reviews.map((review) => (
+                  <CarouselItem key={review.id}>
+                    <ReviewCard
+                      name={review.name}
+                      date={review.date}
+                      rating={review.rating}
+                      review={review.review}
+                      initial={review.initial}
+                      variant="desktop"
+                    />
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPagination />
+            </Carousel>
           </div>
         </div>
       </div>
@@ -90,20 +102,30 @@ const BestCommentEditor = () => {
       <div className="reviews-mobile">
         <h2 className="reviews-mobile-title">نظرات مشتریان</h2>
         <div className="reviews-mobile-list">
-          <SimpleCarousel>
-            {reviews.map((review) => (
-              <SimpleCarouselSlide key={review.id}>
-                <ReviewCard
-                  name={review.name}
-                  date={review.date}
-                  rating={review.rating}
-                  review={review.review}
-                  initial={review.initial}
-                  variant="mobile"
-                />
-              </SimpleCarouselSlide>
-            ))}
-          </SimpleCarousel>
+          <Carousel
+            slideSize="40%"
+            gap="1.5rem"
+            options={{
+              align: "center",
+              loop: false,
+            }}
+          >
+            <CarouselContent>
+              {reviews.map((review) => (
+                <CarouselItem key={review.id}>
+                  <ReviewCard
+                    name={review.name}
+                    date={review.date}
+                    rating={review.rating}
+                    review={review.review}
+                    initial={review.initial}
+                    variant="mobile"
+                  />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPagination />
+          </Carousel>
         </div>
       </div>
     </section>

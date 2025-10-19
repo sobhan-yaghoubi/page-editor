@@ -9,7 +9,6 @@ import {
   CarouselContent,
   CarouselItem,
   CarouselNext,
-  CarouselPagination,
   CarouselPrevious,
 } from "@/components/common/carousel"
 import uuid from "@/lib/uuid"
@@ -42,9 +41,12 @@ export const BannerView = ({ settings }: BannerViewProps) => {
 
   return (
     <Carousel
-      style={{ position: "relative" }}
-      columnsDesktop={1}
-      columnsMobile={1}
+      slideSize="100%"
+      gap="1.5rem"
+      options={{
+        align: "center",
+        loop: false,
+      }}
     >
       <CarouselContent>
         {slides.map((slide, idx) => (
@@ -63,8 +65,8 @@ export const BannerView = ({ settings }: BannerViewProps) => {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
+      <CarouselPrevious className="carousel-previous-button" />
+      <CarouselNext className="carousel-next-button" />
     </Carousel>
   )
 }

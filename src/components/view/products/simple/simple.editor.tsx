@@ -7,9 +7,7 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
   CarouselPagination,
-  CarouselPrevious,
 } from "@/components/common/carousel"
 
 const productMock: ProductCard = {
@@ -32,17 +30,16 @@ export const FeaturedProductsEditor = ({
   children,
   renderRepeater,
 }: FeaturedProductsLayoutProps) => {
-  const {
-    title = "Featured Products",
-    itemsPerView = 5,
-    mobileItemsPerView = 2,
-  } = settings
+  const { title = "Featured Products" } = settings
 
   if (!productMock || !children) return null
 
   const template = (children ?? []) as ComponentData[]
 
-  const products = Array(13).fill(productMock)
+  const products = Array.from({ length: 13 }, (_) => ({
+    ...productMock,
+    id: uuid(),
+  }))
   return (
     <section>
       <h2
@@ -51,15 +48,19 @@ export const FeaturedProductsEditor = ({
         {title}
       </h2>
       <Carousel
-        style={{ position: "relative", width: "inherit" }}
-        columnsMobile={mobileItemsPerView}
-        columnsDesktop={itemsPerView}
+        columnsDesktop={2}
+        columnsMobile={1}
+        gap="1rem"
+        autoplay={true}
+        autoplayDelay={3000}
+        options={{
+          loop: true,
+        }}
       >
         <CarouselContent>
           {renderRepeater?.(products, template, CarouselItem)}
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
+        <CarouselPagination />
       </Carousel>
     </section>
   )

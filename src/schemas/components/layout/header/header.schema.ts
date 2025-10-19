@@ -1,49 +1,37 @@
-import {
-  AppComponents,
-  BasicBlocks,
-  Layouts,
-  Sections,
-} from "@/schemas/shared/enums"
+import { Layouts, Sections } from "@/schemas/shared/enums"
 import {
   ComponentSchema,
-  DefaultChild,
   SettingsDefinition,
   SettingsFromSchema,
 } from "@/types"
-import { GalleryVerticalIcon } from "lucide-react"
-
-const defaultHeaderLayout: DefaultChild[] = [
-  {
-    type: BasicBlocks.APP_COMPONENT_SLOT,
-    settings: {
-      componentId: AppComponents.HEADER_MAIN_NAVIGATION,
-      allowedAppComponents: [AppComponents.HEADER_MAIN_NAVIGATION],
-    },
-  },
-  {
-    type: BasicBlocks.APP_COMPONENT_SLOT,
-    settings: {
-      componentId: AppComponents.HEADER_CART_ICON,
-      allowedAppComponents: [
-        AppComponents.HEADER_CART_ICON,
-        AppComponents.HEADER_USER_PROFILE,
-        AppComponents.HEADER_SEARCH_BAR,
-      ],
-    },
-  },
-]
+import { PanelTopIcon } from "lucide-react"
 
 const settings = [
   {
-    key: "layout",
-    label: "Layout",
-    type: "select",
-    defaultValue: "spaceBetween",
-    section: "general",
-    options: [
-      { label: "Space Between", value: "spaceBetween" },
-      { label: "Center", value: "center" },
-      { label: "Left Aligned", value: "left" },
+    key: "logo-url",
+    label: "LOGO",
+    type: "image",
+    defaultValue:
+      "https://jensetjoor.com/_next/image?url=https%3A%2F%2Fapi.jensetjoor.com%2Fmedia%2Flandingcategories%2Fdefault%2F60d59640da97dda50966b41a3689bd94.jpg&w=128&q=75",
+  },
+  {
+    key: "navigation",
+    label: "Navigation Menu",
+    type: "repeater",
+    defaultValue: [],
+    itemSchema: [
+      {
+        key: "menu-item-text",
+        type: "text",
+        label: "Name",
+      },
+      {
+        key: "menu-item-link",
+        label: "Link",
+        type: "asyncSelect",
+        sourceKey: "allAppRoutes",
+        defaultValue: "#",
+      },
     ],
   },
   {
@@ -53,24 +41,41 @@ const settings = [
     defaultValue: "transparent",
     section: "general",
   },
+  {
+    key: "paddingHorizontal",
+    label: "Side Padding",
+    type: "range",
+    min: 0,
+    max: 100,
+    step: 1,
+    unit: "px",
+    defaultValue: 24,
+    section: "general",
+  },
+  {
+    key: "gap",
+    label: "Gap between zones",
+    type: "range",
+    min: 0,
+    max: 50,
+    step: 1,
+    unit: "px",
+    defaultValue: 16,
+    section: "general",
+  },
 ] as const satisfies readonly SettingsDefinition[]
 
 export type HeaderSettings = SettingsFromSchema<typeof settings>
 
 export const HEADER_SCHEMA: ComponentSchema = {
   type: Sections.HEADER,
-  label: "Header Section",
-  icon: GalleryVerticalIcon,
-  allowedChildren: [
-    BasicBlocks.HEADING,
-    BasicBlocks.TEXT,
-    BasicBlocks.APP_COMPONENT_SLOT,
-  ],
-  allowedParents: [Layouts.HEADER],
+  label: "Header",
+  icon: PanelTopIcon,
   category: "section",
-  defaultChildren: defaultHeaderLayout,
-  defaultSettings: settings,
-  isDraggable: true,
+  isDraggable: false,
   isDeletable: false,
   isHidable: false,
+  allowedParents: [Layouts.HEADER],
+  allowedChildren: [],
+  defaultSettings: settings,
 }

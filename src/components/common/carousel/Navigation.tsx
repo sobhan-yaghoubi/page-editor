@@ -7,34 +7,33 @@ type UseNavigationCarouselProps = {
 }
 
 export const useNavigationCarousel = ({ api }: UseNavigationCarouselProps) => {
-  const [isPrevBtnDisabled, setIsPrevBtnDisabled] = useState(true)
-  const [isNextBtnDisabled, setIsNextBtnDisabled] = useState(true)
+  const [canScrollPrev, setCanScrollPrev] = useState(false)
+  const [canScrollNext, setCanScrollNext] = useState(false)
 
   const onPrevButtonClick = useCallback(() => {
-    if (!api) return undefined
-
-    api.scrollPrev()
+    api?.scrollPrev()
   }, [api])
 
   const onNextButtonClick = useCallback(() => {
-    if (!api) return undefined
-
-    api.scrollNext()
+    api?.scrollNext()
   }, [api])
 
-  const onSelect = useCallback(
-    (api: NonNullable<UseNavigationCarouselProps["api"]>) => {
-      setIsPrevBtnDisabled(api.canScrollPrev())
-      setIsNextBtnDisabled(api.canScrollNext())
-    },
-    []
-  )
+  const onSelect = useCallback((emblaApi: EmblaCarouselType) => {
+    setCanScrollPrev(emblaApi.canScrollPrev())
+    setCanScrollNext(emblaApi.canScrollNext())
+  }, [])
 
   useEffect(() => {
-    if (!api) return undefined
+    if (!api) return
 
     onSelect(api)
-    api.on("reInit", onSelect).on("select", onSelect)
+    api.on("reInit", onSelect)
+    api.on("select", onSelect)
+
+    return () => {
+      api.off("reInit", onSelect)
+      api.off("select", onSelect)
+    }
   }, [api, onSelect])
 
   const handleKeyDown = useCallback(
@@ -52,60 +51,24 @@ export const useNavigationCarousel = ({ api }: UseNavigationCarouselProps) => {
   )
 
   return {
-    isPrevBtnDisabled,
-    isNextBtnDisabled,
+    canScrollPrev,
+    canScrollNext,
     onPrevButtonClick,
     onNextButtonClick,
     handleKeyDown,
   }
 }
 
-export type PrevButtonProps = {
-  children?: React.ReactNode
-} & React.ButtonHTMLAttributes<HTMLButtonElement>
-export const PrevButton = ({ children, ...props }: PrevButtonProps) => {
-  return (
-    <button
-      style={{
-        cursor: "pointer",
-        background: "var(--background)",
-        borderRadius: "var(--radius)",
-        position: "absolute",
-        top: "50%",
-        transform: "translate(-50%, -50%)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        left: "98%",
-      }}
-      {...props}
-    >
-      {children ?? <ChevronRightIcon />}
-    </button>
-  )
-}
+export type PrevButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>
+export const PrevButton = ({ children, ...props }: PrevButtonProps) => (
+  <button type="button" {...props}>
+    {children ?? <ChevronRightIcon />}
+  </button>
+)
 
-export type NextButtonProps = {
-  children?: React.ReactNode
-} & React.ButtonHTMLAttributes<HTMLButtonElement>
-export const NextButton = ({ children, ...props }: NextButtonProps) => {
-  return (
-    <button
-      style={{
-        cursor: "pointer",
-        background: "var(--background)",
-        borderRadius: "var(--radius)",
-        position: "absolute",
-        top: "50%",
-        transform: "translate(-50%, -50%)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        left: "2%",
-      }}
-      {...props}
-    >
-      {children ?? <ChevronLeftIcon />}
-    </button>
-  )
-}
+export type NextButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>
+export const NextButton = ({ children, ...props }: NextButtonProps) => (
+  <button type="button" {...props}>
+    {children ?? <ChevronLeftIcon />}
+  </button>
+)

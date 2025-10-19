@@ -1,31 +1,40 @@
 "use client"
 
+import React, { useCallback, useMemo } from "react"
 import useEmblaCarousel, { UseEmblaCarouselType } from "embla-carousel-react"
-import PaginationDotButton, {
-  usePaginationDotButtons,
-} from "./PaginationDotButton"
+import Autoplay from "embla-carousel-autoplay"
 import {
+  useNavigationCarousel,
+  PrevButton,
   NextButton,
   NextButtonProps,
-  PrevButton,
   PrevButtonProps,
-  useNavigationCarousel,
 } from "./Navigation"
-import React, { useRef } from "react"
+import {
+  usePaginationDotButtons,
+  PaginationDotButton,
+} from "./PaginationDotButton"
 
 type CarouselApi = UseEmblaCarouselType[1]
-type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
-type CarouselOptions = UseCarouselParameters[0]
-type CarouselPlugin = UseCarouselParameters[1]
+type CarouselOptions = NonNullable<Parameters<typeof useEmblaCarousel>[0]>
+type CarouselPlugin = NonNullable<
+  Parameters<typeof useEmblaCarousel>[1]
+>[number]
 
 type CarouselProps = {
   options?: CarouselOptions
-  plugins?: CarouselPlugin
+  plugins?: CarouselPlugin[]
   orientation?: "horizontal" | "vertical"
   setApi?: (api: CarouselApi) => void
-  gap?: number
-  columnsDesktop: number
-  columnsMobile: number
+  autoplay?: boolean
+  autoplayDelay?: number
+  gap?: string
+  columnsDesktop?: number
+  columnsMobile?: number
+  desktopHeight?: string
+  slideSize?: string
+  canUserSelect?: boolean
+  mobileHeight?: string
 } & React.HTMLAttributes<HTMLDivElement>
 
 type CarouselContextProps = {
@@ -35,172 +44,212 @@ type CarouselContextProps = {
   scrollNext: () => void
   canScrollPrev: boolean
   canScrollNext: boolean
-  columnsDesktop?: number
-  columnsMobile?: number
-  slideSizePercent?: number
+  mode: "columns" | "free"
 } & CarouselProps
 
 const CarouselContext = React.createContext<CarouselContextProps | null>(null)
 
-const useCarousel = () => {
+export const useCarousel = () => {
   const context = React.useContext(CarouselContext)
   if (!context) {
-    throw new Error("useCarousel must be used in Carousel Component")
+    throw new Error("useCarousel must be used within a Carousel component")
   }
-
   return context
 }
 
 const Carousel = ({
   options,
   orientation = "horizontal",
-  plugins,
+  plugins = [],
   children,
+  autoplay = false,
+  autoplayDelay = 4000,
   columnsDesktop,
   columnsMobile,
+  slideSize,
+  gap = "1rem",
+  desktopHeight = "500px",
+  mobileHeight = "150px",
+  canUserSelect,
   ...props
 }: CarouselProps) => {
-  const divRef = useRef<HTMLDivElement | null>(null)
+  const autoplayPlugin = useMemo(
+    () =>
+      autoplay
+        ? [Autoplay({ delay: autoplayDelay, stopOnInteraction: true })]
+        : [],
+    [autoplay, autoplayDelay]
+  )
+
+  const allPlugins = [...autoplayPlugin, ...plugins]
 
   const [carouselRef, api] = useEmblaCarousel(
     {
       ...options,
       axis: orientation === "horizontal" ? "x" : "y",
       direction: "rtl",
-      dragFree: true,
-      loop: true,
-      slidesToScroll: "auto",
+      loop: options?.loop ?? true,
+      slidesToScroll: 1,
     },
-    plugins
+    allPlugins
   )
 
   const {
-    isPrevBtnDisabled,
-    isNextBtnDisabled,
+    canScrollPrev,
+    canScrollNext,
     onPrevButtonClick,
     onNextButtonClick,
     handleKeyDown,
   } = useNavigationCarousel({ api })
+  const mode = columnsDesktop ? "columns" : "free"
 
   return (
-    <>
-      <CarouselContext.Provider
-        value={{
-          carouselRef,
-          scrollNext: onNextButtonClick,
-          scrollPrev: onPrevButtonClick,
-          canScrollNext: isNextBtnDisabled,
-          canScrollPrev: isPrevBtnDisabled,
-          orientation,
-          api,
-          columnsDesktop,
-          columnsMobile,
-          ...props,
-        }}
+    <CarouselContext.Provider
+      value={{
+        carouselRef,
+        api,
+        options,
+        scrollPrev: onPrevButtonClick,
+        scrollNext: onNextButtonClick,
+        canScrollPrev,
+        mobileHeight,
+        desktopHeight,
+        canScrollNext,
+        orientation,
+        mode,
+        columnsDesktop,
+        columnsMobile,
+        slideSize,
+        gap,
+        canUserSelect,
+        ...props,
+      }}
+    >
+      <div
+        dir="rtl"
+        onKeyDownCapture={handleKeyDown}
+        role="region"
+        aria-roledescription="carousel"
+        {...props}
+        className={`carousel carousel--mode-${mode} ${props.className ?? ""}`}
       >
-        <div
-          dir="rtl"
-          ref={divRef}
-          onKeyDownCapture={handleKeyDown}
-          role="region"
-          className={`carousel ${props.className ?? ""}`}
-          aria-roledescription="carousel"
-          {...props}
-        >
-          {children}
-        </div>
-      </CarouselContext.Provider>
-    </>
+        {children}
+      </div>
+    </CarouselContext.Provider>
   )
 }
 
-type CarouselContentProps = React.HTMLAttributes<HTMLDivElement>
-const CarouselContent = ({ className, ...props }: CarouselContentProps) => {
-  const divRef = useRef<HTMLDivElement | null>(null)
+type CarouselContentProps = React.HTMLAttributes<HTMLDivElement> & {
+  ref?: React.Ref<HTMLDivElement>
+}
+
+const CarouselContent = ({
+  className,
+  ref,
+  ...props
+}: CarouselContentProps) => {
   const {
     carouselRef,
-    orientation,
     columnsDesktop,
     columnsMobile,
+    slideSize,
+    mobileHeight,
+    desktopHeight,
     gap,
-    slideSizePercent,
+    canUserSelect,
   } = useCarousel()
 
   const containerStyle = {
+    "--slide-spacing": gap,
+    "--slide-size": slideSize,
     "--columns-desktop": columnsDesktop,
     "--columns-mobile": columnsMobile,
-    "--slide-size": slideSizePercent,
-    "--slide-spacing": gap ?? 0,
+    "--carousel-mobile-height": mobileHeight,
+    "--carousel-desktop-height": desktopHeight,
+    "--select-user": canUserSelect ?? "none",
   } as React.CSSProperties
 
   return (
-    <div ref={carouselRef} className="carousel-content-wrapper">
+    <div ref={carouselRef} className="carousel-viewport">
       <div
-        ref={divRef}
+        ref={ref}
         style={containerStyle}
-        className={`carousel-content ${
-          orientation === "horizontal"
-            ? "carousel-content-horizontal"
-            : "carousel-content-vertical"
-        }`}
+        className={`carousel-container ${className ?? ""}`}
         {...props}
       />
     </div>
   )
 }
 
-type CarouselItemProps = React.HTMLAttributes<HTMLDivElement>
-const CarouselItem = ({ className, ...props }: CarouselItemProps) => {
-  const divRef = useRef<HTMLDivElement | null>(null)
-  const { orientation } = useCarousel()
+type CarouselItemProps = React.HTMLAttributes<HTMLDivElement> & {
+  ref?: React.Ref<HTMLDivElement>
+}
 
+const CarouselItem = ({ className, ref, ...props }: CarouselItemProps) => {
   return (
     <div
-      ref={divRef}
+      ref={ref}
       role="group"
       aria-roledescription="slide"
-      className={`carousel-item ${
-        orientation === "horizontal"
-          ? "carousel-item-horizontal"
-          : "carousel-item-vertical"
-      }`}
+      className={`carousel-item ${className ?? ""}`}
       {...props}
     />
   )
 }
 
-const CarouselPrevious = ({ ...props }: PrevButtonProps) => {
-  const { canScrollPrev, scrollPrev } = useCarousel()
+const CarouselPrevious = (props: PrevButtonProps) => {
+  const { api, canScrollPrev, scrollPrev } = useCarousel()
+
+  const handleClick = useCallback(() => {
+    api?.plugins()?.autoplay?.reset()
+    scrollPrev()
+  }, [api, scrollPrev])
+
   return (
-    <PrevButton disabled={!canScrollPrev} onClick={scrollPrev} {...props} />
+    <PrevButton disabled={!canScrollPrev} onClick={handleClick} {...props} />
   )
 }
 
-const CarouselNext = ({ ...props }: NextButtonProps) => {
-  const { canScrollNext, scrollNext } = useCarousel()
+const CarouselNext = (props: NextButtonProps) => {
+  const { api, canScrollNext, scrollNext } = useCarousel()
+
+  const handleClick = useCallback(() => {
+    api?.plugins()?.autoplay?.reset()
+    scrollNext()
+  }, [api, scrollNext])
+
   return (
-    <NextButton disabled={!canScrollNext} onClick={scrollNext} {...props} />
+    <NextButton disabled={!canScrollNext} onClick={handleClick} {...props} />
   )
 }
 
-type CarouselPaginationProps = React.HTMLAttributes<HTMLDivElement>
 const CarouselPagination = ({
   className,
   ...props
-}: CarouselPaginationProps) => {
+}: React.HTMLAttributes<HTMLDivElement>) => {
   const { api } = useCarousel()
   const { onDotButtonClick, scrollSnaps, selectedSlide } =
     usePaginationDotButtons({ api })
 
+  const handleDotClick = useCallback(
+    (index: number) => {
+      api?.plugins()?.autoplay?.reset()
+      onDotButtonClick(index)
+    },
+    [api, onDotButtonClick]
+  )
+
+  if (scrollSnaps.length <= 1) return null
+
   return (
-    <div className="carousel-pagination" {...props}>
+    <div className={`carousel-pagination ${className ?? ""}`} {...props}>
       {scrollSnaps.map((_, index) => (
         <PaginationDotButton
           key={index}
-          onClick={() => onDotButtonClick(index)}
+          onClick={() => handleDotClick(index)}
           className={
             selectedSlide === index
-              ? "carousel-pagination-dot-active"
+              ? "carousel-pagination-dot carousel-pagination-dot-active"
               : "carousel-pagination-dot"
           }
         />
@@ -216,4 +265,5 @@ export {
   CarouselPrevious,
   CarouselNext,
   CarouselPagination,
+  type CarouselApi,
 }

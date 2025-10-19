@@ -12,50 +12,38 @@ export const usePaginationDotButtons = ({
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([])
 
   const onDotButtonClick = useCallback(
-    (slideNumber: number) => {
-      if (!api) return
-
-      api.scrollTo(slideNumber)
+    (index: number) => {
+      api?.scrollTo(index)
     },
     [api]
   )
 
-  const onInit = useCallback(
-    (api: NonNullable<UsePaginationDotButtonsProps["api"]>) => {
-      setScrollSnaps(api.scrollSnapList())
-    },
-    []
-  )
+  const onInit = useCallback((emblaApi: EmblaCarouselType) => {
+    setScrollSnaps(emblaApi.scrollSnapList())
+  }, [])
 
-  const onSelect = useCallback(
-    (api: NonNullable<UsePaginationDotButtonsProps["api"]>) => {
-      setSelectedSlide(api.selectedScrollSnap())
-    },
-    []
-  )
+  const onSelect = useCallback((emblaApi: EmblaCarouselType) => {
+    setSelectedSlide(emblaApi.selectedScrollSnap())
+  }, [])
 
   useEffect(() => {
     if (!api) return
 
     onInit(api)
     onSelect(api)
-    api.on("reInit", onInit).on("reInit", onSelect).on("select", onSelect)
+    api.on("reInit", onInit).on("select", onSelect)
+
+    return () => {
+      api.off("reInit", onInit)
+      api.off("select", onSelect)
+    }
   }, [api, onInit, onSelect])
 
   return { selectedSlide, scrollSnaps, onDotButtonClick }
 }
 
-export const PaginationDotButton = ({
-  children,
-  ...props
-}: {
-  children?: React.ReactNode
-} & React.ButtonHTMLAttributes<HTMLButtonElement>) => {
-  return (
-    <button {...props} className="pagination-dot-button">
-      {children}
-    </button>
-  )
-}
-
-export default PaginationDotButton
+export type PaginationDotButtonProps =
+  React.ButtonHTMLAttributes<HTMLButtonElement>
+export const PaginationDotButton = (props: PaginationDotButtonProps) => (
+  <button type="button" {...props} />
+)

@@ -5,7 +5,9 @@ import { ComponentData } from "../types"
 import { COMPONENTS_SCHEMAS } from "@/schemas/shared/blocks"
 import { BasicBlocks } from "@/schemas/shared/enums"
 import { AddComponentSlotSettings } from "@/schemas/components/common/appComponentSlot.schema"
-import { useRenderers } from "@/view"
+import { ComponentViewRenderer, useRenderers } from "@/view"
+import React from "react"
+import uuid from "@/lib/uuid"
 
 interface ClientComponentRendererProps {
   component: ComponentData
@@ -35,21 +37,33 @@ export const ClientComponentRenderer = ({
           settings={component.settings as any}
           action={component.action}
           data={itemsArray}
-          renderRepeater={(items: any[], template: ComponentData[]) =>
+          renderRepeater={(
+            items: any[],
+            template: ComponentData[],
+            Wrapper?: React.ElementType,
+            additionalWrapperProps?: React.HTMLProps<HTMLElement>
+          ) =>
             items.map((item, idx) => {
-              const baseKey =
+              const base =
                 (item && (item.id || item.sku || item.slug)) ?? `i-${idx}`
-              const itemKey = `rep-${String(baseKey)}`
+              const itemKey = `rep-${uuid()}-${String(base)}`
+
+              const wrapperProps = {
+                key: item.id || itemKey,
+                ...additionalWrapperProps,
+              }
+
+              const Comp = Wrapper ?? React.Fragment
               return (
-                <div key={itemKey} className="repeater-item">
+                <Comp {...wrapperProps}>
                   {template?.map((templateChild) => (
-                    <ClientComponentRenderer
+                    <ComponentViewRenderer
                       key={templateChild.id}
                       component={templateChild}
                       dataContext={item}
                     />
                   ))}
-                </div>
+                </Comp>
               )
             })
           }

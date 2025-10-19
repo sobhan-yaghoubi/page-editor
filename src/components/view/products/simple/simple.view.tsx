@@ -44,12 +44,12 @@ export const FeaturedProductsView = ({
         style={{ position: "relative" }}
         columnsMobile={mobileItemsPerView}
         columnsDesktop={itemsPerView}
+        autoplay
+        autoplayDelay={4000}
       >
         <CarouselContent style={{ position: "relative" }}>
           {renderRepeater?.(products, template, CarouselItem)}
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
       </Carousel>
     </section>
   )

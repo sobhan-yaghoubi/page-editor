@@ -53,6 +53,9 @@ export enum Sections {
 
   /** Represents a section that contains a banner */
   BANNER = "BANNER",
+
+  /** Represents a section that contains announcement bar */
+  ANNOUNCEMENT_BAR = "ANNOUNCEMENT_BAR",
 }
 
 /**
@@ -98,6 +101,7 @@ export enum AppComponents {
 export enum ModuleUI {
   /** Represents a product box UI component, which showcases a product in a boxed format. */
   PRODUCT_CARD = "PRODUCT_CARD",
+  ANNOUNCEMENT = "ANNOUNCEMENT",
 }
 
 /**

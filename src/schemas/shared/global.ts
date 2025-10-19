@@ -7,7 +7,10 @@ export const GLOBAL_SCHEMAS: Record<string, PageSchema> = {
     name: "Header",
     canHaveFooter: false,
     canHaveHeader: false,
-    allowedSections: [BasicBlocks.TEXT, { type: Sections.HEADER, max: 1 }],
+    allowedSections: [
+      { type: Sections.ANNOUNCEMENT_BAR, max: 1 },
+      { type: Sections.HEADER, max: 1 },
+    ],
   },
   [Layouts.FOOTER]: {
     type: "fixed",

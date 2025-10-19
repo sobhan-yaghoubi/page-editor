@@ -1,7 +1,10 @@
 import {
-  SimpleCarousel,
-  SimpleCarouselSlide,
-} from "@/components/common/carousel/simple"
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/common/carousel"
 
 const desktopArticles = [
   {
@@ -37,30 +40,6 @@ const desktopArticles = [
     image:
       "https://api.builder.io/api/v1/image/assets/TEMP/3e722ca981d53c501a5ce33be7f093008280847b?width=460",
     title: "راهنما تشخیص ساعت پتک فیلیپ اصل از فیک",
-    date: "23 آذر ۱۴۰۳",
-  },
-]
-
-const mobileArticles = [
-  {
-    id: 1,
-    image:
-      "https://api.builder.io/api/v1/image/assets/TEMP/bd78cb4e75dc86b70bb90d537a18e037695bfa98?width=358",
-    title: "برند ساعت‌سازی گرند سیکو: نماد دقت و زیبایی",
-    date: "23 آذر ۱۴۰۳",
-  },
-  {
-    id: 2,
-    image:
-      "https://api.builder.io/api/v1/image/assets/TEMP/5fe83773e61e8457ae141ed08e6fd5471555cc1e?width=358",
-    title: "چرا باید در تمام طول سال عینک آفتابی بزنیم؟",
-    date: "۱۲ بهمن ۱۴۰۳",
-  },
-  {
-    id: 3,
-    image:
-      "https://api.builder.io/api/v1/image/assets/TEMP/bd78cb4e75dc86b70bb90d537a18e037695bfa98?width=358",
-    title: "برند ساعت‌سازی گرند سیکو: نماد دقت و زیبایی",
     date: "23 آذر ۱۴۰۳",
   },
 ]
@@ -103,19 +82,29 @@ const BlogFeatureEditor = () => {
             <span className="articles-link__text">مشاهده همه</span>
           </a>
         </div>
+        <Carousel
+          gap="1.5rem"
+          options={{
+            align: "center",
+            loop: false,
+          }}
+        >
+          <CarouselContent>
+            {desktopArticles.map((article) => (
+              <CarouselItem key={article.id}>
+                <ArticleCard
+                  image={article.image}
+                  title={article.title}
+                  date={article.date}
+                  size="desktop"
+                />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
 
-        <SimpleCarousel>
-          {desktopArticles.map((article) => (
-            <SimpleCarouselSlide key={article.id}>
-              <ArticleCard
-                image={article.image}
-                title={article.title}
-                date={article.date}
-                size="desktop"
-              />
-            </SimpleCarouselSlide>
-          ))}
-        </SimpleCarousel>
+          <CarouselPrevious className="carousel-previous-button" />
+          <CarouselNext className="carousel-next-button" />
+        </Carousel>
       </div>
 
       <div className="articles-mobile">
@@ -153,18 +142,29 @@ const BlogFeatureEditor = () => {
             <span className="articles-link__text">همه</span>
           </a>
         </div>
-        <SimpleCarousel>
-          {mobileArticles.map((article) => (
-            <SimpleCarouselSlide key={article.id}>
-              <ArticleCard
-                image={article.image}
-                title={article.title}
-                date={article.date}
-                size="mobile"
-              />
-            </SimpleCarouselSlide>
-          ))}
-        </SimpleCarousel>
+        <Carousel
+          gap="1.5rem"
+          options={{
+            align: "center",
+            loop: false,
+          }}
+        >
+          <CarouselContent>
+            {desktopArticles.map((article) => (
+              <CarouselItem key={article.id}>
+                <ArticleCard
+                  image={article.image}
+                  title={article.title}
+                  date={article.date}
+                  size="mobile"
+                />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+
+          <CarouselPrevious className="carousel-previous-button" />
+          <CarouselNext className="carousel-next-button" />
+        </Carousel>
       </div>
     </section>
   )

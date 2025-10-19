@@ -31,8 +31,8 @@ import { FeaturedProductsEditor as ProductsFEaturesEditor } from "@/components/v
 import { RichText as RichTextView } from "@/components/view/storyTelling/richText/richText.view"
 import { RichText as RichTextEditor } from "@/components/view/storyTelling/richText/richText.editor"
 
-import { HeaderView } from "@/components/view/layout/header/header.view"
-import { HeaderEditor } from "@/components/view/layout/header/header.editor"
+import HeaderView from "@/components/view/layout/header/header.view"
+import HeaderEditor from "@/components/view/layout/header/header.editor"
 
 import { Footer as FooterView } from "@/components/view/layout/footer/footer.view"
 import { Footer as FooterEditor } from "@/components/view/layout/footer/footer.editor"
@@ -73,6 +73,10 @@ import BlogFeatureView from "@/components/view/template/blogFeature/blogFeature.
 import BlogFeatureEditor from "@/components/view/template/blogFeature/blogFeature.editor"
 import { AppComponentSlotView } from "@/components/common/app-component-slot/appComponentSlot.view"
 import { AppComponentSlotEditor } from "@/components/common/app-component-slot/appComponentSlot.editor"
+import announcementView from "@/components/view/module/announcement/announcement.view"
+import announcementEditor from "@/components/view/module/announcement/announcement.editor"
+import AnnouncementBarView from "@/components/view/module/announcementBar/announcementBar.view"
+import AnnouncementBarEditor from "@/components/view/module/announcementBar/announcementBar.editor"
 
 type UIComponent = ComponentType<any>
 type Pair = { view: UIComponent; editor: UIComponent }
@@ -106,7 +110,15 @@ const MASTER_REGISTRY = {
   [BasicBlocks.GROUP]: { view: GroupView, editor: GroupEditor },
 
   [ModuleUI.PRODUCT_CARD]: { view: productCardView, editor: productCardEditor },
+  [ModuleUI.ANNOUNCEMENT]: {
+    view: announcementView,
+    editor: announcementEditor,
+  },
 
+  [Sections.ANNOUNCEMENT_BAR]: {
+    view: AnnouncementBarView,
+    editor: AnnouncementBarEditor,
+  },
   [TemplateUI.BRAND_FEATURES]: {
     view: BrandsFeatureView,
     editor: BrandsFeatureEditor,

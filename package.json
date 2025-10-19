@@ -48,12 +48,12 @@
   ],
   "peerDependencies": {
     "clsx": "^2.1.1",
+    "embla-carousel": "^8.6.0",
+    "embla-carousel-react": "^8.6.0",
     "lodash": "^4.17.21",
     "react": ">=18.2.0",
     "react-dom": ">=18.2.0",
-    "zustand": ">=4.5.0",
-    "embla-carousel": "^8.6.0",
-    "embla-carousel-react": "^8.6.0"
+    "zustand": ">=4.5.0"
   },
   "devDependencies": {
     "@types/lodash": "^4.17.0",
@@ -68,5 +68,8 @@
     "vite": "^7.1.6",
     "vite-plugin-dts": "^4.5.4",
     "vite-tsconfig-paths": "^5.1.4"
+  },
+  "dependencies": {
+    "embla-carousel-autoplay": "^8.6.0"
   }
 }

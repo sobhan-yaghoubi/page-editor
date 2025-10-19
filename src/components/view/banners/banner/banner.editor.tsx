@@ -58,9 +58,12 @@ export const BannerEditor = ({ settings }: BannerEditorProps) => {
 
   return (
     <Carousel
-      columnsDesktop={1}
-      columnsMobile={1}
-      style={{ position: "relative" }}
+      slideSize="100%"
+      gap="1.5rem"
+      options={{
+        align: "center",
+        loop: false,
+      }}
     >
       <CarouselContent>
         {slides.map((slide, idx) => (
@@ -78,8 +81,8 @@ export const BannerEditor = ({ settings }: BannerEditorProps) => {
         ))}
       </CarouselContent>
 
-      <CarouselPrevious />
-      <CarouselNext />
+      <CarouselPrevious className="carousel-previous-button" />
+      <CarouselNext className="carousel-next-button" />
     </Carousel>
   )
 }

@@ -21,8 +21,7 @@
 
 .group-component > * {
   flex: 0 0 var(--group-item-w, auto);
-  max-width: var(--group-item-w, none);
-  min-width: 0;
+  width: 100%;
   box-sizing: border-box;
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "@sobhan.yaghoubi/page-editor",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "A powerful, schema-driven page-editor for React and Next.js.",
   "author": "sobhan yaghoubi",
   "license": "ISC",

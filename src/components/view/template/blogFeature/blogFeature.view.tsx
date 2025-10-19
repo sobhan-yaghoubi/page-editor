@@ -83,6 +83,8 @@ const BlogFeatureEditor = () => {
           </a>
         </div>
         <Carousel
+          desktopHeight="auto"
+          mobileHeight="auto"
           gap="1.5rem"
           options={{
             align: "center",
@@ -143,6 +145,8 @@ const BlogFeatureEditor = () => {
           </a>
         </div>
         <Carousel
+          desktopHeight="auto"
+          mobileHeight="auto"
           gap="1.5rem"
           options={{
             align: "center",

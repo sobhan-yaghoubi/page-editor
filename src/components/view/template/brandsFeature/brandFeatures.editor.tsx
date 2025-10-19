@@ -115,6 +115,8 @@ const BrandsFeatureView = () => {
       <div className="brands-feature-container">
         <div className="brands-feature-inner-container">
           <Carousel
+            desktopHeight="auto"
+            mobileHeight="auto"
             slideSize="40%"
             gap="1.5rem"
             autoplay

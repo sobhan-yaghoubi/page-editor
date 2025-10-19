@@ -72,6 +72,8 @@ const BestCommentEditor = () => {
           </div>
           <div className="reviews-desktop-list">
             <Carousel
+              desktopHeight="auto"
+              mobileHeight="auto"
               slideSize="40%"
               gap="1.5rem"
               options={{
@@ -103,6 +105,8 @@ const BestCommentEditor = () => {
         <h2 className="reviews-mobile-title">نظرات مشتریان</h2>
         <div className="reviews-mobile-list">
           <Carousel
+            desktopHeight="auto"
+            mobileHeight="auto"
             slideSize="40%"
             gap="1.5rem"
             options={{

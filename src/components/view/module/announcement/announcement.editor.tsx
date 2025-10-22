@@ -29,13 +29,7 @@ const AnnouncementEditor = ({ settings }: Props) => {
 
   return (
     <div id={`announcement-${id}-editor`} style={announcementStyle}>
-      {link ? (
-        <a href={link} style={{ textDecoration: "none", color: "inherit" }}>
-          {text}
-        </a>
-      ) : (
-        <span>{text}</span>
-      )}
+      <span>{text}</span>
     </div>
   )
 }

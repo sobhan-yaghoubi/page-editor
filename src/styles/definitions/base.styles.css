@@ -17,3 +17,68 @@ a {
 a:hover {
   color: var(--theme-color-links-hover);
 }
+
+/* --- Start SEO Box Styles --- */
+
+.seo-box {
+  margin: 2rem 0;
+}
+
+.seo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 500;
+  color: #2563eb;
+  font-size: 0.95rem;
+}
+
+.seo-toggle-text {
+  font-weight: 600;
+}
+
+.seo-content-wrapper {
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.35s ease;
+  max-height: 10000px;
+  padding: 0 0 1rem;
+}
+
+.seo-content-wrapper.collapsed {
+  max-height: calc(1.5em * var(--preview-lines, 2) + 1.5rem);
+  padding-bottom: 0;
+  position: relative;
+}
+
+.seo-content-wrapper.collapsed::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2rem;
+  background: linear-gradient(transparent, white);
+  pointer-events: none;
+}
+
+.seo-content {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #374151;
+}
+
+.seo-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin: 1rem 0;
+}
+
+.seo-content a {
+  color: #2563eb;
+  text-decoration: underline;
+}
+/* --- End SEO Box Styles --- */

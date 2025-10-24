@@ -9,7 +9,6 @@
 .carousel-container {
   display: flex;
   touch-action: pan-y pinch-zoom;
-  height: var(--carousel-desktop-height, auto);
 }
 
 .carousel-item {
@@ -79,10 +78,4 @@
   transform: translateY(-50%);
   background: var(--background);
   border-radius: var(--spacing);
-}
-
-@media (max-width: 767px) {
-  .carousel-container {
-    height: var(--carousel-mobile-height, auto);
-  }
 }

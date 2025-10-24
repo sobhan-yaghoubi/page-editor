@@ -3,6 +3,7 @@ import {
   BasicBlocks,
   ModuleUI,
   ProductBlocks,
+  CategoryBlocks,
   Sections,
   TemplateUI,
 } from "./enums"
@@ -26,6 +27,7 @@ import {
   PRODUCT_ADD_TO_CART_BUTTON_SCHEMA,
   PRODUCT_GALLERY_SCHEMA,
   PRODUCT_CARD_SCHEMA,
+  CATEGORY_PAGE_PRODUCT_GRID_LIST_SCHEMA,
 } from "../components"
 import { BANNER_SCHEMA } from "../components/banners/banner/banner.schema"
 import { BRAND_FEATURE_SCHEMA } from "../components/template/brandsFeatures.schema"
@@ -34,6 +36,10 @@ import { BLOG_FEATURES_SCHEMA } from "../components/template/blogFeatures.schema
 import { APP_COMPONENT_SLOT_SCHEMA } from "../components/common/appComponentSlot.schema"
 import { ANNOUNCEMENT_BAR_SCHEMA } from "../components/modules/announcementBar.schema"
 import { ANNOUNCEMENT_SCHEMA } from "../components/modules/announcement.schema"
+import { CATEGORY_PAGE_SUB_CATEGORIES_SCHEMA } from "../components/products/productList/subCategories.schema"
+import { CATEGORY_PAGE_PRODUCT_FILTERS_SCHEMA } from "../components/products/productList/productFilters.schema"
+import { CATEGORY_PAGE_SEO_BOX_SCHEMA } from "../components/products/productList/seoBox.schema"
+import { CATEGORY_TITLE_SCHEMA } from "../components/products/productList/categoryTitle.schema"
 
 export const COMPONENTS_SCHEMAS: Record<string, ComponentSchema> = {
   [Sections.HEADER]: HEADER_SCHEMA,
@@ -43,6 +49,12 @@ export const COMPONENTS_SCHEMAS: Record<string, ComponentSchema> = {
   [Sections.RICH_TEXT]: RICH_TEXT_SCHEMA,
   [Sections.SUBSCRIPTION_FORM]: SUBSCRIPTION_FORM_SCHEMA,
   [Sections.BANNER]: BANNER_SCHEMA,
+
+  [CategoryBlocks.PRODUCT_GRID_LIST]: CATEGORY_PAGE_PRODUCT_GRID_LIST_SCHEMA,
+  [CategoryBlocks.PRODUCT_FILTERS]: CATEGORY_PAGE_PRODUCT_FILTERS_SCHEMA,
+  [CategoryBlocks.SEO_BOX]: CATEGORY_PAGE_SEO_BOX_SCHEMA,
+  [CategoryBlocks.SUB_CATEGORIES]: CATEGORY_PAGE_SUB_CATEGORIES_SCHEMA,
+  [CategoryBlocks.TITLE]: CATEGORY_TITLE_SCHEMA,
 
   [ModuleUI.PRODUCT_CARD]: PRODUCT_CARD_SCHEMA,
 

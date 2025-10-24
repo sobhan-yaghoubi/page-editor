@@ -5,6 +5,7 @@ import {
   Layouts,
   ModuleUI,
   ProductBlocks,
+  CategoryBlocks,
   Sections,
   TemplateUI,
 } from "@/schemas/shared/enums"
@@ -22,6 +23,7 @@ export type ComponentType =
   | ProductBlocks
   | ModuleUI
   | TemplateUI
+  | CategoryBlocks
 
 /**
  * Represents all possible parents a component can have.
@@ -231,7 +233,7 @@ export interface ComponentProps<
   renderRepeater?: (
     items: any[],
     template: ComponentData[],
-    Wrapper: React.ElementType,
+    Wrapper?: React.ElementType,
     additionalWrapperProps?: React.HTMLProps<HTMLElement>
   ) => React.ReactNode
 }
@@ -297,6 +299,7 @@ interface BaseSetting {
   defaultValue?: any
   section?: "general" | "mobile" | string
   condition?: SettingCondition
+  description?: string
 }
 
 /**

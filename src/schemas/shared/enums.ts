@@ -90,7 +90,6 @@ export enum AppComponents {
   HEADER_SEARCH_BAR = "HEADER_SEARCH_BAR",
   HEADER_WISHLIST_ICON = "HEADER_WISHLIST_ICON",
   HEADER_MAIN_NAVIGATION = "HEADER_MAIN_NAVIGATION",
-
   CART_SUMMARY = "CART_SUMMARY",
 }
 
@@ -135,4 +134,12 @@ export enum ProductBlocks {
 
   /** Represents a button to add the product to the shopping cart. */
   PRODUCT_ADD_TO_CART_BUTTON = "PRODUCT_ADD_TO_CART_BUTTON",
+}
+
+export enum CategoryBlocks {
+  PRODUCT_FILTERS = "PRODUCT_FILTERS",
+  PRODUCT_GRID_LIST = "PRODUCT_GRID_LIST",
+  SUB_CATEGORIES = "SUB_CATEGORIES",
+  SEO_BOX = "CATEGORY_SEO_BOX",
+  TITLE = "CATEGORY_TITLE",
 }

@@ -20,3 +20,7 @@ export * from "./products/productPrice/productPrice.schema"
 export * from "./products/productTitle/productTitle.schema"
 
 export * from "./products/module/productCard/productCard.schema"
+export * from "./products/productList/productGridList.schema"
+export * from "./products/productList/productFilters.schema"
+export * from "./products/productList/seoBox.schema"
+export * from "./products/productList/subCategories.schema"

@@ -5,6 +5,7 @@ import {
   ProductBlocks,
   ModuleUI,
   TemplateUI,
+  CategoryBlocks,
 } from "@/schemas/shared/enums"
 
 import { HeroSection as HeroSectionView } from "@/components/view/banners/hero/hero.view"
@@ -77,6 +78,18 @@ import announcementView from "@/components/view/module/announcement/announcement
 import announcementEditor from "@/components/view/module/announcement/announcement.editor"
 import AnnouncementBarView from "@/components/view/module/announcementBar/announcementBar.view"
 import AnnouncementBarEditor from "@/components/view/module/announcementBar/announcementBar.editor"
+import productGridListView from "@/components/view/products/productList/productGridList/productGridList.view"
+import productGridListEditor from "@/components/view/products/productList/productGridList/productGridList.editor"
+import ProductFiltersEditor from "@/components/view/products/productList/productFilter/productsFilter.editor"
+import { ProductFiltersView } from "@/components/view/products/productList/productFilter/productFilter.view"
+import seoBoxView from "@/components/view/products/productList/seoBox/seoBox.view"
+import productListSeoBoxView from "@/components/view/products/productList/seoBox/seoBox.view"
+import productListSeoBoxEditor from "@/components/view/products/productList/seoBox/seoBox.editor"
+import subCategoriesEditor from "@/components/view/products/productList/subCategories/subCategories.editor"
+import productSubCategoriesView from "@/components/view/products/productList/subCategories/subCategories.view"
+import productSubCategoriesEditor from "@/components/view/products/productList/subCategories/subCategories.editor"
+import categoryTitleView from "@/components/view/products/productList/categoryTitle/categoryTitle.view"
+import categoryTitleEditor from "@/components/view/products/productList/categoryTitle/categoryTitle.editor"
 
 type UIComponent = ComponentType<any>
 type Pair = { view: UIComponent; editor: UIComponent }
@@ -86,6 +99,7 @@ type ComponentKey =
   | ProductBlocks
   | ModuleUI
   | TemplateUI
+  | CategoryBlocks
 
 const MASTER_REGISTRY = {
   [Sections.HERO_SECTION]: { view: HeroSectionView, editor: HeroSectionEditor },
@@ -101,6 +115,27 @@ const MASTER_REGISTRY = {
   [Sections.HEADER]: { view: HeaderView, editor: HeaderEditor },
   [Sections.FOOTER]: { view: FooterView, editor: FooterEditor },
   [Sections.BANNER]: { view: BannerView, editor: BannerEditor },
+
+  [CategoryBlocks.PRODUCT_GRID_LIST]: {
+    view: productGridListView,
+    editor: productGridListEditor,
+  },
+  [CategoryBlocks.PRODUCT_FILTERS]: {
+    view: ProductFiltersView,
+    editor: ProductFiltersEditor,
+  },
+  [CategoryBlocks.SEO_BOX]: {
+    view: productListSeoBoxView,
+    editor: productListSeoBoxEditor,
+  },
+  [CategoryBlocks.SUB_CATEGORIES]: {
+    view: productSubCategoriesView,
+    editor: productSubCategoriesEditor,
+  },
+  [CategoryBlocks.TITLE]: {
+    view: categoryTitleView,
+    editor: categoryTitleEditor,
+  },
 
   [BasicBlocks.HEADING]: { view: HeadingView, editor: HeadingEditor },
   [BasicBlocks.TEXT]: { view: TextView, editor: TextEditor },

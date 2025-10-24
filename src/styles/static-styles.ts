@@ -7,6 +7,7 @@ import productCardCSS from "@/styles/definitions/productCard.styles.css?raw"
 import blogCSS from "@/styles/definitions/blog.styles.css?raw"
 import commentCss from "@/styles/definitions/comment.styles.css?raw"
 import gridCss from "@/styles/definitions/grid.styles.css?raw"
+import productCss from "@/styles/definitions/product.styles.css?raw"
 
 export const staticStyles = {
   base: baseCSS,
@@ -18,6 +19,7 @@ export const staticStyles = {
   comment: commentCss,
   blog: blogCSS,
   grid: gridCss,
+  product : productCss
 }
 
 /**

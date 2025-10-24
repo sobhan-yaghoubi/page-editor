@@ -1,5 +1,6 @@
 import {
   BasicBlocks,
+  Layouts,
   ModuleUI,
   ProductBlocks,
   Sections,
@@ -39,7 +40,7 @@ export const PRODUCT_CARD_SCHEMA: ComponentSchema = {
   category: "block",
   isDraggable: false,
   isDeletable: false,
-  allowedParents: [Sections.PRODUCT_FEATURES],
+  allowedParents: [Sections.PRODUCT_FEATURES, Layouts.PRODUCT_LIST],
   allowedChildren: [
     ProductBlocks.PRODUCT_GALLERY,
     ProductBlocks.PRODUCT_TITLE,

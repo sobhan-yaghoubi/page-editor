@@ -9,6 +9,8 @@ const GroupView = ({
   const {
     "group-direction": direction = "horizontal",
     "group-direction-vertical-on-mobile": verticalOnMobile = false,
+    "group-direction-reverse-vertical-on-mobile":
+      reverseVerticalOnMobile = false,
     "group-alignment": alignment = "center",
     "group-position": position = "center",
     "group-layout-gap": gap = 14,
@@ -106,6 +108,9 @@ const GroupView = ({
     ["--group-mobile-flex-direction" as any]:
       verticalOnMobile && direction === "horizontal" ? "column" : undefined,
     ["--group-mobile-width" as any]: getWidth(false),
+    ["--reverse-column-on-mobile" as any]: reverseVerticalOnMobile
+      ? "column-reverse"
+      : "unset",
   }
 
   return (

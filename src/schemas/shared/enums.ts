@@ -81,6 +81,9 @@ export enum BasicBlocks {
   /** Represents a group block, used to group multiple elements together. */
   GROUP = "GROUP",
 
+  TAB = "TAB",
+  TAB_ITEM = "TAB_ITEM",
+
   APP_COMPONENT_SLOT = "APP_COMPONENT_SLOT",
 }
 
@@ -132,6 +135,10 @@ export enum ProductBlocks {
   /** Represents a block displaying the product description. */
   PRODUCT_DESCRIPTION = "PRODUCT_DESCRIPTION",
 
+  PRODUCT_COMMENTS = "PRODUCT_COMMENTS",
+  PRODUCT_INFO_TABLE = "PRODUCT_INFO_TABLE",
+  PRODUCT_INFO_DESCRIPTION = "PRODUCT_INFO_DESCRIPTION",
+
   /** Represents a button to add the product to the shopping cart. */
   PRODUCT_ADD_TO_CART_BUTTON = "PRODUCT_ADD_TO_CART_BUTTON",
 }
@@ -142,4 +149,10 @@ export enum CategoryBlocks {
   SUB_CATEGORIES = "SUB_CATEGORIES",
   SEO_BOX = "CATEGORY_SEO_BOX",
   TITLE = "CATEGORY_TITLE",
+}
+
+export enum HeaderBlocks {
+  SEARCH_BAR = "SEARCH_BAR",
+  CART_BUTTON = "CART_BUTTON",
+  USER_PROFILE = "USER_PROFILE",
 }

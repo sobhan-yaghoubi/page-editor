@@ -29,5 +29,6 @@
   .group-component {
     flex-direction: var(--group-mobile-flex-direction);
     width: var(--group-mobile-width);
+    flex-flow: var(--reverse-column-on-mobile);
   }
 }

@@ -116,7 +116,6 @@ const HeaderEditor = ({ settings }: ComponentProps<HeaderSettings>) => {
     gap: "0.75rem",
   }
 
-  console.log("settings", settings)
   const hasNavItems = navigation && navigation.length > 0
 
   return (

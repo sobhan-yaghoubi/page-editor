@@ -57,10 +57,10 @@ export const Image = ({ settings }: ComponentProps) => {
       alt={alt || ""}
       style={{
         width: settings.width || "100%",
-        height: "auto",
+        height: settings.height || "auto",
         maxWidth: "100%",
         display: "block",
-        objectFit: "inherit",
+        objectFit: settings.objectFit || "inherit",
         borderRadius: settings.borderRadius,
       }}
     />

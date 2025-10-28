@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { CSSProperties } from "react"
 import { ComponentProps } from "@/types"
 import { BannerSettings } from "@/schemas/components/banners/banner/banner.schema"
 import { Image } from "@/components/common/image"
@@ -9,33 +9,15 @@ import {
   CarouselContent,
   CarouselItem,
   CarouselNext,
-  CarouselPagination,
   CarouselPrevious,
 } from "@/components/common/carousel"
 import uuid from "@/lib/uuid"
 
-// A simple placeholder for when no image is selected.
-const ImagePlaceholder = () => (
-  <div
-    style={{
-      width: "100%",
-      paddingBottom: "40%", // Aspect ratio for a banner (e.g., 1200x480)
-      backgroundColor: "#f0f0f0",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      color: "#999",
-      border: "2px dashed #ccc",
-    }}
-  >
-    <span>Banner Slide</span>
-  </div>
-)
-
 type BannerEditorProps = ComponentProps<BannerSettings>
 
 export const BannerEditor = ({ settings }: BannerEditorProps) => {
-  const { slides, showArrows, showDots } = settings
+  const { slides, bannerHeightDesktop, bannerHeightMobile, bannerObjectFit } =
+    settings
 
   if (!slides || !slides.length) {
     return null
@@ -56,6 +38,12 @@ export const BannerEditor = ({ settings }: BannerEditorProps) => {
     )
   }
 
+  const bannerStyles: CSSProperties = {
+    ["--banner-wrapper-mobile-height" as any]: bannerHeightMobile,
+    ["--banner-wrapper-desktop-height" as any]: bannerHeightDesktop,
+    ["--banner-object-fit" as any]: bannerObjectFit,
+  }
+
   return (
     <Carousel
       slideSize="100%"
@@ -63,22 +51,28 @@ export const BannerEditor = ({ settings }: BannerEditorProps) => {
       options={{
         align: "center",
         loop: false,
+        dragFree: true,
       }}
     >
       <CarouselContent>
-        {slides.map((slide, idx) => (
-          <CarouselItem key={`${uuid()}-banner-${idx}`}>
-            <div>
+        <div style={bannerStyles} className="banner-wrapper">
+          {slides.map((slide, idx) => (
+            <CarouselItem
+              style={{ height: "100%" }}
+              key={`${uuid()}-banner-${idx}`}
+            >
               <Image
                 id={slide.href}
                 settings={{
                   src: slide.image,
                   alt: slide.alt,
+                  height: "100%",
+                  objectFit: bannerObjectFit,
                 }}
               />
-            </div>
-          </CarouselItem>
-        ))}
+            </CarouselItem>
+          ))}
+        </div>
       </CarouselContent>
 
       <CarouselPrevious className="carousel-previous-button" />

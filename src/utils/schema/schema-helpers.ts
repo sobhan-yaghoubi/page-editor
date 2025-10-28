@@ -88,7 +88,7 @@ export function getPageHeaderFooterSupport(pageNameSchema: string): {
 } {
   const selectedPageSchema = PAGE_SCHEMAS[pageNameSchema]
   if (!selectedPageSchema) {
-    return { header: false, footer: false }
+    return { header: true, footer: true }
   }
 
   return {

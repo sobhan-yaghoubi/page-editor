@@ -40,6 +40,11 @@ import { CATEGORY_PAGE_SUB_CATEGORIES_SCHEMA } from "../components/products/prod
 import { CATEGORY_PAGE_PRODUCT_FILTERS_SCHEMA } from "../components/products/productList/productFilters.schema"
 import { CATEGORY_PAGE_SEO_BOX_SCHEMA } from "../components/products/productList/seoBox.schema"
 import { CATEGORY_TITLE_SCHEMA } from "../components/products/productList/categoryTitle.schema"
+import { TAB_SCHEMA } from "../components/basic/tab/tab.schema"
+import { TAB_ITEM_SCHEMA } from "../components/basic/tab/tabItem.schema"
+import { PRODUCT_INFO_TABLE_SCHEMA } from "../components/products/productInfoTable/productInfoTable.schema"
+import { PRODUCT_INFO_DESCRIPTION_SCHEMA } from "../components/products/productInfoDescription/productInfoDescription.schema"
+import { PRODUCT_COMMENTS_SCHEMA } from "../components/products/productComments/productComments.schema"
 
 export const COMPONENTS_SCHEMAS: Record<string, ComponentSchema> = {
   [Sections.HEADER]: HEADER_SCHEMA,
@@ -69,6 +74,8 @@ export const COMPONENTS_SCHEMAS: Record<string, ComponentSchema> = {
   [BasicBlocks.SPACER]: SPACER_SCHEMA,
   [BasicBlocks.GROUP]: GROUP_SCHEMA,
   [BasicBlocks.IMAGE]: IMAGE_SCHEMA,
+  [BasicBlocks.TAB]: TAB_SCHEMA,
+  [BasicBlocks.TAB_ITEM]: TAB_ITEM_SCHEMA,
   [BasicBlocks.APP_COMPONENT_SLOT]: APP_COMPONENT_SLOT_SCHEMA,
 
   [ProductBlocks.PRODUCT_DETAILS_SECTION]: PRODUCT_DETAILS_SCHEMA,
@@ -77,4 +84,7 @@ export const COMPONENTS_SCHEMAS: Record<string, ComponentSchema> = {
   [ProductBlocks.PRODUCT_DESCRIPTION]: PRODUCT_DESCRIPTION_SCHEMA,
   [ProductBlocks.PRODUCT_ADD_TO_CART_BUTTON]: PRODUCT_ADD_TO_CART_BUTTON_SCHEMA,
   [ProductBlocks.PRODUCT_GALLERY]: PRODUCT_GALLERY_SCHEMA,
+  [ProductBlocks.PRODUCT_INFO_TABLE]: PRODUCT_INFO_TABLE_SCHEMA,
+  [ProductBlocks.PRODUCT_INFO_DESCRIPTION]: PRODUCT_INFO_DESCRIPTION_SCHEMA,
+  [ProductBlocks.PRODUCT_COMMENTS]: PRODUCT_COMMENTS_SCHEMA,
 }

@@ -6,6 +6,8 @@ import { HeaderSettings } from "@/schemas/components"
 import { SearchIcon, ShoppingCartIcon, UserIcon } from "lucide-react"
 import { Link } from "@/components/common/link"
 import { Image } from "@/components/common/image"
+import { useRenderers } from "@/view"
+import { HeaderBlocks } from "@/schemas/shared/enums"
 
 const SearchMock = () => (
   <div
@@ -102,6 +104,11 @@ const HeaderView = ({ settings }: ComponentProps<HeaderSettings>) => {
     navigation,
   } = settings
 
+  const renderers = useRenderers()
+  const CartButton = renderers?.[HeaderBlocks.CART_BUTTON] ?? CartIconMock
+  const SearchBar = renderers?.[HeaderBlocks.SEARCH_BAR] ?? SearchMock
+  const UserProfile = renderers?.[HeaderBlocks.USER_PROFILE] ?? UserProfileMock
+
   const headerStyle: React.CSSProperties = {
     display: "flex",
     alignItems: "center",
@@ -167,9 +174,9 @@ const HeaderView = ({ settings }: ComponentProps<HeaderSettings>) => {
       <div>{hasNavItems ? <NavigationMenu items={navigation} /> : null}</div>
 
       <div style={actionsStyle}>
-        <SearchMock />
-        <UserProfileMock />
-        <CartIconMock />
+        <CartButton />
+        <SearchBar />
+        <UserProfile />
       </div>
     </header>
   )

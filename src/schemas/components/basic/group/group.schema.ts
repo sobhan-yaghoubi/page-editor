@@ -31,6 +31,17 @@ const settings = [
   },
   {
     section: "Layout",
+    key: "group-direction-reverse-vertical-on-mobile",
+    label: "Reverse vertical on mobile",
+    type: "boolean",
+    defaultValue: false,
+    condition: {
+      key: "group-direction",
+      value: "horizontal",
+    },
+  },
+  {
+    section: "Layout",
     key: "group-alignment",
     label: "Alignment",
     type: "select",

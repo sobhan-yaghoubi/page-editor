@@ -12,6 +12,7 @@ export interface Product {
   price: number
   currency?: string
   compareAtPrice?: number
+  link?: string
 }
 
 /**
@@ -43,5 +44,5 @@ export interface ProductActions {
 
 export type ProductCard = Pick<
   Product,
-  "id" | "currency" | "images" | "inStock" | "name" | "price" | "sku"
+  "id" | "currency" | "images" | "inStock" | "name" | "price" | "sku" | "link"
 >

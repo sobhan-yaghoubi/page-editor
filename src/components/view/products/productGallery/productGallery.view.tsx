@@ -66,6 +66,7 @@ const ProductGalleryView = ({
   const mainImageWrapperStyle: React.CSSProperties = {
     flex: "1 1 0%",
     order: layout === "left" ? 2 : 1,
+    objectFit: "contain",
   }
 
   const CustomImageComponent = renderers?.[BasicBlocks.IMAGE]
@@ -140,6 +141,7 @@ const ProductGalleryView = ({
                 padding: "0.25rem",
                 borderRadius: "0.375rem",
                 transition: "all 0.2s",
+                objectFit: "contain",
                 border:
                   imageUrl === activeImage
                     ? "2px solid #3B82F6"

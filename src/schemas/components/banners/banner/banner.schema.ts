@@ -76,6 +76,41 @@ const settings = [
     defaultValue: true,
     section: "Behavior",
   },
+  {
+    key: "bannerHeightDesktop",
+    type: "select",
+    label: "Banner height",
+    options: [
+      { label: "Small", value: "10rem" },
+      { label: "Medium", value: "20rem" },
+      { label: "Large", value: "45rem" },
+      { label: "Auto", value: "auto" },
+    ],
+    defaultValue: "20rem",
+  },
+  {
+    key: "bannerHeightMobile",
+    type: "select",
+    label: "Banner height mobile",
+    options: [
+      { label: "Small", value: "5rem" },
+      { label: "Medium", value: "10rem" },
+      { label: "Large", value: "15rem" },
+      { label: "Auto", value: "auto" },
+    ],
+    defaultValue: "15rem",
+  },
+  {
+    key: "bannerObjectFit",
+    type: "select",
+    label: "Object fit",
+    options: [
+      { label: "Contain", value: "contain" },
+      { label: "Cover", value: "cover" },
+      { label: "Fill", value: "fill" },
+      { label: "Inherit", value: "inherit" },
+    ],
+  },
 ] as const satisfies readonly SettingsDefinition[]
 
 export type BannerSettings = SettingsFromSchema<typeof settings>

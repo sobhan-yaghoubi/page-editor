@@ -41,7 +41,7 @@ export const PRODUCT_GALLERY_SCHEMA: ComponentSchema = {
   icon: ImagesIcon,
   category: "section",
   isDraggable: true,
-  isDeletable: false,
+  isDeletable: true,
   allowedParents: [Layouts.PRODUCT, ModuleUI.PRODUCT_CARD],
   allowedChildren: [],
   defaultSettings: settings,

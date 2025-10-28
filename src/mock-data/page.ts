@@ -195,60 +195,60 @@ export const EXAMPLE_FOOTER_COMPONENTS: PageData["components"] = [
 ]
 
 export const EXAMPLE_PRODUCT_PAGE_COMPONENTS: PageData["components"] = [
-  {
-    id: "prod-gallery-xyz",
-    type: ProductBlocks.PRODUCT_GALLERY,
-    settings: {
-      thumbnailPosition: "bottom",
-      zoomEffect: "hover",
-    },
+  // {
+  //   id: "prod-gallery-xyz",
+  //   type: ProductBlocks.PRODUCT_GALLERY,
+  //   settings: {
+  //     thumbnailPosition: "bottom",
+  //     zoomEffect: "hover",
+  //   },
 
-    children: [],
-  },
+  //   children: [],
+  // },
 
-  {
-    id: "prod-details-xyz",
-    type: ProductBlocks.PRODUCT_DETAILS_SECTION,
-    settings: {
-      padding: "medium",
-    },
+  // {
+  //   id: "prod-details-xyz",
+  //   type: ProductBlocks.PRODUCT_DETAILS_SECTION,
+  //   settings: {
+  //     padding: "medium",
+  //   },
 
-    children: [
-      {
-        id: "prod-title-abc",
-        type: ProductBlocks.PRODUCT_TITLE,
+  //   children: [
+  //     {
+  //       id: "prod-title-abc",
+  //       type: ProductBlocks.PRODUCT_TITLE,
 
-        slotName: "title",
-        settings: {
-          tag: "h1",
-        },
-      },
-      {
-        id: "prod-price-abc",
-        type: ProductBlocks.PRODUCT_PRICE,
-        slotName: "price",
-        settings: {},
-      },
-      {
-        id: "prod-desc-abc",
-        type: ProductBlocks.PRODUCT_DESCRIPTION,
-        slotName: "description",
-        settings: {
-          showFullDescription: false,
-        },
-      },
-      {
-        id: "prod-add-to-cart-abc",
-        type: ProductBlocks.PRODUCT_ADD_TO_CART_BUTTON,
-        slotName: "addToCart",
-        settings: {
-          inStockText: "Add to Bag",
-          style: "primary",
-          outOfStockText: "Currently Unavailable",
-        },
-      },
-    ],
-  },
+  //       slotName: "title",
+  //       settings: {
+  //         tag: "h1",
+  //       },
+  //     },
+  //     {
+  //       id: "prod-price-abc",
+  //       type: ProductBlocks.PRODUCT_PRICE,
+  //       slotName: "price",
+  //       settings: {},
+  //     },
+  //     {
+  //       id: "prod-desc-abc",
+  //       type: ProductBlocks.PRODUCT_DESCRIPTION,
+  //       slotName: "description",
+  //       settings: {
+  //         showFullDescription: false,
+  //       },
+  //     },
+  //     {
+  //       id: "prod-add-to-cart-abc",
+  //       type: ProductBlocks.PRODUCT_ADD_TO_CART_BUTTON,
+  //       slotName: "addToCart",
+  //       settings: {
+  //         inStockText: "Add to Bag",
+  //         style: "primary",
+  //         outOfStockText: "Currently Unavailable",
+  //       },
+  //     },
+  //   ],
+  // },
 
   {
     id: "sub-form-prod-page",

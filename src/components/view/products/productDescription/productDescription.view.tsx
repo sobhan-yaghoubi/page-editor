@@ -1,4 +1,5 @@
 "use client"
+
 import { useState } from "react"
 import { ComponentProps } from "@/types"
 import { useProduct } from "@/contexts/ProductContext"
@@ -6,6 +7,8 @@ import { useProduct } from "@/contexts/ProductContext"
 const ProductDescriptionView = ({ settings }: ComponentProps) => {
   const { product } = useProduct()
   const [isExpanded, setIsExpanded] = useState(!settings.truncate)
+
+  console.log("--- ProductDescriptionView is rendering ---")
 
   if (!product?.description) {
     return null

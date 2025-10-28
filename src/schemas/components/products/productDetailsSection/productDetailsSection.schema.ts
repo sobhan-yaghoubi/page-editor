@@ -29,7 +29,7 @@ export const PRODUCT_DETAILS_SCHEMA: ComponentSchema = {
   label: "Product Details",
   category: "section",
   isDraggable: true,
-  isDeletable: false,
+  isDeletable: true,
   allowedParents: [Layouts.PRODUCT],
   slots: {
     title: {

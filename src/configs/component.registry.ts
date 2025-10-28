@@ -35,8 +35,8 @@ import { RichText as RichTextEditor } from "@/components/view/storyTelling/richT
 import HeaderView from "@/components/view/layout/header/header.view"
 import HeaderEditor from "@/components/view/layout/header/header.editor"
 
-import { Footer as FooterView } from "@/components/view/layout/footer/footer.view"
-import { Footer as FooterEditor } from "@/components/view/layout/footer/footer.editor"
+import FooterView from "@/components/view/layout/footer/footer.view"
+import FooterEditor from "@/components/view/layout/footer/footer.editor"
 
 import ProductGalleryView from "@/components/view/products/productGallery/productGallery.view"
 import ProductGalleryEditor from "@/components/view/products/productGallery/productGallery.editor"
@@ -90,6 +90,16 @@ import productSubCategoriesView from "@/components/view/products/productList/sub
 import productSubCategoriesEditor from "@/components/view/products/productList/subCategories/subCategories.editor"
 import categoryTitleView from "@/components/view/products/productList/categoryTitle/categoryTitle.view"
 import categoryTitleEditor from "@/components/view/products/productList/categoryTitle/categoryTitle.editor"
+import TabView from "@/components/view/basic/tab/tab.view"
+import TabEditor from "@/components/view/basic/tab/tab.editor"
+import TabItemView from "@/components/view/basic/tab/tabItem.view"
+import TabItemEditor from "@/components/view/basic/tab/tabItem.editor"
+import productInfoTableEditor from "@/components/view/products/productInfoTable/productInfoTable.editor"
+import ProductInfoTableView from "@/components/view/products/productInfoTable/productInfoTable.view"
+import productInfoDescriptionEditor from "@/components/view/products/productInfoDescription/productInfoDescription.editor"
+import productInfoDescriptionView from "@/components/view/products/productInfoDescription/productInfoDescription.view"
+import productCommentEditor from "@/components/view/products/productComment/productComment.editor"
+import ProductCommentView from "@/components/view/products/productComment/productComment.view"
 
 type UIComponent = ComponentType<any>
 type Pair = { view: UIComponent; editor: UIComponent }
@@ -143,6 +153,8 @@ const MASTER_REGISTRY = {
   [BasicBlocks.IMAGE]: { view: ImageView, editor: ImageEditor },
   [BasicBlocks.SPACER]: { view: SpacerView, editor: SpacerEditor },
   [BasicBlocks.GROUP]: { view: GroupView, editor: GroupEditor },
+  [BasicBlocks.TAB]: { view: TabView, editor: TabEditor },
+  [BasicBlocks.TAB_ITEM]: { view: TabItemView, editor: TabItemEditor },
 
   [ModuleUI.PRODUCT_CARD]: { view: productCardView, editor: productCardEditor },
   [ModuleUI.ANNOUNCEMENT]: {
@@ -196,6 +208,18 @@ const MASTER_REGISTRY = {
     view: ProductAddToCartButtonView,
     editor: ProductAddToCartButtonEditor,
   },
+  [ProductBlocks.PRODUCT_INFO_TABLE]: {
+    editor: productInfoTableEditor,
+    view: ProductInfoTableView,
+  },
+  [ProductBlocks.PRODUCT_INFO_DESCRIPTION]: {
+    editor: productInfoDescriptionEditor,
+    view: productInfoDescriptionView,
+  },
+  [ProductBlocks.PRODUCT_COMMENTS]: {
+    editor: productCommentEditor,
+    view: ProductCommentView,
+  },
 } satisfies Record<ComponentKey, Pair>
 
 export function createComponentMap<M extends "view" | "editor">(mode: M) {
@@ -217,4 +241,7 @@ export const CLIENT_ONLY_COMPONENTS = new Set<ComponentKey>([
   ProductBlocks.PRODUCT_ADD_TO_CART_BUTTON,
   BasicBlocks.APP_COMPONENT_SLOT,
   Sections.HEADER,
+  Sections.FOOTER,
+  ProductBlocks.PRODUCT_DESCRIPTION,
+  ProductBlocks.PRODUCT_INFO_DESCRIPTION,
 ])

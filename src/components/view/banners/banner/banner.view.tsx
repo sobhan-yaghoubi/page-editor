@@ -12,11 +12,13 @@ import {
   CarouselPrevious,
 } from "@/components/common/carousel"
 import uuid from "@/lib/uuid"
+import { CSSProperties } from "react"
 
 type BannerViewProps = ComponentProps<BannerSettings>
 
 export const BannerView = ({ settings }: BannerViewProps) => {
-  const { slides, autoplay, autoplayDelay, showDots, isLoop } = settings
+  const { slides, bannerHeightMobile, bannerHeightDesktop, bannerObjectFit } =
+    settings
 
   if (!slides || !slides.length) {
     return null
@@ -39,6 +41,12 @@ export const BannerView = ({ settings }: BannerViewProps) => {
     )
   }
 
+  const bannerStyles: CSSProperties = {
+    ["--banner-wrapper-mobile-height" as any]: bannerHeightMobile,
+    ["--banner-wrapper-desktop-height" as any]: bannerHeightDesktop,
+    ["--banner-object-fit" as any]: bannerObjectFit,
+  }
+
   return (
     <Carousel
       slideSize="100%"
@@ -49,21 +57,26 @@ export const BannerView = ({ settings }: BannerViewProps) => {
       }}
     >
       <CarouselContent>
-        {slides.map((slide, idx) => (
-          <CarouselItem key={`${uuid()}-banner-${idx}`}>
-            <div>
+        <div style={bannerStyles} className="banner-wrapper">
+          {slides.map((slide, idx) => (
+            <CarouselItem
+              style={{ height: "100%" }}
+              key={`${uuid()}-banner-${idx}`}
+            >
               <Link href={slide.href}>
                 <Image
                   id={slide.href}
                   settings={{
                     src: slide.image,
                     alt: slide.alt,
+                    height: "100%",
+                    objectFit: bannerObjectFit,
                   }}
                 />
               </Link>
-            </div>
-          </CarouselItem>
-        ))}
+            </CarouselItem>
+          ))}
+        </div>
       </CarouselContent>
       <CarouselPrevious className="carousel-previous-button" />
       <CarouselNext className="carousel-next-button" />
